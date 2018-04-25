@@ -20,7 +20,7 @@ add_definitions(-DBOOST_LOG_DYN_LINK=1)
 add_subdirectory(App)
 add_subdirectory(CloudeControler)
 add_subdirectory(DataMeneger)
-add_subdirectory(RenderCloude)
+add_subdirectory(UI)
 add_subdirectory(Common)
 
 

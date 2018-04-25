@@ -15,5 +15,5 @@ RenderImpl::qml_registration( )
 void
 RenderImpl::start_app( )
 {
-    engine.load( QUrl( QStringLiteral( "../../RenderCloude/impl/Resources/main.qml" ) ) );
+    engine.load( QUrl( QStringLiteral( "../../UI/impl/Resources/main.qml" ) ) );
 }

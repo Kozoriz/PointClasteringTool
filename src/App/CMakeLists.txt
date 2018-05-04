@@ -17,6 +17,7 @@ target_link_libraries(${PROJECT_NAME}
     render
     data_meneger
     common
+    controler
     Qt5::Core
     Qt5::Gui
     Qt5::Qml

@@ -3,6 +3,8 @@
 #include <memory>
 #include <thread>
 
+#include "../CloudeControler/Controler.hpp"
+#include "../CloudeControler/ServiceCommunicationDataMeneger.hpp"
 #include "../Common/helper/app_helper.hpp"
 #include "../Common/helper/communications.hpp"
 #include "../DataMeneger/DataMeneger.hpp"
@@ -17,9 +19,12 @@ public:
     void stop( );
 
 private:
-    // Module
-    DataMeneger dataMeneger;
-    Render render;
+    Render mRender;
+    DataMeneger mDataMeneger;
 
-    common::Communications< bool, bool, DataMeneger > create_cloude_signal;
+    ServiceCommunicationDataMeneger mControlerWithDataMeneger;
+
+    CloudeControler mControler;
+
+    //    common::Communications< bool, bool, DataMeneger > create_cloude_signal;
 };

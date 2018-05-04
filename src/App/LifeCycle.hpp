@@ -25,6 +25,4 @@ private:
     ServiceCommunicationDataMeneger mControlerWithDataMeneger;
 
     CloudeControler mControler;
-
-    //    common::Communications< bool, bool, DataMeneger > create_cloude_signal;
 };

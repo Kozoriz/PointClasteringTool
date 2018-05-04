@@ -15,10 +15,12 @@ DataMeneger::start( )
 }
 
 bool
-DataMeneger::creatr_cloude( )
+DataMeneger::creatr_cloude( bool is )
 {
     if ( mImpl )
     {
+        BOOST_LOG_TRIVIAL( trace ) << "good";
+        BOOST_LOG_TRIVIAL( trace ) << is;
         return mImpl->create_random_points_clude( );
     }
     return false;

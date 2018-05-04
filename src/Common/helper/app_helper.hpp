@@ -7,7 +7,7 @@ class AppointeeImpl
 public:
     template < class Type >
     static void
-    appointee( Type& t, const decltype( t.mImpl ) & newImpl )
+    appointee( Type& t, decltype( t.mImpl ) const & newImpl )
     {
         t.mImpl = newImpl;
     }

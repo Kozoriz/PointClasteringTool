@@ -6,6 +6,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 file( GLOB HEADERS
     helper/app_helper.hpp
+    helper/communications.hpp
     app_type/Point.hpp
 )
 
@@ -19,4 +20,5 @@ add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 target_link_libraries(${PROJECT_NAME} PUBLIC
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_LOG_LIBRARY}
+        Qt5::Core
     -pthread )

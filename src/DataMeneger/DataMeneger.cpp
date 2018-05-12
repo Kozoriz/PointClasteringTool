@@ -19,10 +19,9 @@ DataMeneger::creatr_cloude( bool is )
 {
     if ( mImpl )
     {
-        BOOST_LOG_TRIVIAL( trace ) << "good";
-        BOOST_LOG_TRIVIAL( trace ) << is;
         return mImpl->create_random_points_clude( );
     }
+    BOOST_LOG_TRIVIAL( error ) << "mImpl is not valid";
     return false;
 }
 

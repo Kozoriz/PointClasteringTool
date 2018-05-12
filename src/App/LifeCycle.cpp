@@ -7,9 +7,12 @@
 #include <functional>
 
 LifeCycle::LifeCycle( )
-    : dataMeneger( )
-    , render( )
-    , create_cloude_signal( dataMeneger )
+    : mRender( )
+    , mDataMeneger( )
+    , mControlerWithDataMeneger( mDataMeneger )
+
+    , mControler( mControlerWithDataMeneger )
+
 {
 }
 
@@ -17,20 +20,17 @@ void
 LifeCycle::init( )
 {
     BOOST_LOG_TRIVIAL( trace ) << "Init project";
-    common::AppointeeImpl::appointee< DataMeneger >( dataMeneger,
+    common::AppointeeImpl::appointee< DataMeneger >( mDataMeneger,
                                                      std::make_shared< DataMenegerImpl >( ) );
-    common::AppointeeImpl::appointee< Render >( render, std::make_shared< RenderImpl >( ) );
-
-    create_cloude_signal.connect( boost::bind( &DataMeneger::creatr_cloude, &dataMeneger, _1 ) );
+    common::AppointeeImpl::appointee< Render >( mRender, std::make_shared< RenderImpl >( ) );
 }
 
 void
 LifeCycle::start( )
 {
     BOOST_LOG_TRIVIAL( trace ) << "Start project";
-    render.start_app( );
-    create_cloude_signal.talk( true );
-    BOOST_LOG_TRIVIAL( trace ) << "Super" << create_cloude_signal.talk( true );
+    mControler.test( );
+    mRender.start_app( );
 }
 
 void

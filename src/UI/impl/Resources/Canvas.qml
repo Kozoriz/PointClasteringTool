@@ -64,10 +64,15 @@ Rectangle {
                     zoomLevel = 10;
 
                 scatterGraph.scene.activeCamera.zoomLevel = zoomLevel;
+
+                 //console.log( RedebleOject.Cloude);
+
+                for (var i=0; i< RedebleOject.Cloude.length; i++)
+                   graphData.modelPoint.append({"xPos": RedebleOject.Cloude[i].x,"yPos": RedebleOject.Cloude[i].y,"zPos": RedebleOject.Cloude[i].z})
             }
 
             onClicked: {
-                if (mouse.buttons && Qt.LeftButton)
+                if (mouse.buttons)
                 {
                     presedX = mouse.x;
                     presedY = mouse.y;

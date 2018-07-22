@@ -3,11 +3,11 @@
 #include <memory>
 #include <vector>
 
-#include <boost/thread.hpp>
-
-#include "../Common/app_type/Point.hpp"
-
 class DataMenegerImpl;
+namespace common {
+class AppointeeImpl;
+struct Point;
+}
 
 namespace common
 {
@@ -19,11 +19,10 @@ class DataMeneger
 public:
     DataMeneger( );
 
-    void start( );
-
     bool creatr_cloude( bool );
     bool get_cloude( std::vector< common::Point >& cloude );
 
-public:
+private:
+    friend class common::AppointeeImpl;
     std::shared_ptr< DataMenegerImpl > mImpl;
 };

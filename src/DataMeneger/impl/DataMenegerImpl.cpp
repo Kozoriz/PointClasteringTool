@@ -1,10 +1,8 @@
 #include "DataMenegerImpl.hpp"
 
 #include <pcl/common/common.h>
-#include <pcl/common/projection_matrix.h>
-#include <pcl/impl/point_types.hpp>
 
-#include "../../Common/app_type/Point.hpp"
+#include "../Common/converters/converters_pcl.hpp"
 
 bool
 DataMenegerImpl::create_random_points_clude( )
@@ -12,19 +10,18 @@ DataMenegerImpl::create_random_points_clude( )
     pcl::PointCloud< pcl::PointXYZ > cloud;
     for ( int i = 1; i <= 100; ++i )
     {
-        float random = rand( ) % 30 + 1;
-        cloud.push_back( pcl::PointXYZ( random, random, random ) );
+        float random_x = rand( ) % 30 + 1;
+        float random_y = rand( ) % 30 + 1;
+        float random_z = rand( ) % 30 + 1;
+        cloud.push_back( pcl::PointXYZ( random_x, random_y, random_z ) );
     }
 
-    for ( const auto& item : cloud )
-    {
-        common::Point point{item._PointXYZ::x, item._PointXYZ::y, item._PointXYZ::z};
-        mCloude.push_back( point );
-    }
+    mCloude = converters::to_common(cloud);
+
     return !mCloude.empty( );
 }
 
-const std::vector< common::Point >&
+const common::Points&
 DataMenegerImpl::getCloude( ) const
 {
     return mCloude;

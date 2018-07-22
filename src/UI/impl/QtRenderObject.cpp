@@ -5,6 +5,8 @@
 #include <QFile>
 #include <QString>
 #include <QtDebug>
+#include <QQuickItem>
+#include <QObject>
 
 // includes std
 #include <iostream>
@@ -33,4 +35,20 @@ QtRedebleOject::read_tabs( )
         m_tabs_name.push_back( fileInfo.fileName( ) );
     }
     qDebug( ) << "Log";
+}
+
+QVariantList QtRedebleOject::Cloude()
+{
+  return m_cloude;
+}
+
+void QtRedebleOject::setCloude(const QVariantList& cloude)
+{
+  if(cloude.empty())
+    return;
+
+   m_cloude = cloude;
+
+   emit CloudeChanged();
+
 }

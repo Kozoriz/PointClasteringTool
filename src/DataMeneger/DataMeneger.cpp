@@ -3,15 +3,11 @@
 #include <boost/log/trivial.hpp>
 
 #include "impl/DataMenegerImpl.hpp"
+#include "../Common/app_type/Point.hpp"
 
 DataMeneger::DataMeneger( )
 {
     BOOST_LOG_TRIVIAL( trace ) << "Create DataMeneger";
-}
-
-void
-DataMeneger::start( )
-{
 }
 
 bool
@@ -27,7 +23,7 @@ DataMeneger::creatr_cloude( bool is )
 }
 
 bool
-DataMeneger::get_cloude( std::vector< common::Point >& cloude )
+DataMeneger::get_cloude( common::Points& cloude )
 {
     if ( mImpl )
     {

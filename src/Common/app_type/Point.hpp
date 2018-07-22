@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 namespace common
 {
 struct Point
@@ -8,4 +10,6 @@ struct Point
     float y;
     float z;
 };
+
+using Points = std::vector<Point> ;
 }

@@ -1,19 +1,37 @@
 #include "RenderImpl.hpp"
 
-#include "QtRenderObject.hpp"
+#include <QQmlContext>
 
-RenderImpl::RenderImpl( )
-{
-}
+#include <iostream>
+#include <vector>
 
-void
-RenderImpl::qml_registration( )
+RenderImpl::RenderImpl(common::CommunicationsWithDataMeneger& dm)
+  : redebleOject(std::make_unique<QtRedebleOject>())
+  , cm_with_dm(dm)
 {
-    qmlRegisterType< QtRedebleOject >( "data_meneger", 1, 0, "DataMeneger" );
 }
 
 void
 RenderImpl::start_app( )
 {
-    engine.load( QUrl( QStringLiteral( "../../UI/impl/Resources/main.qml" ) ) );
+  cm_with_dm.create_cloude_signal.talk(true);
+
+  std::vector< common::Point > test_cn;
+  cm_with_dm.get_cloude_signal.talk(test_cn);
+
+  QVariantList list;
+  for(const auto& item : test_cn )
+  {
+      QVector3D temp;
+      temp.setX(item.x);
+      temp.setY(item.y);
+      temp.setZ(item.z);
+      list << temp;
+  }
+
+  engine.rootContext()->setContextProperty("RedebleOject", redebleOject.get());
+
+  redebleOject->setCloude(list);
+
+  engine.load( QUrl( QStringLiteral( "../../UI/impl/Resources/main.qml" ) ) );
 }

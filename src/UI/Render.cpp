@@ -4,7 +4,6 @@
 void
 Render::start_app( )
 {
-    mImpl->qml_registration( );
     mImpl->start_app( );
 }
 

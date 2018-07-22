@@ -21,5 +21,7 @@ private:
     DataMeneger dataMeneger;
     Render render;
 
-    common::Communications< bool, bool, DataMeneger > create_cloude_signal;
+    common::CommunicationsWithDataMeneger cm_with_dm;
 };
+
+

@@ -1,18 +1,12 @@
 import QtQuick 2.4
 import QtQuick.Window 2.2
-import QtQuick.Controls 2.2
-
-import data_meneger 1.0
+import QtQuick.Controls 1.2
 
 Window {
     title: qsTr("untitled")
     width: 1280
     height: 768
     visible: true
-
-    DataMeneger{
-        id: dataMeneger
-    }
 
     GroupBox {
         id: groupBox

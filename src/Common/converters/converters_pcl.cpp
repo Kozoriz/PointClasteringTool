@@ -1,7 +1,0 @@
-
-namespace converters
-{
-namespace pcl
-{
-}
-}

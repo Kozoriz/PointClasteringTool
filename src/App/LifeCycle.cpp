@@ -29,7 +29,6 @@ LifeCycle::start( )
 {
     BOOST_LOG_TRIVIAL( trace ) << "Start project";
     render.start_app( );
-    BOOST_LOG_TRIVIAL( trace ) << "Super" <<  cm_with_dm.create_cloude_signal.talk(true);;
 }
 
 void

@@ -10,24 +10,19 @@ DataMeneger::DataMeneger( )
     BOOST_LOG_TRIVIAL( trace ) << "Create DataMeneger";
 }
 
-bool
-DataMeneger::creatr_cloude( bool is )
+bool DataMeneger::creatr_cloude()
 {
     if ( mImpl )
-    {
-        BOOST_LOG_TRIVIAL( trace ) << "good";
-        BOOST_LOG_TRIVIAL( trace ) << is;
-        return mImpl->create_random_points_clude( );
-    }
+         return mImpl->create_random_points_clude( );
+
     return false;
 }
 
-bool
+void
 DataMeneger::get_cloude( common::Points& cloude )
 {
     if ( mImpl )
     {
         cloude = mImpl->getCloude( );
     }
-    return !cloude.empty( );
 }

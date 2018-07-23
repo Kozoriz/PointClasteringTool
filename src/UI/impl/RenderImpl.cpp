@@ -14,7 +14,7 @@ RenderImpl::RenderImpl(common::CommunicationsWithDataMeneger& dm)
 void
 RenderImpl::start_app( )
 {
-  cm_with_dm.create_cloude_signal.talk(true);
+  cm_with_dm.create_cloude_signal.talk();
 
   std::vector< common::Point > test_cn;
   cm_with_dm.get_cloude_signal.talk(test_cn);

@@ -12,11 +12,14 @@
 
 namespace common
 {
+
 template < typename SendType, typename AnswerType, typename UsedType >
 class Communications
 {
 public:
-    using slot_type = typename boost::signals2::signal< AnswerType( SendType ) >::slot_type;
+    using signal_type = boost::signals2::signal< AnswerType( SendType ) >;
+    using slot_type = typename signal_type::slot_type;
+
     Communications( UsedType const& mUsedType )
         : mType( mUsedType )
     {
@@ -36,7 +39,66 @@ public:
     }
 
 private:
-    boost::signals2::signal< AnswerType( SendType ) > mSignal;
+    signal_type mSignal;
+    UsedType mType;
+};
+
+template<typename SendType , typename UsedType>
+class Communications< SendType, void , UsedType >
+{
+public:
+    using signal_type = boost::signals2::signal< void( SendType ) >;
+    using slot_type = typename signal_type::slot_type;
+
+    Communications( UsedType const& mUsedType )
+        : mType( mUsedType )
+    {
+    }
+
+    void
+    connect( slot_type const& _slot )
+    {
+        mSignal.connect( _slot );
+    }
+
+    void
+    talk( SendType const& sendType )
+    {
+        mSignal( sendType );
+    }
+
+private:
+    signal_type mSignal;
+    UsedType mType;
+};
+
+template<typename AnswerType , typename UsedType>
+class Communications< void , AnswerType , UsedType >
+{
+public:
+    using signal_type = boost::signals2::signal< AnswerType( void ) >;
+    using slot_type = typename signal_type::slot_type;
+
+    Communications( UsedType const& mUsedType )
+        : mType( mUsedType )
+    {
+    }
+
+    void
+    connect( slot_type const& _slot )
+    {
+        mSignal.connect( _slot );
+    }
+
+    AnswerType
+    talk( )
+    {
+        auto retur_value = mSignal( );
+        return static_cast< AnswerType >( *retur_value );
+    }
+
+private:
+    signal_type mSignal;
     UsedType mType;
 };
 
@@ -55,7 +117,7 @@ public:
 
   void conections_all()
   {
-    create_cloude_signal.connect( boost::bind( &DataMeneger::creatr_cloude, &dataMeneger, _1 ) );
+    create_cloude_signal.connect( boost::bind( &DataMeneger::creatr_cloude, &dataMeneger ) );
     get_cloude_signal.connect( boost::bind( &DataMeneger::get_cloude, &dataMeneger, _1 ) );
   }
 
@@ -63,8 +125,8 @@ private:
    DataMeneger& dataMeneger;
 
 public:
-   common::Communications< bool, bool, DataMeneger > create_cloude_signal;
-   common::Communications< std::vector< common::Point >&, bool, DataMeneger > get_cloude_signal;
+   common::Communications< void , bool , DataMeneger > create_cloude_signal;
+   common::Communications< std::vector< common::Point >&, void, DataMeneger > get_cloude_signal;
 
 };
 

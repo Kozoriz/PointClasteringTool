@@ -19,8 +19,8 @@ class DataMeneger
 public:
     DataMeneger( );
 
-    bool creatr_cloude( bool );
-    bool get_cloude( std::vector< common::Point >& cloude );
+    bool creatr_cloude( );
+    void get_cloude( std::vector< common::Point >& cloude );
 
 private:
     friend class common::AppointeeImpl;

@@ -13,17 +13,13 @@
 namespace common
 {
 
-template < typename SendType, typename AnswerType, typename UsedType >
+template < typename SendType, typename AnswerType >
 class Communications
 {
-public:
-    using signal_type = boost::signals2::signal< AnswerType( SendType ) >;
-    using slot_type = typename signal_type::slot_type;
+  using signal_type = boost::signals2::signal< AnswerType( SendType ) >;
+  using slot_type = typename signal_type::slot_type;
 
-    Communications( UsedType const& mUsedType )
-        : mType( mUsedType )
-    {
-    }
+public:
 
     void
     connect( slot_type const& _slot )
@@ -40,20 +36,15 @@ public:
 
 private:
     signal_type mSignal;
-    UsedType mType;
 };
 
-template<typename SendType , typename UsedType>
-class Communications< SendType, void , UsedType >
+template<typename SendType >
+class Communications< SendType, void >
 {
-public:
-    using signal_type = boost::signals2::signal< void( SendType ) >;
-    using slot_type = typename signal_type::slot_type;
+  using signal_type = boost::signals2::signal< void( SendType ) >;
+  using slot_type = typename signal_type::slot_type;
 
-    Communications( UsedType const& mUsedType )
-        : mType( mUsedType )
-    {
-    }
+public:
 
     void
     connect( slot_type const& _slot )
@@ -69,21 +60,14 @@ public:
 
 private:
     signal_type mSignal;
-    UsedType mType;
 };
 
-template<typename AnswerType , typename UsedType>
-class Communications< void , AnswerType , UsedType >
+template<typename AnswerType >
+class Communications< void , AnswerType  >
 {
+  using signal_type = boost::signals2::signal< AnswerType( void ) >;
+  using slot_type = typename signal_type::slot_type;
 public:
-    using signal_type = boost::signals2::signal< AnswerType( void ) >;
-    using slot_type = typename signal_type::slot_type;
-
-    Communications( UsedType const& mUsedType )
-        : mType( mUsedType )
-    {
-    }
-
     void
     connect( slot_type const& _slot )
     {
@@ -99,7 +83,6 @@ public:
 
 private:
     signal_type mSignal;
-    UsedType mType;
 };
 
 
@@ -109,8 +92,6 @@ class CommunicationsWithDataMeneger
 public:
   CommunicationsWithDataMeneger( DataMeneger& dm)
     : dataMeneger(dm)
-    , create_cloude_signal(dm)
-    , get_cloude_signal(dm)
   {
 
   }
@@ -125,8 +106,8 @@ private:
    DataMeneger& dataMeneger;
 
 public:
-   common::Communications< void , bool , DataMeneger > create_cloude_signal;
-   common::Communications< std::vector< common::Point >&, void, DataMeneger > get_cloude_signal;
+   common::Communications< void , bool  > create_cloude_signal;
+   common::Communications< std::vector< common::Point >&, void > get_cloude_signal;
 
 };
 

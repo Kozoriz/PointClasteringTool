@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['signal_5ftype',['signal_type',['../classcommon_1_1Communications.html#a5fcaf88c04bef4c16e4c55c2a712e492',1,'common::Communications::signal_type()'],['../classcommon_1_1Communications_3_01SendType_00_01void_01_4.html#a9bae0c78acbf37200d02670f0b978120',1,'common::Communications&lt; SendType, void &gt;::signal_type()'],['../classcommon_1_1Communications_3_01void_00_01AnswerType_01_4.html#aa7d23e7da9af7eb33112dc11fd3ec8aa',1,'common::Communications&lt; void, AnswerType &gt;::signal_type()']]],
+  ['slot_5ftype',['slot_type',['../classcommon_1_1Communications.html#ae7868817d46333a0221c80f9cfbaef6f',1,'common::Communications::slot_type()'],['../classcommon_1_1Communications_3_01SendType_00_01void_01_4.html#afd0ffbe5cd762b7a03402664b19a69aa',1,'common::Communications&lt; SendType, void &gt;::slot_type()'],['../classcommon_1_1Communications_3_01void_00_01AnswerType_01_4.html#ae2ac44b26adf6e9b509a91ad4d2c429a',1,'common::Communications&lt; void, AnswerType &gt;::slot_type()']]]
+];

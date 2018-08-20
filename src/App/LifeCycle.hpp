@@ -5,7 +5,7 @@
 
 #include "../Common/helper/app_helper.hpp"
 #include "../Common/helper/communications.hpp"
-#include "../DataMeneger/DataMeneger.hpp"
+#include "../DataManager/DataManager.hpp"
 #include "../UI/Render.hpp"
 
 class LifeCycle
@@ -18,10 +18,10 @@ public:
 
 private:
     // Module
-    DataMeneger dataMeneger;
+    DataManager dataMeneger;
     Render render;
 
-    common::CommunicationsWithDataMeneger cm_with_dm;
+    common::CommunicationsWithDataManager cm_with_dm;
 };
 
 

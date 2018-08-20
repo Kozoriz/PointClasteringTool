@@ -1,6 +1,6 @@
 #include "LifeCycle.hpp"
 
-#include "../DataMeneger/impl/DataMenegerImpl.hpp"
+#include "../DataManager/impl/DataManagerImpl.hpp"
 #include "../UI/impl/RenderImpl.hpp"
 
 #include <boost/log/trivial.hpp>
@@ -17,8 +17,8 @@ void
 LifeCycle::init( )
 {
     BOOST_LOG_TRIVIAL( trace ) << "Init project";
-    common::AppointeeImpl::appointee< DataMeneger >( dataMeneger,
-                                                     std::make_shared< DataMenegerImpl >( ) );
+    common::AppointeeImpl::appointee< DataManager >( dataMeneger,
+                                                     std::make_shared< DataManagerImpl >( ) );
     common::AppointeeImpl::appointee< Render >( render, std::make_shared< RenderImpl >( cm_with_dm ) );
 
     cm_with_dm.conections_all();

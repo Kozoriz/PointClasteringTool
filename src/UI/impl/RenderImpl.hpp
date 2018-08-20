@@ -9,12 +9,12 @@
 class RenderImpl
 {
 public:
-    RenderImpl(common::CommunicationsWithDataMeneger& dm);
+    RenderImpl(common::CommunicationsWithDataManager& dm);
     void start_app( );
 
 private:
     QQmlApplicationEngine engine;
     std::unique_ptr<QtRedebleOject> redebleOject;
 
-    common::CommunicationsWithDataMeneger& cm_with_dm;
+    common::CommunicationsWithDataManager& cm_with_dm;
 };

@@ -7,7 +7,7 @@
 #include <boost/signals2.hpp>
 #include "boost/bind.hpp"
 
-#include "../DataMeneger/DataMeneger.hpp"
+#include "../DataManager/DataManager.hpp"
 #include "../Common/app_type/Point.hpp"
 
 namespace common
@@ -87,10 +87,10 @@ private:
 
 
 //Move in new file
-class CommunicationsWithDataMeneger
+class CommunicationsWithDataManager
 {
 public:
-  CommunicationsWithDataMeneger( DataMeneger& dm)
+  CommunicationsWithDataManager( DataManager& dm)
     : dataMeneger(dm)
   {
 
@@ -98,12 +98,12 @@ public:
 
   void conections_all()
   {
-    create_cloude_signal.connect( boost::bind( &DataMeneger::creatr_cloude, &dataMeneger ) );
-    get_cloude_signal.connect( boost::bind( &DataMeneger::get_cloude, &dataMeneger, _1 ) );
+    create_cloude_signal.connect( boost::bind( &DataManager::creatr_cloude, &dataMeneger ) );
+    get_cloude_signal.connect( boost::bind( &DataManager::get_cloude, &dataMeneger, _1 ) );
   }
 
 private:
-   DataMeneger& dataMeneger;
+   DataManager& dataMeneger;
 
 public:
    common::Communications< void , bool  > create_cloude_signal;

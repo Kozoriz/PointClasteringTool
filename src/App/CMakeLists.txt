@@ -15,7 +15,7 @@ target_link_libraries(${PROJECT_NAME}
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_LOG_LIBRARY}
     render
-    data_meneger
+    data_manager
     common
     Qt5::Core
     Qt5::Gui

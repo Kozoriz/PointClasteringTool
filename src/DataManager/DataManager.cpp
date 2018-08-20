@@ -1,16 +1,16 @@
-#include "DataMeneger.hpp"
+#include "DataManager.hpp"
 
 #include <boost/log/trivial.hpp>
 
-#include "impl/DataMenegerImpl.hpp"
+#include "impl/DataManagerImpl.hpp"
 #include "../Common/app_type/Point.hpp"
 
-DataMeneger::DataMeneger( )
+DataManager::DataManager( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Create DataMeneger";
+    BOOST_LOG_TRIVIAL( trace ) << "Create DataManager";
 }
 
-bool DataMeneger::creatr_cloude()
+bool DataManager::creatr_cloude()
 {
     if ( mImpl )
          return mImpl->create_random_points_clude( );
@@ -19,7 +19,7 @@ bool DataMeneger::creatr_cloude()
 }
 
 void
-DataMeneger::get_cloude( common::Points& cloude )
+DataManager::get_cloude( common::Points& cloude )
 {
     if ( mImpl )
     {

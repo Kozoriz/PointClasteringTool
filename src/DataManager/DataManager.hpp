@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-class DataMenegerImpl;
+class DataManagerImpl;
 namespace common {
 class AppointeeImpl;
 struct Point;
@@ -14,15 +14,15 @@ namespace common
 struct Point;
 }
 
-class DataMeneger
+class DataManager
 {
 public:
-    DataMeneger( );
+    DataManager( );
 
     bool creatr_cloude( );
     void get_cloude( std::vector< common::Point >& cloude );
 
 private:
     friend class common::AppointeeImpl;
-    std::shared_ptr< DataMenegerImpl > mImpl;
+    std::shared_ptr< DataManagerImpl > mImpl;
 };

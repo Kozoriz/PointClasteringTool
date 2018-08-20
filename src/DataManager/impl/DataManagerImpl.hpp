@@ -4,10 +4,10 @@
 
 #include "../Common/app_type/Point.hpp"
 
-class DataMenegerImpl
+class DataManagerImpl
 {
 public:
-    DataMenegerImpl( ) = default;
+    DataManagerImpl( ) = default;
     bool create_random_points_clude( );
     const common::Points &getCloude( ) const;
 

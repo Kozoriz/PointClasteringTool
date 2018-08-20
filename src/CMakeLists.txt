@@ -18,8 +18,8 @@ include_directories(${Boost_INCLUDE_DIR})
 add_definitions(-DBOOST_LOG_DYN_LINK=1)
 
 add_subdirectory(App)
-add_subdirectory(CloudeControler)
-add_subdirectory(DataMeneger)
+add_subdirectory(CloudController)
+add_subdirectory(DataManager)
 add_subdirectory(UI)
 add_subdirectory(Common)
 

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-RenderImpl::RenderImpl(common::CommunicationsWithDataMeneger& dm)
+RenderImpl::RenderImpl(common::CommunicationsWithDataManager& dm)
   : redebleOject(std::make_unique<QtRedebleOject>())
   , cm_with_dm(dm)
 {

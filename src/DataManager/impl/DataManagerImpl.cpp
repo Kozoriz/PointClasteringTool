@@ -1,11 +1,11 @@
-#include "DataMenegerImpl.hpp"
+#include "DataManagerImpl.hpp"
 
 #include <pcl/common/common.h>
 
 #include "../Common/converters/converters_pcl.hpp"
 
 bool
-DataMenegerImpl::create_random_points_clude( )
+DataManagerImpl::create_random_points_clude( )
 {
     pcl::PointCloud< pcl::PointXYZ > cloud;
     for ( int i = 1; i <= 100; ++i )
@@ -22,7 +22,7 @@ DataMenegerImpl::create_random_points_clude( )
 }
 
 const common::Points&
-DataMenegerImpl::getCloude( ) const
+DataManagerImpl::getCloude( ) const
 {
     return mCloude;
 }

@@ -1,0 +1,74 @@
+\hypertarget{classcommon_1_1Communications_3_01SendType_00_01void_01_4}{}\section{common\+:\+:Communications$<$ Send\+Type, void $>$ Class Template Reference}
+\label{classcommon_1_1Communications_3_01SendType_00_01void_01_4}\index{common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}}
+
+
+{\ttfamily \#include $<$communications.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a421016a95514d984951d538a6f24223d}{connect}} (\mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_afd0ffbe5cd762b7a03402664b19a69aa}{slot\+\_\+type}} const \&\+\_\+slot)
+\item 
+void \mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_aa23c4fc34c4862dee8dc95e62f1c76e3}{talk}} (Send\+Type const \&send\+Type)
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a9bae0c78acbf37200d02670f0b978120}{signal\+\_\+type}} = boost\+::signals2\+::signal$<$ void(Send\+Type) $>$
+\item 
+using \mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_afd0ffbe5cd762b7a03402664b19a69aa}{slot\+\_\+type}} = typename signal\+\_\+type\+::slot\+\_\+type
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a9bae0c78acbf37200d02670f0b978120}{signal\+\_\+type}} \mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a72b8aa8455e087419d92642f77ea0cf4}{m\+Signal}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a9bae0c78acbf37200d02670f0b978120}\label{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a9bae0c78acbf37200d02670f0b978120}} 
+\index{common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}!signal\+\_\+type@{signal\+\_\+type}}
+\index{signal\+\_\+type@{signal\+\_\+type}!common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}}
+\subsubsection{\texorpdfstring{signal\+\_\+type}{signal\_type}}
+{\footnotesize\ttfamily template$<$typename Send\+Type $>$ \\
+using \mbox{\hyperlink{classcommon_1_1Communications}{common\+::\+Communications}}$<$ Send\+Type, void $>$\+::\mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a9bae0c78acbf37200d02670f0b978120}{signal\+\_\+type}} =  boost\+::signals2\+::signal$<$ void( Send\+Type ) $>$\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcommon_1_1Communications_3_01SendType_00_01void_01_4_afd0ffbe5cd762b7a03402664b19a69aa}\label{classcommon_1_1Communications_3_01SendType_00_01void_01_4_afd0ffbe5cd762b7a03402664b19a69aa}} 
+\index{common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}!slot\+\_\+type@{slot\+\_\+type}}
+\index{slot\+\_\+type@{slot\+\_\+type}!common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}}
+\subsubsection{\texorpdfstring{slot\+\_\+type}{slot\_type}}
+{\footnotesize\ttfamily template$<$typename Send\+Type $>$ \\
+using \mbox{\hyperlink{classcommon_1_1Communications}{common\+::\+Communications}}$<$ Send\+Type, void $>$\+::\mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_afd0ffbe5cd762b7a03402664b19a69aa}{slot\+\_\+type}} =  typename signal\+\_\+type\+::slot\+\_\+type\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a421016a95514d984951d538a6f24223d}\label{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a421016a95514d984951d538a6f24223d}} 
+\index{common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}!connect@{connect}}
+\index{connect@{connect}!common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}}
+\subsubsection{\texorpdfstring{connect()}{connect()}}
+{\footnotesize\ttfamily template$<$typename Send\+Type $>$ \\
+void \mbox{\hyperlink{classcommon_1_1Communications}{common\+::\+Communications}}$<$ Send\+Type, void $>$\+::connect (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_afd0ffbe5cd762b7a03402664b19a69aa}{slot\+\_\+type}} const \&}]{\+\_\+slot }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classcommon_1_1Communications_3_01SendType_00_01void_01_4_aa23c4fc34c4862dee8dc95e62f1c76e3}\label{classcommon_1_1Communications_3_01SendType_00_01void_01_4_aa23c4fc34c4862dee8dc95e62f1c76e3}} 
+\index{common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}!talk@{talk}}
+\index{talk@{talk}!common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}}
+\subsubsection{\texorpdfstring{talk()}{talk()}}
+{\footnotesize\ttfamily template$<$typename Send\+Type $>$ \\
+void \mbox{\hyperlink{classcommon_1_1Communications}{common\+::\+Communications}}$<$ Send\+Type, void $>$\+::talk (\begin{DoxyParamCaption}\item[{Send\+Type const \&}]{send\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a72b8aa8455e087419d92642f77ea0cf4}\label{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a72b8aa8455e087419d92642f77ea0cf4}} 
+\index{common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}!m\+Signal@{m\+Signal}}
+\index{m\+Signal@{m\+Signal}!common\+::\+Communications$<$ Send\+Type, void $>$@{common\+::\+Communications$<$ Send\+Type, void $>$}}
+\subsubsection{\texorpdfstring{m\+Signal}{mSignal}}
+{\footnotesize\ttfamily template$<$typename Send\+Type $>$ \\
+\mbox{\hyperlink{classcommon_1_1Communications_3_01SendType_00_01void_01_4_a9bae0c78acbf37200d02670f0b978120}{signal\+\_\+type}} \mbox{\hyperlink{classcommon_1_1Communications}{common\+::\+Communications}}$<$ Send\+Type, void $>$\+::m\+Signal\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/andrii/workspace/git/\+Point\+Clastering\+Tool/src/\+Common/helper/\mbox{\hyperlink{communications_8hpp}{communications.\+hpp}}\end{DoxyCompactItemize}

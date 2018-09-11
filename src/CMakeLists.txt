@@ -1,26 +1,30 @@
-cmake_minimum_required (VERSION 3.5.1)
-project (DIPLOM_v2.1)
+cmake_minimum_required(VERSION 2.8)
 
-set (CMAKE_AUTOMOC ON)
-set (CMAKE_AUTOUIC ON)
-set (CMAKE_AUTORCC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+project (DIPLOM_v2.1)
+set (PROJECT DIPLOM_v2.1)
+
+### FLAGS/PACKAGES
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread -w")
+set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_BINARY_DIR       ${CMAKE_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH    ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_CXX_STANDARD 14)
 
 find_package(Qt5 COMPONENTS Core Gui Qml Quick REQUIRED)
 
-find_package(Boost 1.58.0 COMPONENTS log_setup log program_options thread REQUIRED)
+find_package(Boost 1.58.0 COMPONENTS program_options log system REQUIRED)
+
 include_directories(${Boost_INCLUDE_DIR})
 add_definitions(-DBOOST_LOG_DYN_LINK=1)
 
+set(COMPONENTS_DIR ${CMAKE_SOURCE_DIR})
+include_directories(${COMPONENTS_DIR})
+
+add_subdirectory(3rd-party)
 add_subdirectory(App)
 add_subdirectory(CloudController)
 add_subdirectory(DataManager)
 add_subdirectory(UI)
 add_subdirectory(Common)
-
 

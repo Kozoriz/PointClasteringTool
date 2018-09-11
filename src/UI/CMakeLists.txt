@@ -1,5 +1,4 @@
-cmake_minimum_required (VERSION ${CMAKE_VERSION})
-project(render)
+set(CMAKE_AUTOMOC ON)
 
 file( GLOB HEADERS
          Render.hpp
@@ -17,9 +16,13 @@ set ( RESOURCES
  impl/Resources/qml.qrc
 )
 
-add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${RESOURCES})
+include_directories(${COMPONENTS_DIR}/Common)
 
-target_link_libraries(${PROJECT_NAME}
+set(LIB_NAME UI)
+
+add_library(${LIB_NAME} ${SOURCES} ${HEADERS} ${RESOURCES})
+
+target_link_libraries(${LIB_NAME}
     PUBLIC
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_LOG_LIBRARY}
@@ -28,3 +31,4 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Qml
     Qt5::Quick
     -pthread )
+

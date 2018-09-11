@@ -7,8 +7,8 @@
 #include <boost/signals2.hpp>
 #include "boost/bind.hpp"
 
-#include "../DataManager/DataManager.hpp"
-#include "../Common/app_type/Point.hpp"
+#include "../../DataManager/DataManager.hpp"
+#include "../../Common/app_type/Point.hpp"
 
 namespace common
 {

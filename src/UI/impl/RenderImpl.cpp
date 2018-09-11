@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 
 RenderImpl::RenderImpl(common::CommunicationsWithDataManager& dm)
   : redebleOject(std::make_unique<QtRedebleOject>())

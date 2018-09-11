@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "../Common/helper/communications.hpp"
+#include "Common/helper/communications.hpp"
 #include "QtRenderObject.hpp"
 
 class RenderImpl

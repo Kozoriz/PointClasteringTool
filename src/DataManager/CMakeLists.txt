@@ -1,7 +1,4 @@
-cmake_minimum_required (VERSION ${CMAKE_VERSION})
-set(NAME_LIB data_manager)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(PCL 1.2 REQUIRED)
 
@@ -19,11 +16,17 @@ file( GLOB SOURCES
          impl/*.cpp
 )
 
-add_library(${NAME_LIB} ${SOURCES} ${HEADERS})
+include_directories(
+  ${COMPONENTS_DIR}
+  ${COMPONENTS_DIR}/Common)
 
-target_link_libraries(${NAME_LIB} PUBLIC
+set(LIB_NAME DataManager)
+
+add_library(${LIB_NAME} ${SOURCES} ${HEADERS})
+
+target_link_libraries(${LIB_NAME} PUBLIC
 #    ${Boost_SYSTEM_LIBRARY}
 #    ${Boost_LOG_LIBRARY}
     ${PCL_LIBRARIES}
-    common
+    CommonLib
     -pthread )

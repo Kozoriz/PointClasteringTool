@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "../Common/app_type/Point.hpp"
+#include "Common/app_type/Point.hpp"
 
 class DataManagerImpl
 {

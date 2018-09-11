@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.5.1)
+include_directories(${UTILS_INCLUDE_DIR})
 
 file( GLOB HEADERS
 	 LifeCycle.hpp
@@ -14,11 +14,13 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_LOG_LIBRARY}
-    render
-    data_manager
-    common
+    UI
+    DataManager
+    CommonLib
     Qt5::Core
     Qt5::Gui
     Qt5::Qml
     Qt5::Quick
-    -pthread )
+    -pthread
+    Utils)
+

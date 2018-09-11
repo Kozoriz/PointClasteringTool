@@ -1,9 +1,3 @@
-cmake_minimum_required (VERSION 3.5.1)
-project(common)
-
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 find_package(PCL 1.2 REQUIRED)
 
 include_directories(${PCL_INCLUDE_DIRS})
@@ -21,9 +15,12 @@ file( GLOB SOURCES
     app_type/Point.cpp
 )
 
-add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+set(LIB_NAME CommonLib)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC
+add_library(${LIB_NAME} ${SOURCES} ${HEADERS})
+
+target_link_libraries(${LIB_NAME}
+    PUBLIC
     ${Boost_SYSTEM_LIBRARY}
     ${Boost_LOG_LIBRARY}
     ${PCL_LIBRARIES}

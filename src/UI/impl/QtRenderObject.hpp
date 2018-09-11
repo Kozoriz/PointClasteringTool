@@ -15,6 +15,7 @@ class QtRedebleOject : public QObject
     Q_PROPERTY(QVariantList Cloude READ Cloude WRITE setCloude NOTIFY CloudeChanged)
 public:
     explicit QtRedebleOject( QObject* parent = nullptr );
+    virtual ~QtRedebleOject(){}
 
     // rename read tabs and create new object cloud;
     void read_tabs( );

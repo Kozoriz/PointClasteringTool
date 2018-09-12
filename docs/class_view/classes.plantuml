@@ -1,0 +1,80 @@
+@startuml
+
+scale 1.5
+
+' classes description
+
+package "Model" {
+	class ClasteringAlgo {
+		+{abstract} std::vector<std::shared_ptr<Cloud> > ProcessCloud(Cloud& cloud) const = 0; 
+	}
+
+	class AlgorithmMST {
+		+std::vector<std::shared_ptr<Cloud> > ProcessCloud(Cloud& cloud) const; 
+	}
+	class AlgorithmCLOPE {
+		+std::vector<std::shared_ptr<Cloud> > ProcessCloud(Cloud& cloud) const; 
+	}
+
+	class PointCloudManager {
+		+void LoadCloud(std::string& path);
+		+void ProcessByAllAlgorithms() const;
+		+void SaveClasteringResults(std::string& folder) const;
+
+
+		-StatisticsManager m_statistics;
+	}
+
+	class StatisticsManager {
+		+void StartMeasurement();
+		+void StopMeasurement();
+		+void Saveresults(std::string& path, std::string& file_prefix)
+
+		-std::vector<MeasurementTool*> m_measurement_tools;
+	}
+
+	class ValueStamp {
+		+time_t m_time;
+		+double m_value;
+	}
+	class MeasurementTool {
+		+{abstract} void Start() = 0;
+		+{abstract} void Stop() = 0;
+		+{abstract} std::vector<ValueStamp>& GetResults() = 0;
+	}
+
+	class CPUMonitor{
+
+	}
+	class RAMMonitor{
+
+	}
+	class IOMonitor{
+
+	}
+}
+
+package "Controller" {
+	
+}
+
+package "UI" {
+	
+}
+
+' relations
+ClasteringAlgo <|-- AlgorithmMST
+ClasteringAlgo <|-- AlgorithmCLOPE
+
+PointCloudManager .down. ClasteringAlgo : <using>
+PointCloudManager .right. StatisticsManager : <using>
+StatisticsManager .down. MeasurementTool : <using>
+
+MeasurementTool <|-- CPUMonitor
+MeasurementTool <|-- RAMMonitor
+MeasurementTool <|-- IOMonitor
+
+MeasurementTool .. ValueStamp : <using>
+
+
+@enduml

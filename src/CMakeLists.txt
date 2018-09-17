@@ -19,7 +19,7 @@ include_directories(${Boost_INCLUDE_DIR})
 add_definitions(-DBOOST_LOG_DYN_LINK=1)
 
 set(COMPONENTS_DIR ${CMAKE_SOURCE_DIR})
-include_directories(${COMPONENTS_DIR})
+set(UTILS_DIR ${COMPONENTS_DIR}/3rd-party/c-plus-utils/src/utils/include)
 
 add_subdirectory(3rd-party)
 add_subdirectory(App)

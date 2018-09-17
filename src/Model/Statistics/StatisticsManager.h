@@ -1,18 +1,20 @@
 #ifndef __STATISTICSMANAGER__
 #define __STATISTICSMANAGER__
 
-#include <vector>
-#include <memory>
+#include "utils/containers/vector.h"
+#include "utils/pointers/unique_ptr.h"
 
 #include "Model/Measurement/MeasurementTool.h"
+#include "Model/Common/ValueStamp.h"
 
 class StatisticsManager
 {
 public:
-	virtual ~StatisticsManager() {};
-
+  virtual ~StatisticsManager() {}
+  void RunTask();
+  void SaveMeasurementData(utils::Vector<ValueStamp>& values);
 private:
-  std::vector<std::unique_ptr<MeasurementTool> > m_measuremenjt_tools;
+ utils::Vector<utils::UniquePtr<MeasurementTool> > m_measuremenjt_tools;
 };
 
 #endif // __STATISTICSMANAGER__

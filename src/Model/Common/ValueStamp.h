@@ -4,6 +4,15 @@
 class ValueStamp
 {
 public:
+  enum class ValueType
+  {
+    CPU,
+    RAM,
+    IO_READ,
+    IO_WRITE
+  };
+
+public:
 	virtual ~ValueStamp() {};
 };
 

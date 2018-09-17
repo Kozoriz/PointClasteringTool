@@ -1,5 +1,7 @@
 
-include_directories(${COMPONENTS_DIR})
+include_directories(
+  ${COMPONENTS_DIR}
+  ${UTILS_DIR})
 
 file(GLOB SOURCES */*.cpp)
 file(GLOB HEADERS */*.h)

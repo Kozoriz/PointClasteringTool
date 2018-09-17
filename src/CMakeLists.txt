@@ -27,4 +27,5 @@ add_subdirectory(CloudController)
 add_subdirectory(DataManager)
 add_subdirectory(UI)
 add_subdirectory(Common)
+add_subdirectory(Model)
 

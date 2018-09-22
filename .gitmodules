@@ -1,3 +1,4 @@
 [submodule "src/3rd-party/c-plus-utils"]
 	path = src/3rd-party/c-plus-utils
 	url = https://github.com/Kozoriz/c-plus-utils.git
+	branch = master

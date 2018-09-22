@@ -11,6 +11,25 @@ set(CMAKE_BINARY_DIR       ${CMAKE_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH    ${CMAKE_BINARY_DIR}/lib)
 
+option(ENABLE_LOG "If logging needed" ON)
+
+### LOGGER
+if (ENABLE_LOG)
+  if (EXISTS "$ENV{LOG4CPLUS_DIRECTORY}/lib/liblog4cplus.a")
+    set(LOGGER_HOME $ENV{LOG4CPLUS_DIRECTORY})
+    if (EDISON_BUILD)
+      set(LOGGER_HOME "$ENV{LOG4CPLUS_DIRECTORY}i586/")
+    endif()
+    add_definitions(-DENABLE_LOG)
+    set(LOG4CPLUS_INCLUDE_DIR "${LOGGER_HOME}include")
+    set(LOG4CPLUS_LIB_DIR "${LOGGER_HOME}lib")
+    include_directories ( ${LOG4CPLUS_INCLUDE_DIR} )
+  else()
+    message(FATAL_ERROR " LOG4CPLUS is not present. Please install log4cplus logger ver. >= 2.0.0!")
+  endif()
+endif(ENABLE_LOG)
+
+
 find_package(Qt5 COMPONENTS Core Gui Qml Quick REQUIRED)
 
 find_package(Boost 1.58.0 COMPONENTS program_options log system REQUIRED)

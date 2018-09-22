@@ -16,7 +16,9 @@ set ( RESOURCES
  impl/Resources/qml.qrc
 )
 
-include_directories(${COMPONENTS_DIR}/Common)
+include_directories(
+  ${COMPONENTS_DIR}
+  ${COMPONENTS_DIR}/Common)
 
 set(LIB_NAME UI)
 

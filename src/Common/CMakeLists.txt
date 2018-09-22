@@ -5,14 +5,11 @@ link_directories(${PCL_INCLUDE_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
 file( GLOB HEADERS
-    helper/app_helper.hpp
-    helper/communications.hpp
-    converters/converters_pcl.hpp
-    app_type/Point.hpp
+    */*.hpp
 )
 
 file( GLOB SOURCES
-    app_type/Point.cpp
+    */*.cpp
 )
 
 set(LIB_NAME CommonLib)

@@ -1,4 +1,6 @@
-include_directories(${UTILS_INCLUDE_DIR})
+include_directories(
+  ${COMPONENTS_DIR}
+  ${UTILS_INCLUDE_DIR})
 
 file( GLOB HEADERS
 	 LifeCycle.hpp

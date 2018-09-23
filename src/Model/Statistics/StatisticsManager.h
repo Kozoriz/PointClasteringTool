@@ -12,7 +12,8 @@ class StatisticsManager
 {
 public:
   virtual ~StatisticsManager() {}
-  void RunTask();
+  void StartMeasurement();
+  void StopMeasurement();
   void SaveMeasurementData(const utils::String& path);
   //utils::Vector<ValueStamp>& values
 private:

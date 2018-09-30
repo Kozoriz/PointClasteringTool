@@ -6,6 +6,8 @@
 #include <vector>
 #include <memory>
 
+#include "Model/Common/pointcloud.h"
+
 RenderImpl::RenderImpl(common::CommunicationsWithDataManager& dm)
   : redebleOject(std::make_unique<QtRedebleOject>())
   , cm_with_dm(dm)
@@ -17,16 +19,17 @@ RenderImpl::start_app( )
 {
   cm_with_dm.create_cloude_signal.talk();
 
-  std::vector< common::Point > test_cn;
-  cm_with_dm.get_cloude_signal.talk(test_cn);
+  const PointCloud* test_cn = nullptr;
+  cm_with_dm.get_cloude_signal.talk(&test_cn);
 
   QVariantList list;
-  for(const auto& item : test_cn )
+  const utils::structures::Matrix3* p_test_cn = test_cn;
+  for(const auto& item : *p_test_cn )
   {
       QVector3D temp;
-      temp.setX(item.x);
-      temp.setY(item.y);
-      temp.setZ(item.z);
+      temp.setX(item.x_);
+      temp.setY(item.y_);
+      temp.setZ(item.z_);
       list << temp;
   }
 

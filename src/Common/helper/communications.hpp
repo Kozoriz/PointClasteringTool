@@ -10,6 +10,8 @@
 #include "../../DataManager/DataManager.hpp"
 #include "../../Common/app_type/Point.hpp"
 
+#include "Model/Common/pointcloud.h"
+
 namespace common
 {
 
@@ -107,7 +109,7 @@ private:
 
 public:
    common::Communications< void , bool  > create_cloude_signal;
-   common::Communications< std::vector< common::Point >&, void > get_cloude_signal;
+   common::Communications< const PointCloud**, void > get_cloude_signal;
 
 };
 

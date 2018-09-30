@@ -18,7 +18,8 @@ set ( RESOURCES
 
 include_directories(
   ${COMPONENTS_DIR}
-  ${COMPONENTS_DIR}/Common)
+  ${COMPONENTS_DIR}/Common
+  ${UTILS_DIR})
 
 set(LIB_NAME UI)
 

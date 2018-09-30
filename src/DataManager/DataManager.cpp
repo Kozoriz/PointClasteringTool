@@ -19,10 +19,10 @@ bool DataManager::creatr_cloude()
 }
 
 void
-DataManager::get_cloude( common::Points& cloude )
+DataManager::get_cloude( const PointCloud** cloude )
 {
     if ( mImpl )
     {
-        cloude = mImpl->getCloude( );
+        *cloude = &mImpl->getCloud( );
     }
 }

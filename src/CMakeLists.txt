@@ -32,7 +32,7 @@ endif(ENABLE_LOG)
 
 find_package(Qt5 COMPONENTS Core Gui Qml Quick REQUIRED)
 
-find_package(Boost 1.58.0 COMPONENTS program_options log system REQUIRED)
+find_package(Boost 1.58.0 COMPONENTS program_options system REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIR})
 add_definitions(-DBOOST_LOG_DYN_LINK=1)

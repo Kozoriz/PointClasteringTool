@@ -12,8 +12,11 @@ public:
   bool IsClustered() const;
   void SetClustered(bool is_clustered = true);
 
+  void LoadFrom(const utils::String &path);
+  void SaveTo(const utils::String &path) const;
+
 private:
-  const utils::String m_cloud_name;
+  utils::String m_cloud_name;
   bool m_is_clustered;
 };
 

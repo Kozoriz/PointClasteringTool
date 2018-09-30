@@ -1,13 +1,15 @@
 #include "DataManager.hpp"
 
-#include <boost/log/trivial.hpp>
-
 #include "impl/DataManagerImpl.hpp"
 #include "../Common/app_type/Point.hpp"
 
+#include "utils/logger.h"
+
+CREATE_LOGGER("DataManager");
+
 DataManager::DataManager( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Create DataManager";
+    LOG_INFO( "Create DataManager" );
 }
 
 bool DataManager::creatr_cloude()

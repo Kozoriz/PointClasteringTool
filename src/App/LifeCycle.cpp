@@ -3,8 +3,11 @@
 #include "../DataManager/impl/DataManagerImpl.hpp"
 #include "../UI/impl/RenderImpl.hpp"
 
-#include <boost/log/trivial.hpp>
 #include <functional>
+
+#include "utils/logger.h"
+
+CREATE_LOGGER("LifeCicle");
 
 LifeCycle::LifeCycle( )
     : dataMeneger( )
@@ -16,7 +19,7 @@ LifeCycle::LifeCycle( )
 void
 LifeCycle::init( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Init project";
+    LOG_INFO("Init project");
     common::AppointeeImpl::appointee< DataManager >( dataMeneger,
                                                      std::make_shared< DataManagerImpl >( ) );
     common::AppointeeImpl::appointee< Render >( render, std::make_shared< RenderImpl >( cm_with_dm ) );
@@ -27,12 +30,12 @@ LifeCycle::init( )
 void
 LifeCycle::start( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Start project";
+    LOG_INFO( "Start project" );
     render.start_app( );
 }
 
 void
 LifeCycle::stop( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Stop project";
+    LOG_INFO( "Stop project" );
 }

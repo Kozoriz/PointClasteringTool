@@ -6,25 +6,20 @@
 
 CREATE_LOGGER("PointCloudManager")
 
+const utils::String sWorkingDir = "/home/andrii/PointClouds/";
+
 const PointCloud& PointCloudManager::LoadNewCloud(utils::String &sPath)
 {
-  LOG_AUTO_TRACE()
-  utils::file_system::File PCFile(sPath);
-  PCFile.Open(utils::file_system::File::OpenMode::Read);
-  if(!PCFile.IsOpened())
-  {
-    LOG_ERROR("Cannot open file : " << sPath);
-  }
+  LOG_AUTO_TRACE();
 
-  utils::String line;
-  utils::SharedPtr<PointCloud> pc = utils::make_shared<PointCloud>(sPath);
-  do
-  {
-    line = PCFile.ReadLine();
-    pc->AddPoint(utils::convertTo<utils::positions::Location3>(line));
-  } while(!line.empty());
+  const utils::String sFileName = utils::file_system::File::GetFileName(sPath);
+  utils::file_system::File::Copy(sPath, sWorkingDir + sFileName + "/" + sFileName + ".pc");
 
+  utils::SharedPtr<PointCloud> pc = utils::make_shared<PointCloud>("");
   m_point_clouds.push_back(pc);
+
+  pc->LoadFrom(sPath);
+
   return *pc;
 }
 
@@ -36,12 +31,16 @@ void PointCloudManager::RunClasteringProcess(const PointCloud &cloud)
     m_stats_manager->StartMeasurement();
     m_clusters = clustering_algo->RunTask(cloud);
     m_stats_manager->StopMeasurement();
-    m_stats_manager->SaveMeasurementData("some_path"); // use app settings
-    SaveClusters(cloud.GetPCName());
+    m_stats_manager->SaveMeasurementData(sWorkingDir + cloud.GetPCName()); // use app settings
+    SaveClusters();
   }
 }
 
-void PointCloudManager::SaveClusters(const utils::String& pc_name)
+void PointCloudManager::SaveClusters()
 {
-
+  LOG_AUTO_TRACE()
+  for(auto cluster : m_clusters)
+  {
+      cluster->SaveTo(sWorkingDir); // use app settings
+  }
 }

@@ -20,3 +20,4 @@ target_link_libraries(${LIB_NAME}
     ${Boost_LOG_LIBRARY}
     Qt5::Core
     -pthread )
+

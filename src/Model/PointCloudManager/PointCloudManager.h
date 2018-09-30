@@ -14,7 +14,7 @@ public:
   virtual ~PointCloudManager() {}
   const PointCloud& LoadNewCloud(utils::String& sPath);
   void RunClasteringProcess(const PointCloud& cloud);
-  void SaveClusters(const utils::String& pc_name);
+  void SaveClusters();
 
 private:
   utils::SharedPtr<StatisticsManager> m_stats_manager;

@@ -61,22 +61,28 @@ void Cluster::SaveTo(const utils::String &path) const
 void Cluster::LoadFrom(const utils::String &path)
 {
   LOG_AUTO_TRACE();
+  utils::file_system::File file(path);
+  LoadFrom(file);
+}
+
+void Cluster::LoadFrom(utils::file_system::File& file)
+{
+  LOG_AUTO_TRACE();
   using namespace utils;
-  file_system::File file(path);
   file.Open(file_system::File::OpenMode::Read);
 
   if(!file.IsOpened())
   {
-    LOG_ERROR("Cant open " << path);
+    LOG_ERROR("Cant open " << file.GetFullPath());
     return;
   }
 
-  String filename = file_system::File::GetFileName(path);
+  String filename = file_system::File::GetFileName(file.GetFullPath());
   Vector<String> filename_parts = SplitCSV(filename, "_");
   m_datetime_clustered = filename_parts[0];
   m_cluster_name = filename_parts[1];
 
-  String directory = file_system::File::GetDirectory(path);
+  String directory = file_system::File::GetDirectory(file.GetFullPath());
   m_pc_name = directory.substr(directory.find_last_of('/') + 1);
 
   utils::String line;
@@ -87,5 +93,5 @@ void Cluster::LoadFrom(const utils::String &path)
   } while(!line.empty());
 
   file.Close();
-  LOG_DEBUG("Loaded " << Size() << " points from " << path);
+  LOG_DEBUG("Loaded " << Size() << " points from " << file.GetFullPath());
 }

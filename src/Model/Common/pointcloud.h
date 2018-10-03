@@ -3,6 +3,13 @@
 
 #include "utils/structures/matrix3.h"
 
+
+namespace utils{
+namespace file_system{
+class File;
+} // namespace file_system
+} // namespace utils
+
 class PointCloud : public utils::structures::Matrix3
 {
 public:
@@ -13,6 +20,7 @@ public:
   void SetClustered(bool is_clustered = true);
 
   void LoadFrom(const utils::String &path);
+  void LoadFrom(utils::file_system::File& file);
   void SaveTo(const utils::String &path) const;
 
 private:

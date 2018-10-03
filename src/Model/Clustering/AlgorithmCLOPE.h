@@ -5,6 +5,8 @@
 class AlgorithmCLOPE : public ClusteringAlgo
 {
 public:
-	virtual ~AlgorithmCLOPE() {};
+  ~AlgorithmCLOPE() override;
+   utils::Vector<utils::SharedPtr<Cluster> > RunTask(const PointCloud& pc) override;
+   utils::String GetName() const override;
 };
 

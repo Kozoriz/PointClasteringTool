@@ -6,7 +6,10 @@
 class CPUMonitor : public MeasurementTool
 {
 public:
-	virtual ~CPUMonitor() {};
+  ~CPUMonitor() override;
+  void Run() override;
+  void Join() override;
+  inline utils::String GetName() const override {return "CPU";}
 };
 
 #endif // __CPUMONITOR__

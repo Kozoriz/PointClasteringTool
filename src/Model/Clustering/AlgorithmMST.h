@@ -5,5 +5,7 @@
 class AlgorithmMST : public ClusteringAlgo
 {
 public:
-	virtual ~AlgorithmMST() {};
+  ~AlgorithmMST() override;
+  utils::Vector<utils::SharedPtr<Cluster> > RunTask(const PointCloud& pc) override;
+  utils::String GetName() const override;
 };

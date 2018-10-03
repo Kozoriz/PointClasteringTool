@@ -3,6 +3,12 @@
 
 #include "utils/structures/matrix3.h"
 
+namespace utils {
+namespace file_system {
+class File;
+} // namespace file_system
+} // namespace utils
+
 class Cluster : public utils::structures::Matrix3
 {
 public:
@@ -15,8 +21,8 @@ public:
 
   void SaveTo(const utils::String& path) const;
 
-private:
   void LoadFrom(const utils::String& path);
+  void LoadFrom(utils::file_system::File& file);
 
 private:
   utils::String m_cluster_name;

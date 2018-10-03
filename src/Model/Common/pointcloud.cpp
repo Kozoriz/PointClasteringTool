@@ -46,17 +46,23 @@ void PointCloud::SaveTo(const utils::String &path) const
 void PointCloud::LoadFrom(const utils::String &path)
 {
   LOG_AUTO_TRACE();
+  utils::file_system::File file(path);
+  LoadFrom(file);
+}
+
+void PointCloud::LoadFrom(utils::file_system::File &file)
+{
+  LOG_AUTO_TRACE();
   using namespace utils;
-  file_system::File file(path);
   file.Open(file_system::File::OpenMode::Read);
 
   if(!file.IsOpened())
   {
-    LOG_ERROR("Cant open " << path);
+    LOG_ERROR("Cant open " << file.GetFullPath());
     return;
   }
 
-  m_cloud_name = file_system::File::GetFileName(path);
+  m_cloud_name = file_system::File::GetFileName(file.GetFullPath());
   m_is_clustered = true; // if saved in app working dir then already saved
 
   utils::String line;
@@ -67,6 +73,6 @@ void PointCloud::LoadFrom(const utils::String &path)
   } while(!line.empty());
 
   file.Close();
-  LOG_DEBUG("Loaded " << Size() << " points from " << path);
+  LOG_DEBUG("Loaded " << Size() << " points from " << file.GetFullPath());
 }
 

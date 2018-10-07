@@ -13,9 +13,10 @@ public:
   virtual inline utils::String GetName() const = 0;
   virtual const utils::Vector<ValueStamp> &GetValues() const;
   virtual void Clear();
-
+  void Join() override;
 private:
   utils::Vector<ValueStamp> m_values;
+  bool is_joined = false;
 };
 
 #endif // __MEASUREMENTTOOL__

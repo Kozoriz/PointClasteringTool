@@ -9,3 +9,8 @@ void MeasurementTool::Clear()
 {
   m_values.clear();
 }
+
+void MeasurementTool::Join()
+{
+  is_joined = true;
+}

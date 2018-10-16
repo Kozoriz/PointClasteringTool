@@ -89,15 +89,15 @@ Rectangle {
 
         }
 
-        Timer {
-            id: reselectTimer
-            interval: 10
-            running: true
-            repeat: true
-            onTriggered: {
-                scatterGraph.scene.selectionQueryPosition = Qt.point(inputArea.mouseX, inputArea.mouseY);
-            }
-        }
+//        Timer {
+//            id: reselectTimer
+//            interval: 10
+//            running: true
+//            repeat: true
+//            onTriggered: {
+//                scatterGraph.scene.selectionQueryPosition = Qt.point(inputArea.mouseX, inputArea.mouseY);
+//            }
+//        }
 
     }
 }

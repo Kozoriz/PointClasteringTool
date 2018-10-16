@@ -1,5 +1,11 @@
 #include "MeasurementTool.h"
 
+MeasurementTool::MeasurementTool()
+  : is_joined(false)
+{
+
+}
+
 const utils::Vector<ValueStamp> &MeasurementTool::GetValues() const
 {
   return m_values;

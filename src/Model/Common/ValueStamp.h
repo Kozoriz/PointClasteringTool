@@ -2,6 +2,8 @@
 #define __VALUESTAMP__
 
 #include "utils/containers/string.h"
+#include "utils/date_time.h"
+#include "utils/containers/converters.h"
 
 class ValueStamp
 {
@@ -15,7 +17,11 @@ public:
   };
 
 public:
-  utils::String ToString() const { return ""; } // TODO
+  utils::String ToString() const { return utils::date_time::GetDateTimeString("") + " " + utils::ConvertToString(m_value); } // TODO time format
+
+public:
+  double m_value;
+  UInt32 m_time;
 };
 
 #endif // __VALUESTAMP__

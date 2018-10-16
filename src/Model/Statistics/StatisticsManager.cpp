@@ -11,7 +11,7 @@ StatisticsManager::StatisticsManager()
 {
   m_measurement_tools.push_back(utils::make_unique<RAMMonitor>());
   m_measurement_tools.push_back(utils::make_unique<CPUMonitor>());
-  m_measurement_tools.push_back(utils::make_unique<IOMonitor>());
+//  m_measurement_tools.push_back(utils::make_unique<IOMonitor>());
 
   for(auto& tool : m_measurement_tools)
   {

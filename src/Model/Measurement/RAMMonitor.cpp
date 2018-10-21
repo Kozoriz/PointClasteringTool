@@ -1,11 +1,15 @@
 #include "RAMMonitor.h"
 
 #include "utils/threads/synchronization/conditional_variable.h"
+#include "utils/logger.h"
+
+CREATE_LOGGER("RAMMonitor");
 
 RAMMonitor::~RAMMonitor() {}
 
 void RAMMonitor::Run()
 {
+  LOG_AUTO_TRACE();
   FILE* file = fopen("/proc/self/status", "r");
 
   utils::synchronization::ConditionalVariable cv;
@@ -21,7 +25,9 @@ void RAMMonitor::Run()
           const char* p = line;
           while (*p <'0' || *p > '9') p++;
           line[i-3] = '\0';
-          m_values.push_back({static_cast<double>(atoi(p)),utils::date_time::GetTimeStamp()});
+          double value = static_cast<double>(atoi(p));
+          m_values.push_back({value,utils::date_time::GetTimeStamp()});
+          LOG_TRACE("Loop " << value);
           break;
         }
     }

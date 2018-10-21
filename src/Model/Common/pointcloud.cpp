@@ -29,7 +29,7 @@ void PointCloud::SaveTo(const utils::String &path) const
 {
   LOG_AUTO_TRACE();
   using namespace utils::file_system;
-  utils::String filename = m_cloud_name + ".pc";
+  utils::String filename = m_cloud_name + ".pointcloud";
 
   File file(path + filename);
   file.Open(File::OpenMode::Write);
@@ -66,11 +66,12 @@ void PointCloud::LoadFrom(utils::file_system::File &file)
   m_is_clustered = true; // if saved in app working dir then already saved
 
   utils::String line;
-  do
+  while(!file.IsEof())
   {
     line = file.ReadLine();
+    if(line.empty()) continue;
     AddPoint(utils::convertTo<utils::positions::Location3>(line));
-  } while(!line.empty());
+  }
 
   file.Close();
   LOG_DEBUG("Loaded " << Size() << " points from " << file.GetFullPath());

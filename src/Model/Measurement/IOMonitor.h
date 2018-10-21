@@ -6,7 +6,7 @@
 class IOMonitor : public  MeasurementTool
 {
 public:
-  ~IOMonitor() override;
+  virtual ~IOMonitor();
   void Run() override;
   void Join() override;
   inline utils::String GetName() const override {return "IO";}

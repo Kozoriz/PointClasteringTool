@@ -13,6 +13,9 @@ LifeCycle::LifeCycle( )
     : dataMeneger( )
     , render( )
     , cm_with_dm( dataMeneger )
+    , m_settings("config.ini")
+    , m_stat_manager()
+    , m_pc_manager(m_settings, m_stat_manager)
 {
 }
 

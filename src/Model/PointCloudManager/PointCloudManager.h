@@ -7,16 +7,18 @@
 #include "Model/Clustering/ClusteringAlgo.h"
 #include "Model/Common/cluster.h"
 #include "Model/Common/pointcloud.h"
+#include "Model/Settings/applicationsettings.h"
 
 class PointCloudManager
 {
 public:
-  PointCloudManager(const utils::String& working_dir, StatisticsManager& stats_manager);
+  PointCloudManager(ApplicationSettings& settings, StatisticsManager& stats_manager);
   const PointCloud& LoadNewCloud(utils::String& sPath);
   void RunClasteringProcess(const PointCloud& cloud);
   void SaveClusters();
 
 private:
+  const ApplicationSettings& m_settings;
   StatisticsManager& m_stats_manager;
   utils::Vector<utils::SharedPtr<ClusteringAlgo> > m_clustering_algos;
   utils::Vector<utils::SharedPtr<PointCloud> > m_point_clouds;

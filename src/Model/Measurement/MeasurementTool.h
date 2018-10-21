@@ -11,7 +11,7 @@ class MeasurementTool : public utils::threads::ThreadRunnable
 {
 public:
   MeasurementTool();
-  virtual ~MeasurementTool() = 0;
+  virtual ~MeasurementTool(){}
   virtual inline utils::String GetName() const = 0;
   virtual const utils::Vector<ValueStamp> &GetValues() const;
   virtual void Clear();

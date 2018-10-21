@@ -14,8 +14,7 @@ add_executable( ${PROJECT_NAME} main.cpp ${HEADERS} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_LOG_LIBRARY}
+    ${Boost_LIBRARIES}
     UI
     DataManager
     CommonLib

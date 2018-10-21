@@ -6,7 +6,7 @@
 class RAMMonitor : public MeasurementTool
 {
 public:
-  ~RAMMonitor() override;
+  virtual ~RAMMonitor();
   void Run() override;
   inline utils::String GetName() const override {return "RAM";}
 };

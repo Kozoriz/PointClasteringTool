@@ -30,16 +30,31 @@ if (ENABLE_LOG)
 endif(ENABLE_LOG)
 
 
+### qt
 find_package(Qt5 COMPONENTS Core Gui Qml Quick REQUIRED)
 
-find_package(Boost 1.58.0 COMPONENTS program_options system REQUIRED)
+### boost
+set(Boost_USE_STATIC_LIBS ON) # only find static libs
+set(Boost_USE_MULTITHREADED ON)
 
+find_package(Boost 1.62 COMPONENTS program_options system REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 add_definitions(-DBOOST_LOG_DYN_LINK=1)
 
+### variables
 set(COMPONENTS_DIR ${CMAKE_SOURCE_DIR})
 set(UTILS_DIR ${COMPONENTS_DIR}/3rd-party/c-plus-utils/src/utils/include)
 
+### install
+set(INSTALL_DIR ${EXECUTABLE_OUTPUT_PATH})
+set(INSTAL_FILES
+../config/log4cplus.properties
+../config/config.ini
+)
+file(COPY ${INSTAL_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+install(FILES ${INSTAL_FILES} DESTINATION ${INSTALL_DIR})
+
+### sub dirs
 add_subdirectory(3rd-party)
 add_subdirectory(App)
 add_subdirectory(CloudController)

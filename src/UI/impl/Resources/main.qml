@@ -2,7 +2,6 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.4
-import Qt.labs.folderlistmodel 2.2
 
 ApplicationWindow {
     title: qsTr("Point Clustering Tool")
@@ -25,8 +24,6 @@ ApplicationWindow {
 
             Loader {
                 id:loader
-                anchors.right: parent.right
-                anchors.rightMargin: 0
                 anchors.left: parent.left
                 anchors.leftMargin: 0
                 anchors.bottom: parent.bottom
@@ -36,28 +33,56 @@ ApplicationWindow {
             }
 
         }
-        ListView
-        {
-            id: dirTreeView
-            anchors.right: parent.right
-            anchors.rightMargin: 0
+
+        ListView {
+            id: cloudsList
+            width: parent.width*0.2
+            height: parent.height*0.5
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
-            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+            delegate: Item {
+                x: 5
+                width: 80
+                height: 40
+                Row {
+                    id: row1
+                    Rectangle {
+                        width: 40
+                        height: 40
+                        color: colorCode
+                    }
 
-            FolderListModel
-            {
-                id: dirModel
-                folder: "/home/andrii/workspace/git/PointClasteringTool/" // TODO set from model
-                nameFilters: ["*.*"]
+                    Text {
+                        text: name
+                        font.bold: true
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    spacing: 10
+                }
             }
-            Component {
-                id: fileDelegate
-                Text { text: fileName }
-            }
+            model: ListModel {
+                ListElement {
+                    name: "Grey"
+                    colorCode: "grey"
+                }
 
-            model: dirModel
-            delegate: fileDelegate
+                ListElement {
+                    name: "Red"
+                    colorCode: "red"
+                }
+
+                ListElement {
+                    name: "Blue"
+                    colorCode: "blue"
+                }
+
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+            }
         }
     }
     menuBar: MenuBar {

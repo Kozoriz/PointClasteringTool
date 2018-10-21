@@ -27,8 +27,7 @@ add_library(${LIB_NAME} ${SOURCES} ${HEADERS} ${RESOURCES})
 
 target_link_libraries(${LIB_NAME}
     PUBLIC
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_LOG_LIBRARY}
+    ${Boost_LIBRARIES}
     Qt5::Core
     Qt5::Gui
     Qt5::Qml

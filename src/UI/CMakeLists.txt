@@ -1,15 +1,13 @@
 set(CMAKE_AUTOMOC ON)
 
 file( GLOB HEADERS
-         Render.hpp
-         impl/RenderImpl.hpp
-         impl/QtRenderObject.hpp
+  impl/.*hpp
+  *.hpp
 )
 
 file( GLOB SOURCES
-         Render.cpp
-         impl/RenderImpl.cpp
-         impl/QtRenderObject.cpp
+  impl/*.cpp
+  *.cpp
 )
 
 set ( RESOURCES

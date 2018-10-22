@@ -69,6 +69,7 @@ void PointCloud::LoadFrom(utils::file_system::File &file)
   while(!file.IsEof())
   {
     line = file.ReadLine();
+//    LOG_TRACE(line);
     if(line.empty()) continue;
     AddPoint(utils::convertTo<utils::positions::Location3>(line));
   }

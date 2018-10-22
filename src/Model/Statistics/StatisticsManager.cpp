@@ -6,12 +6,19 @@
 
 #include "utils/date_time.h"
 #include "utils/file_system.h"
+#include "utils/logger.h"
 
-StatisticsManager::StatisticsManager()
+CREATE_LOGGER("Statistics")
+
+StatisticsManager::StatisticsManager(ApplicationSettings& settings)
+  : m_tools_stop_barrier(0)
+  , m_settings(settings)
 {
-  m_measurement_tools.push_back(utils::make_unique<RAMMonitor>());
-  m_measurement_tools.push_back(utils::make_unique<CPUMonitor>());
+  LOG_AUTO_TRACE();
+  m_measurement_tools.push_back(utils::make_unique<RAMMonitor>(m_tools_stop_barrier, settings));
+  m_measurement_tools.push_back(utils::make_unique<CPUMonitor>(m_tools_stop_barrier, settings));
 //  m_measurement_tools.push_back(utils::make_unique<IOMonitor>());
+  m_tools_stop_barrier.set_count(m_measurement_tools.size() + 1);
 
   for(auto& tool : m_measurement_tools)
   {
@@ -21,7 +28,8 @@ StatisticsManager::StatisticsManager()
 
 void StatisticsManager::StartMeasurement()
 {
-  m_last_start = utils::date_time::GetDateTimeString("");//TODO
+  LOG_AUTO_TRACE();
+  m_last_start = utils::date_time::GetDateTimeString("%F_%T");
   for(auto& tool : m_measurement_tools)
   {
     tool->Clear();
@@ -34,6 +42,13 @@ void StatisticsManager::StartMeasurement()
 
 void StatisticsManager::StopMeasurement()
 {
+  LOG_AUTO_TRACE();
+  for(auto& tool : m_measurement_tools)
+  {
+    tool->Join();
+  }
+  m_tools_stop_barrier.Wait();
+
   for(auto& thread : m_measurement_threads)
   {
     thread.JoinThread();
@@ -42,9 +57,12 @@ void StatisticsManager::StopMeasurement()
 
 void StatisticsManager::SaveMeasurementData(const utils::String &path)
 {
+  LOG_AUTO_TRACE();
   for(auto& tool : m_measurement_tools)
   {
-    utils::String filepath = path + m_last_start + "_" + tool->GetName();
+    utils::String filepath = utils::file_system::ExtendPath(path, m_last_start + "_" + tool->GetName());
+    utils::file_system::Directory::RecursiveCreate(path);
+
     utils::file_system::File file(filepath);
     file.Open(utils::file_system::File::OpenMode::Write);
     if(file.IsOpened())

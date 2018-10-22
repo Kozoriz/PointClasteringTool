@@ -5,6 +5,11 @@
 
 CREATE_LOGGER("RAMMonitor");
 
+RAMMonitor::RAMMonitor(utils::synchronization::Barrier &stop_barrier, ApplicationSettings &settings)
+  : MeasurementTool (stop_barrier, settings)
+{
+}
+
 RAMMonitor::~RAMMonitor() {}
 
 void RAMMonitor::Run()
@@ -31,7 +36,8 @@ void RAMMonitor::Run()
           break;
         }
     }
-    cv.WaitFor(l, 100); // TODO use app settings
+    cv.WaitFor(l, m_settings.get_measurement_delay());
   }
   fclose(file);
+  m_stop_barrier.Wait();
 }

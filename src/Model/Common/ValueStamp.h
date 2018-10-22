@@ -17,7 +17,7 @@ public:
   };
 
 public:
-  utils::String ToString() const { return utils::date_time::GetDateTimeString("") + " " + utils::ConvertToString(m_value); } // TODO time format
+  utils::String ToString() const { return utils::date_time::GetDateTimeString("%F_%T") + " " + utils::ConvertToString(m_value); }
 
 public:
   double m_value;

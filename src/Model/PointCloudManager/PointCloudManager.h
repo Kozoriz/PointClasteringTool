@@ -12,15 +12,21 @@
 class PointCloudManager
 {
 public:
+  typedef utils::Vector<utils::SharedPtr<PointCloud> > PointClouds;
+  typedef utils::Vector<utils::SharedPtr<Cluster> > Clusters;
+public:
   PointCloudManager(ApplicationSettings& settings, StatisticsManager& stats_manager);
   const PointCloud& LoadNewCloud(utils::String& sPath);
   void RunClasteringProcess(const PointCloud& cloud);
   void SaveClusters();
 
+  const PointClouds& GetPointClouds() const;
+  const Clusters& GetClusters() const;
+
 private:
   const ApplicationSettings& m_settings;
   StatisticsManager& m_stats_manager;
   utils::Vector<utils::SharedPtr<ClusteringAlgo> > m_clustering_algos;
-  utils::Vector<utils::SharedPtr<PointCloud> > m_point_clouds;
-  utils::Vector<utils::SharedPtr<Cluster> > m_clusters;
+  PointClouds m_point_clouds;
+  Clusters m_clusters;
 };

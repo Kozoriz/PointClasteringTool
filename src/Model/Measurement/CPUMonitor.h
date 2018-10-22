@@ -6,6 +6,7 @@
 class CPUMonitor : public MeasurementTool
 {
 public:
+  CPUMonitor(utils::synchronization::Barrier& stop_barrier, ApplicationSettings &settings);
   virtual ~CPUMonitor();
   void Run() override;
   inline utils::String GetName() const override {return "CPU";}

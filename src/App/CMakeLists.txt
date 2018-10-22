@@ -24,5 +24,6 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Quick
     -pthread
     Utils
-    Model)
+    Model
+    Controller)
 

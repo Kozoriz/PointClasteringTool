@@ -2,8 +2,11 @@
 #include "utils/logger.h"
 
 CREATE_LOGGER("Measurement")
-MeasurementTool::MeasurementTool()
+MeasurementTool::MeasurementTool(utils::synchronization::Barrier& stop_barrier, ApplicationSettings &settings)
   : is_joined(false)
+  , m_values()
+  , m_stop_barrier(stop_barrier)
+  , m_settings(settings)
 {
   LOG_AUTO_TRACE();
 

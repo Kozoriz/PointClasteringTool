@@ -11,6 +11,12 @@
 
 CREATE_LOGGER("CPUMonitor")
 
+CPUMonitor::CPUMonitor(utils::synchronization::Barrier &stop_barrier, ApplicationSettings& settings)
+  : MeasurementTool (stop_barrier, settings)
+{
+
+}
+
 CPUMonitor::~CPUMonitor() {}
 
 void CPUMonitor::Run()
@@ -56,13 +62,14 @@ void CPUMonitor::Run()
         percent /= numProcessors;
         percent *= 100;
     }
-    if(0 < percent) this->m_values.push_back({percent, utils::date_time::GetTimeStamp()});
+    this->m_values.push_back({percent, utils::date_time::GetTimeStamp()});
 
     lastCPU = now;
     lastSysCPU = timeSample.tms_stime;
     lastUserCPU = timeSample.tms_utime;
 
-    LOG_TRACE("Loop" << percent);
-    cv.WaitFor(l, 100); // TODO use app settings
+    LOG_TRACE("Loop " << percent);
+    cv.WaitFor(l, m_settings.get_measurement_delay());
   }
+  m_stop_barrier.Wait();
 }

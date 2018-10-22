@@ -2,6 +2,7 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.4
+import QtQuick.Dialogs 1.0
 
 ApplicationWindow {
     title: qsTr("Point Clustering Tool")
@@ -63,24 +64,10 @@ ApplicationWindow {
                 }
             }
             model: ListModel {
+                id:cloudsListModel
                 ListElement {
                     name: "Grey"
                     colorCode: "grey"
-                }
-
-                ListElement {
-                    name: "Red"
-                    colorCode: "red"
-                }
-
-                ListElement {
-                    name: "Blue"
-                    colorCode: "blue"
-                }
-
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
                 }
             }
         }
@@ -89,7 +76,10 @@ ApplicationWindow {
             Menu {
                 title: qsTr("&File")
                 Action { text: qsTr("&New...") }
-                Action { text: qsTr("&Open...") }
+                Action {
+                    text: qsTr("&Open...")
+                    onTriggered: newCloudFileOpenDialog.open()
+                }
                 Action { text: qsTr("&Save") }
                 Action { text: qsTr("Save &As...") }
                 MenuSeparator { }
@@ -106,6 +96,21 @@ ApplicationWindow {
                 Action { text: qsTr("&About") }
             }
         }
+
+
+    FileDialog {
+        id: newCloudFileOpenDialog
+        title: "Please choose a file"
+        folder: shortcuts.home
+        onAccepted: {
+            Wrapper.openedFile = newCloudFileOpenDialog.fileUrls[0]
+            newCloudFileOpenDialog.close()
+        }
+        onRejected: {
+            newCloudFileOpenDialog.close()
+        }
+        nameFilters: [ "PointCloud files (*.pointcloud)", "All files (*)" ]
+    }
 
 }
 

@@ -15,7 +15,7 @@ PointCloudManager::PointCloudManager(ApplicationSettings& settings, StatisticsMa
 {
   LOG_AUTO_TRACE();
   utils::file_system::Directory dir(m_settings.get_working_dir());
-  utils::file_system::Directory::FilesList files = dir.GetFilesList(true);
+  utils::file_system::Directory::FilesList files;// = dir.GetFilesList(true); // uncomment if needed to reopen already clustered
   for(auto file : files)
   {
     if("pointcloud" == file->GetExt())
@@ -43,7 +43,8 @@ const PointCloud& PointCloudManager::LoadNewCloud(utils::String &sPath)
   LOG_AUTO_TRACE();
 
   const utils::String sFileName = utils::file_system::File::GetFileName(sPath);
-  utils::file_system::File::Copy(sPath, m_settings.get_working_dir() + sFileName + "/" + sFileName + ".pc");
+  utils::file_system::Directory::RecursiveCreate(utils::file_system::ExtendPath(m_settings.get_working_dir(), sFileName));
+  utils::file_system::File::Copy(sPath, utils::file_system::ExtendPath(m_settings.get_working_dir(), sFileName, sFileName) + ".pointcloud");
 
   utils::SharedPtr<PointCloud> pc = utils::make_shared<PointCloud>("");
   m_point_clouds.push_back(pc);
@@ -61,7 +62,7 @@ void PointCloudManager::RunClasteringProcess(const PointCloud &cloud)
     m_stats_manager.StartMeasurement();
     m_clusters = clustering_algo->RunTask(cloud);
     m_stats_manager.StopMeasurement();
-    m_stats_manager.SaveMeasurementData(m_settings.get_working_dir() + "/" + cloud.GetPCName() + "/" + clustering_algo->GetName() + "/");
+    m_stats_manager.SaveMeasurementData(utils::file_system::ExtendPath(m_settings.get_working_dir(), cloud.GetPCName(), clustering_algo->GetName()));
     SaveClusters();
   }
 }
@@ -73,4 +74,14 @@ void PointCloudManager::SaveClusters()
   {
       cluster->SaveTo(m_settings.get_working_dir());
   }
+}
+
+const PointCloudManager::PointClouds &PointCloudManager::GetPointClouds() const
+{
+  return m_point_clouds;
+}
+
+const PointCloudManager::Clusters &PointCloudManager::GetClusters() const
+{
+  return m_clusters;
 }

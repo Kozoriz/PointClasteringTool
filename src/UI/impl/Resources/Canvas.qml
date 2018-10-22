@@ -64,8 +64,10 @@ Rectangle {
                     zoomLevel = 10;
 
                 scatterGraph.scene.activeCamera.zoomLevel = zoomLevel;
-
-                for (var i=0; i< RedebleOject.Cloude.length; i++)
+            }
+            Component.onCompleted:
+            {
+                for (var i=0; i< Wrapper.Cloude.length; i++)
                    graphData.modelPoint.append({"xPos": RedebleOject.Cloude[i].x,"yPos": RedebleOject.Cloude[i].y,"zPos": RedebleOject.Cloude[i].z})
             }
 

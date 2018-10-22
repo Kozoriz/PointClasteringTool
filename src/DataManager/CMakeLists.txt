@@ -1,5 +1,3 @@
-
-
 file( GLOB HEADERS
          *.hpp
          impl/*.hpp

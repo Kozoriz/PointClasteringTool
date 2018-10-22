@@ -1,18 +1,14 @@
-#include <memory>
+#pragma once
 
-namespace common {
-class AppointeeImpl;
-}
-class RenderImpl;
+#include "utils/containers/string.h"
+
+class Controller;
 
 class Render
 {
 public:
-    void start_app( );
-    bool render_cloude( );
-    void operator( )( );
-
-private:
-    friend class common::AppointeeImpl;
-    std::shared_ptr< RenderImpl > mImpl;
+  virtual ~Render(){}
+  virtual void start_app( ) = 0;
+  virtual void setController(Controller* c) = 0;
+  virtual void newFileOpened(utils::String filename) = 0;
 };

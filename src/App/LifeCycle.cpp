@@ -30,6 +30,7 @@ LifeCycle::start( )
 {
     LOG_INFO( "Start project" );
     m_qml_wrapper->start_app();
+    m_controller.fillCloudList();
 }
 
 void

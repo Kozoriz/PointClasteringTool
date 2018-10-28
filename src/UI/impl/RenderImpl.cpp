@@ -54,6 +54,25 @@ void RenderImpl::setController(Controller* controller)
 
 void RenderImpl::newFileOpened(utils::String filename)
 {
-  LOG_AUTO_TRACE();
+  LOG_TRACE(filename);
   m_controller->newFileOpened(filename);
+}
+
+void RenderImpl::cloudChoosen(utils::String cloudpath)
+{
+  LOG_TRACE(cloudpath);
+  m_controller->cloudChoosen(cloudpath);
+}
+
+void RenderImpl::addPoint(const utils::positions::Location3 &point)
+{
+  LOG_TRACE(point.ToString());
+  QVector3D qpoint(point.x_, point.y_, point.z_);
+  m_ui_wrapper.addNewPoint(qpoint);
+}
+
+void RenderImpl::addCloudToList(const utils::String &name)
+{
+  LOG_TRACE(name);
+  m_ui_wrapper.addCloudToList(name.c_str());
 }

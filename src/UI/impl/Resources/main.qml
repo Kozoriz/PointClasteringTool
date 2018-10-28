@@ -3,6 +3,7 @@ import QtQuick.Window 2.11
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.0
+import "."
 
 ApplicationWindow {
     title: qsTr("Point Clustering Tool")
@@ -10,6 +11,22 @@ ApplicationWindow {
     height: 768
     color: "#d9d9d9"
     visible: true
+
+    Connections {
+        target: Wrapper
+        onNewPointAdded : {
+//            console.log(Wrapper.newPoint.x, Wrapper.newPoint.y, Wrapper.newPoint.z)
+            canvas.addPoint(Wrapper.newPoint.x, Wrapper.newPoint.y, Wrapper.newPoint.z)
+//            Wrapper.newPoint
+//            Canvas.some = 2
+//            graphData.modelPoint.append({"xPos": RedebleOject.Cloude[i].x,"yPos": RedebleOject.Cloude[i].y,"zPos": RedebleOject.Cloude[i].z})
+        }
+
+        onCloudNameAdded : {
+            cloudsListModel.append({"name":Wrapper.addedCloudName})
+        }
+    }
+
 
     SplitView {
         id: splitView
@@ -23,16 +40,9 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             anchors.top: parent.top
 
-            Loader {
-                id:loader
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
-                anchors.top: parent.top
-                source: "Canvas.qml"
+            Canvas {
+                id : canvas
             }
-
         }
 
         ListView {
@@ -43,34 +53,46 @@ ApplicationWindow {
             anchors.bottomMargin: 0
             anchors.right: parent.right
             anchors.rightMargin: 0
-            delegate: Item {
-                x: 5
-                width: 80
-                height: 40
-                Row {
-                    id: row1
-                    Rectangle {
-                        width: 40
-                        height: 40
-                        color: colorCode
-                    }
 
+            delegate: Item {
+                width: parent.width
+                height: 15
+                Row {
+                    id: listItemRow
                     Text {
+                        id: listItemRowText
                         text: name
-                        font.bold: true
                         anchors.verticalCenter: parent.verticalCenter
                     }
-                    spacing: 10
+                    spacing: 5
                 }
+
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        // TODO temp before tabs implemented
+                        canvas.clear()
+                        cloudsList.currentIndex = index
+                        Wrapper.cloudChoosen = cloudsListModel.get(index).name
+                    }
+                }
+
             }
             model: ListModel {
                 id:cloudsListModel
-                ListElement {
-                    name: "Grey"
-                    colorCode: "grey"
-                }
+            }
+            highlight: Rectangle {
+                color: '#aaaaaa'
             }
         }
+    }
+    Component.onCompleted: {
+//        for (var i=0; i< 100; i++)
+//        {
+//            cloudsListModel.append({"name":"some" +i})
+//        }
     }
     menuBar: MenuBar {
             Menu {

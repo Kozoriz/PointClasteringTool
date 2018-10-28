@@ -15,7 +15,7 @@ PointCloudManager::PointCloudManager(ApplicationSettings& settings, StatisticsMa
 {
   LOG_AUTO_TRACE();
   utils::file_system::Directory dir(m_settings.get_working_dir());
-  utils::file_system::Directory::FilesList files;// = dir.GetFilesList(true); // uncomment if needed to reopen already clustered
+  utils::file_system::Directory::FilesList files = dir.GetFilesList(true); // uncomment if needed to reopen already clustered
   for(auto file : files)
   {
     if("pointcloud" == file->GetExt())
@@ -84,4 +84,44 @@ const PointCloudManager::PointClouds &PointCloudManager::GetPointClouds() const
 const PointCloudManager::Clusters &PointCloudManager::GetClusters() const
 {
   return m_clusters;
+}
+
+const utils::structures::Matrix3 &PointCloudManager::GetMatrix(utils::String &filename) const
+{
+  LOG_AUTO_TRACE();
+
+  auto it_pc = std::find_if(m_point_clouds.begin(), m_point_clouds.end(),
+               [&filename](utils::SharedPtr<PointCloud> p)
+  {
+    return filename == p->GetPCName();
+  });
+  if(m_point_clouds.end() != it_pc)
+  {
+    return **it_pc;
+  }
+
+  auto it_cl = std::find_if(m_clusters.begin(), m_clusters.end(),
+               [&filename](utils::SharedPtr<Cluster> p)
+  {
+    return filename == p->GetPCName();
+  });
+  if(m_clusters.end() != it_cl)
+  {
+    return **it_cl;
+  }
+  return utils::structures::Matrix3();
+}
+
+const utils::Vector<utils::String> PointCloudManager::GetCloudNames() const
+{
+  utils::Vector<utils::String> v;
+  for(auto& cloud : m_point_clouds)
+  {
+    v.push_back(cloud->GetPCName());
+  }
+  for(auto& cloud : m_clusters)
+  {
+    v.push_back(cloud->GetClusterName());
+  }
+  return v;
 }

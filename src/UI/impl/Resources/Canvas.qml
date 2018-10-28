@@ -7,16 +7,25 @@ Rectangle {
     id: mainView
     anchors.fill: parent
 
+    function addPoint(x, y, z){
+        graphData.modelPoint.append({"xPos": x,"yPos": y,"zPos": z})
+
+    }
+
+    function clear() {
+        graphData.modelPoint.clear()
+    }
+
     DataPoint {
         id: graphData
     }
-
 
     Item {
         id: dataView
         anchors.fill: parent
 
-        Scatter3D {
+        // LOW PERFORMANCE WITH 1kk+ dots
+        Scatter3D { // TODO use : pcl or https://github.com/MASKOR/Qt3DPointcloudRenderer
             id: scatterGraph
             width: dataView.width
             height: dataView.height
@@ -64,11 +73,12 @@ Rectangle {
                     zoomLevel = 10;
 
                 scatterGraph.scene.activeCamera.zoomLevel = zoomLevel;
+
             }
             Component.onCompleted:
             {
-                for (var i=0; i< Wrapper.Cloude.length; i++)
-                   graphData.modelPoint.append({"xPos": RedebleOject.Cloude[i].x,"yPos": RedebleOject.Cloude[i].y,"zPos": RedebleOject.Cloude[i].z})
+//                for (var i=0; i< Wrapper.Cloude.length; i++)
+//                   graphData.modelPoint.append({"xPos": RedebleOject.Cloude[i].x,"yPos": RedebleOject.Cloude[i].y,"zPos": RedebleOject.Cloude[i].z})
             }
 
             onClicked: {

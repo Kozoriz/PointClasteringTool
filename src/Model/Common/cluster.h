@@ -24,6 +24,9 @@ public:
   void LoadFrom(const utils::String& path);
   void LoadFrom(utils::file_system::File& file);
 
+public:
+  Double profit = 0.0;
+
 private:
   utils::String m_cluster_name;
   utils::String m_pc_name;

@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include "Model/Common/pointcloud.h"
 
 class DataManagerImpl;
 namespace common {
@@ -20,7 +21,7 @@ public:
     DataManager( );
 
     bool creatr_cloude( );
-    void get_cloude( std::vector< common::Point >& cloude );
+    void get_cloude(const PointCloud **cloud );
 
 private:
     friend class common::AppointeeImpl;

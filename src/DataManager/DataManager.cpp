@@ -1,13 +1,15 @@
 #include "DataManager.hpp"
 
-#include <boost/log/trivial.hpp>
-
 #include "impl/DataManagerImpl.hpp"
 #include "../Common/app_type/Point.hpp"
 
+#include "utils/logger.h"
+
+CREATE_LOGGER("DataManager");
+
 DataManager::DataManager( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Create DataManager";
+    LOG_INFO( "Create DataManager" );
 }
 
 bool DataManager::creatr_cloude()
@@ -19,10 +21,10 @@ bool DataManager::creatr_cloude()
 }
 
 void
-DataManager::get_cloude( common::Points& cloude )
+DataManager::get_cloude( const PointCloud** cloude )
 {
     if ( mImpl )
     {
-        cloude = mImpl->getCloude( );
+        *cloude = &mImpl->getCloud( );
     }
 }

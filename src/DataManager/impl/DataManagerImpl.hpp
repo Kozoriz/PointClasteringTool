@@ -2,15 +2,15 @@
 
 #include <vector>
 
-#include "Common/app_type/Point.hpp"
+#include "Model/Common/pointcloud.h"
 
 class DataManagerImpl
 {
 public:
-    DataManagerImpl( ) = default;
+    DataManagerImpl( );
     bool create_random_points_clude( );
-    const common::Points &getCloude( ) const;
+    const PointCloud &getCloud( ) const;
 
 private:
-    common::Points mCloude;
+    PointCloud mCloude;
 };

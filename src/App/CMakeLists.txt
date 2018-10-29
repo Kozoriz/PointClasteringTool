@@ -1,4 +1,6 @@
-include_directories(${UTILS_INCLUDE_DIR})
+include_directories(
+  ${COMPONENTS_DIR}
+  ${UTILS_DIR})
 
 file( GLOB HEADERS
 	 LifeCycle.hpp
@@ -12,8 +14,7 @@ add_executable( ${PROJECT_NAME} main.cpp ${HEADERS} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_LOG_LIBRARY}
+    ${Boost_LIBRARIES}
     UI
     DataManager
     CommonLib
@@ -22,5 +23,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Qml
     Qt5::Quick
     -pthread
-    Utils)
+    Utils
+    Model
+    Controller)
 

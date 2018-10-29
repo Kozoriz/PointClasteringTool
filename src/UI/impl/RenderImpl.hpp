@@ -3,18 +3,22 @@
 
 #include <memory>
 
-#include "Common/helper/communications.hpp"
 #include "QtRenderObject.hpp"
+#include "../Render.hpp"
 
-class RenderImpl
+class RenderImpl : public Render
 {
 public:
-    RenderImpl(common::CommunicationsWithDataManager& dm);
-    void start_app( );
+    RenderImpl();
+    void start_app( ) override;
+    void setController(Controller* controller) override;
+    void newFileOpened(utils::String filename) override;
+    void cloudChoosen(utils::String cloudpath) override;
+    void addPoint(const utils::positions::Location3& point) override;
+    void addCloudToList(const utils::String& name) override;
 
 private:
     QQmlApplicationEngine engine;
-    std::unique_ptr<QtRedebleOject> redebleOject;
-
-    common::CommunicationsWithDataManager& cm_with_dm;
+    QtRedebleOject m_ui_wrapper;
+    Controller* m_controller;
 };

@@ -1,28 +1,26 @@
 #include "DataManagerImpl.hpp"
 
-#include <pcl/common/common.h>
-
-#include "../Common/converters/converters_pcl.hpp"
-
-bool
-DataManagerImpl::create_random_points_clude( )
+DataManagerImpl::DataManagerImpl()
+  : mCloude("test")
 {
-    pcl::PointCloud< pcl::PointXYZ > cloud;
+
+}
+
+bool DataManagerImpl::create_random_points_clude( )
+{
+    mCloude.Clear();
     for ( int i = 1; i <= 100; ++i )
     {
         float random_x = rand( ) % 30 + 1;
         float random_y = rand( ) % 30 + 1;
         float random_z = rand( ) % 30 + 1;
-        cloud.push_back( pcl::PointXYZ( random_x, random_y, random_z ) );
+        mCloude.AddPoint(random_x, random_y, random_z );
     }
 
-    mCloude = converters::to_common(cloud);
-
-    return !mCloude.empty( );
+    return 0 != mCloude.Size();
 }
 
-const common::Points&
-DataManagerImpl::getCloude( ) const
+const PointCloud& DataManagerImpl::getCloud( ) const
 {
     return mCloude;
 }

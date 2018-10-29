@@ -7,5 +7,5 @@
 text_files="$(find . -name '*.plantuml')"
 for i in $text_files; 
 do 
-	java -jar "../plantuml.jar" $i; 
+	java -DPLANTUML_LIMIT_SIZE=65536 -jar "../plantuml.jar" $i; 
 done

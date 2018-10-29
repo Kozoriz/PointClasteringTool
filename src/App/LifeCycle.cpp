@@ -3,36 +3,38 @@
 #include "../DataManager/impl/DataManagerImpl.hpp"
 #include "../UI/impl/RenderImpl.hpp"
 
-#include <boost/log/trivial.hpp>
 #include <functional>
 
+#include "utils/logger.h"
+
+CREATE_LOGGER("LifeCicle");
+
 LifeCycle::LifeCycle( )
-    : dataMeneger( )
-    , render( )
-    , cm_with_dm( dataMeneger )
+    : m_settings("config.ini")
+    , m_stat_manager(m_settings)
+    , m_pc_manager(m_settings, m_stat_manager)
+    , m_qml_wrapper( new RenderImpl() )
+    , m_controller(m_pc_manager, m_qml_wrapper)
 {
+  m_qml_wrapper->setController(&m_controller);
 }
 
 void
 LifeCycle::init( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Init project";
-    common::AppointeeImpl::appointee< DataManager >( dataMeneger,
-                                                     std::make_shared< DataManagerImpl >( ) );
-    common::AppointeeImpl::appointee< Render >( render, std::make_shared< RenderImpl >( cm_with_dm ) );
-
-    cm_with_dm.conections_all();
+    LOG_INFO("Init project");
 }
 
 void
 LifeCycle::start( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Start project";
-    render.start_app( );
+    LOG_INFO( "Start project" );
+    m_qml_wrapper->start_app();
+    m_controller.fillCloudList();
 }
 
 void
 LifeCycle::stop( )
 {
-    BOOST_LOG_TRIVIAL( trace ) << "Stop project";
+    LOG_INFO( "Stop project" );
 }

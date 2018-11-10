@@ -1,6 +1,8 @@
 #include "RenderImpl.hpp"
 
 #include <QQmlContext>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
 #include <iostream>
 #include <vector>
@@ -14,36 +16,17 @@
 CREATE_LOGGER("UI")
 
 RenderImpl::RenderImpl()
-  : engine()
-  , m_ui_wrapper()
+  : m_ui()
 {
   LOG_AUTO_TRACE();
-  m_ui_wrapper.setRenderer(this);
 }
 
 void
 RenderImpl::start_app( )
 {
   LOG_AUTO_TRACE();
-//  cm_with_dm.create_cloude_signal.talk();
+  m_ui.show();
 
-//  const PointCloud* test_cn = nullptr;
-////  cm_with_dm.get_cloude_signal.talk(&test_cn);
-
-//  QVariantList list;
-//  const utils::structures::Matrix3* p_test_cn = test_cn;
-//  for(const auto& item : *p_test_cn )
-//  {
-//      QVector3D temp;
-//      temp.setX(item.x_);
-//      temp.setY(item.y_);
-//      temp.setZ(item.z_);
-//      list << temp;
-//  }
-
-  engine.rootContext()->setContextProperty("Wrapper", &m_ui_wrapper);
-
-  engine.load( QUrl( QStringLiteral( "../../UI/impl/Resources/main.qml" ) ) );
 }
 
 void RenderImpl::setController(Controller* controller)
@@ -67,12 +50,12 @@ void RenderImpl::cloudChoosen(utils::String cloudpath)
 void RenderImpl::addPoint(const utils::positions::Location3 &point)
 {
   LOG_TRACE(point.ToString());
-  QVector3D qpoint(point.x_, point.y_, point.z_);
-  m_ui_wrapper.addNewPoint(qpoint);
+//  QVector3D qpoint(point.x_, point.y_, point.z_);
+//  m_ui_wrapper.addNewPoint(qpoint);
 }
 
 void RenderImpl::addCloudToList(const utils::String &name)
 {
   LOG_TRACE(name);
-  m_ui_wrapper.addCloudToList(name.c_str());
+//  m_ui_wrapper.addCloudToList(name.c_str());
 }

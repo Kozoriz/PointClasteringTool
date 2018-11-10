@@ -1,10 +1,7 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#pragma once
 
-#include <memory>
-
-#include "QtRenderObject.hpp"
-#include "../Render.hpp"
+#include "UI/Render.hpp"
+#include "UI/impl/UIWindow.hpp"
 
 class RenderImpl : public Render
 {
@@ -18,7 +15,6 @@ public:
     void addCloudToList(const utils::String& name) override;
 
 private:
-    QQmlApplicationEngine engine;
-    QtRedebleOject m_ui_wrapper;
+    UIWindow m_ui;
     Controller* m_controller;
 };

@@ -93,5 +93,5 @@ void Cluster::LoadFrom(utils::file_system::File& file)
   } while(!line.empty());
 
   file.Close();
-  LOG_DEBUG("Loaded " << Size() << " points from " << file.GetFullPath());
+  LOG_DEBUG("Loaded " << size() << " points from " << file.GetFullPath());
 }

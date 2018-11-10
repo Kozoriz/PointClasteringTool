@@ -34,7 +34,7 @@ PointCloudManager::PointCloudManager(ApplicationSettings& settings, StatisticsMa
     }
   }
 
-  m_clustering_algos.push_back(utils::make_shared<AlgorithmCLOPE>());
+//  m_clustering_algos.push_back(utils::make_shared<AlgorithmCLOPE>());
   m_clustering_algos.push_back(utils::make_shared<AlgorithmMST>());
 }
 

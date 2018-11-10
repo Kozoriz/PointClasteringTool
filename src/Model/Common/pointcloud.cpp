@@ -75,6 +75,6 @@ void PointCloud::LoadFrom(utils::file_system::File &file)
   }
 
   file.Close();
-  LOG_DEBUG("Loaded " << Size() << " points from " << file.GetFullPath());
+  LOG_DEBUG("Loaded " << size() << " points from " << file.GetFullPath());
 }
 

@@ -32,7 +32,7 @@ void RAMMonitor::Run()
           line[i-3] = '\0';
           double value = static_cast<double>(atoi(p));
           m_values.push_back({value,utils::date_time::GetTimeStamp()});
-          LOG_TRACE("Loop " << value);
+//          LOG_TRACE("Loop " << value);
           break;
         }
     }

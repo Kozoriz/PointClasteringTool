@@ -25,7 +25,8 @@ public:
   void LoadFrom(utils::file_system::File& file);
 
 public:
-  Double profit = 0.0;
+  utils::positions::Location3 cluster_center;
+  Double dispersion = 0;
 
 private:
   utils::String m_cluster_name;

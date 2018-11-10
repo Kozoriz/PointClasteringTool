@@ -11,7 +11,7 @@ public:
 
 
 private:
-   Double calculateProfitWithPoint(const Cluster& cluster, const Cluster::ContainerType::key_type& new_point);
+   Double calculateProfitWithPoint(Cluster& cluster, const Cluster::ContainerType::key_type& new_point, bool save_to_cluster = false);
 
 };
 

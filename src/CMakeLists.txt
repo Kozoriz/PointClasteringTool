@@ -31,6 +31,10 @@ endif(ENABLE_LOG)
 
 
 ### qt
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
 find_package(Qt5 COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
 
 ### pcl

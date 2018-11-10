@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 
 #include "utils/logger.h"
@@ -10,7 +10,7 @@
 int
 main( int argc, char* argv[] )
 {
-    QGuiApplication app( argc, argv );
+    QApplication app( argc, argv );
 
     logger::Logger::InitLogger("log4cplus.properties"); // use app settings
     LifeCycle lifeCycle;

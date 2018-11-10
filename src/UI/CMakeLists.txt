@@ -1,4 +1,5 @@
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 file( GLOB HEADERS
   impl/*.hpp
@@ -9,9 +10,6 @@ file( GLOB SOURCES
   impl/*.cpp
   *.cpp
 )
-
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(
   ${COMPONENTS_DIR}

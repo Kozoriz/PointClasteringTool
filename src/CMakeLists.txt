@@ -31,7 +31,17 @@ endif(ENABLE_LOG)
 
 
 ### qt
-find_package(Qt5 COMPONENTS Core Gui Qml Quick REQUIRED)
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+find_package(Qt5 COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
+
+find_package(PCL 1.2 REQUIRED)
+
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_INCLUDE_DIRS})
+add_definitions(${PCL_DEFINITIONS})
 
 ### boost
 set(Boost_USE_STATIC_LIBS ON) # only find static libs

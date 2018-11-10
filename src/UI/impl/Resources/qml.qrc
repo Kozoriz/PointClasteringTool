@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>main.qml</file>
-        <file>Canvas.qml</file>
-        <file>DataPoint.qml</file>
-    </qresource>
-</RCC>

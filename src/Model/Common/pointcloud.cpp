@@ -4,6 +4,8 @@
 #include "utils/file_system.h"
 #include "utils/containers/converters.h"
 
+#include <pcl/point_types.h>
+
 CREATE_LOGGER("PointCloud")
 
 PointCloud::PointCloud(const utils::String &pc_name)
@@ -37,7 +39,7 @@ void PointCloud::SaveTo(const utils::String &path) const
   {
     for(auto point : *this)
     {
-      file.WriteLine(point.ToString());
+      file.WriteLine(utils::ConvertToString(point));
     }
     file.Close();
   }
@@ -71,7 +73,7 @@ void PointCloud::LoadFrom(utils::file_system::File &file)
     line = file.ReadLine();
 //    LOG_TRACE(line);
     if(line.empty()) continue;
-    AddPoint(utils::convertTo<utils::positions::Location3>(line));
+    this->push_back(convertTo<pcl::PointXYZRGB>(line));
   }
 
   file.Close();

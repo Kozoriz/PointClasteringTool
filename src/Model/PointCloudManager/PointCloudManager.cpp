@@ -86,7 +86,7 @@ const PointCloudManager::Clusters &PointCloudManager::GetClusters() const
   return m_clusters;
 }
 
-const utils::structures::Matrix3 &PointCloudManager::GetMatrix(utils::String &filename) const
+const PointCloud & PointCloudManager::GetMatrix(utils::String &filename) const
 {
   LOG_AUTO_TRACE();
 

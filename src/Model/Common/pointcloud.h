@@ -3,6 +3,9 @@
 
 #include "utils/structures/matrix3.h"
 
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+
 
 namespace utils{
 namespace file_system{
@@ -10,7 +13,7 @@ class File;
 } // namespace file_system
 } // namespace utils
 
-class PointCloud : public utils::structures::Matrix3
+class PointCloud : public pcl::PointCloud<pcl::PointXYZRGB>
 {
 public:
   PointCloud(const utils::String& pc_name);

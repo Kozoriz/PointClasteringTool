@@ -33,32 +33,32 @@ void GenerateBones(const PointCloud &pc, Bones& bones)
 {
   LOG_TRACE(pc.GetPCName());
 
-  PointCloud::ContainerType::const_iterator begin = pc.begin();
-  PointCloud::ContainerType::const_iterator end = pc.end();
-  for(auto i = begin; i != end; ++i)
-  {
-    for(auto j = begin; j != end; ++j)
-    {
-      if(i == j) continue;
+//  PointCloud::ContainerType::const_iterator begin = pc.begin();
+//  PointCloud::ContainerType::const_iterator end = pc.end();
+//  for(auto i = begin; i != end; ++i)
+//  {
+//    for(auto j = begin; j != end; ++j)
+//    {
+//      if(i == j) continue;
 
-      uint64_t dist = GetDistance(*i, *j);
-      Bones::iterator it = bones.find(*i);
-      if(bones.end() == it)
-      {
-        bones.insert({*i, {*i, *j, dist}});
-        continue;
-      }
+//      uint64_t dist = GetDistance(*i, *j);
+//      Bones::iterator it = bones.find(*i);
+//      if(bones.end() == it)
+//      {
+//        bones.insert({*i, {*i, *j, dist}});
+//        continue;
+//      }
 
-      if(it->second.dist > dist)
-      {
-//        const uint64_t prev_dist = it->second.dist;
-        bones.erase(it);
-        bones.insert({*i, {*i, *j, dist}});
-//        LOG_TRACE("Reasigned " << i->ToString() << " -> " << j->ToString() << " : " << prev_dist << " > " << dist);
-      }
-    }
-    LOG_TRACE("processed " << bones.size());
-  }
+//      if(it->second.dist > dist)
+//      {
+////        const uint64_t prev_dist = it->second.dist;
+//        bones.erase(it);
+//        bones.insert({*i, {*i, *j, dist}});
+////        LOG_TRACE("Reasigned " << i->ToString() << " -> " << j->ToString() << " : " << prev_dist << " > " << dist);
+//      }
+//    }
+//    LOG_TRACE("processed " << bones.size());
+//  }
   LOG_TRACE("Created " << bones.size() << " bones");
 }
 

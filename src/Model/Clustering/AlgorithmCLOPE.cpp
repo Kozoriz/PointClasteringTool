@@ -66,34 +66,34 @@ utils::Vector<utils::SharedPtr<Cluster> > AlgorithmCLOPE::RunTask(const PointClo
   uint32_t point_ind = 0;
   for(auto& point : pc)
   {
-    utils::SharedPtr<Cluster> max_profit_cluster;
-    Double max_profit_deviation = INT_MAX;
-    for(auto& cluster_sptr :clusters)
-    {
-      Double new_profit = calculateProfitWithPoint(*(cluster_sptr.get()), point);
-      Double profit_dev = new_profit - cluster_sptr->dispersion;
-      if(profit_dev < max_profit_deviation)
-      {
-        max_profit_deviation = profit_dev;
-        max_profit_cluster = cluster_sptr;
-      }
-    }
-    if(!max_profit_cluster || (false)) // TODO use app_settings <max_disp_change_perc>
-    {
-      max_profit_cluster = utils::make_shared<Cluster>("cluster_" + std::to_string(clusters.size()), pc.GetPCName(), date_clustered);
-      max_profit_cluster->dispersion = 0;
-      max_profit_cluster->cluster_center = point;
-      clusters.push_back(max_profit_cluster);
-    }
-    if(++point_ind % 1000 == 0)
-    {
-      LOG_TRACE("Added to " << max_profit_cluster->GetClusterName()
-                << " disp : " << max_profit_cluster->dispersion
-                << " point " << point.ToString()
-                << " ind : " << point_ind);
-    }
-    calculateProfitWithPoint(*max_profit_cluster.get(), point, true);
-    max_profit_cluster->AddPoint(point);
+//    utils::SharedPtr<Cluster> max_profit_cluster;
+//    Double max_profit_deviation = INT_MAX;
+//    for(auto& cluster_sptr :clusters)
+//    {
+//      Double new_profit = calculateProfitWithPoint(*(cluster_sptr.get()), point);
+//      Double profit_dev = new_profit - cluster_sptr->dispersion;
+//      if(profit_dev < max_profit_deviation)
+//      {
+//        max_profit_deviation = profit_dev;
+//        max_profit_cluster = cluster_sptr;
+//      }
+//    }
+//    if(!max_profit_cluster || (false)) // TODO use app_settings <max_disp_change_perc>
+//    {
+//      max_profit_cluster = utils::make_shared<Cluster>("cluster_" + std::to_string(clusters.size()), pc.GetPCName(), date_clustered);
+//      max_profit_cluster->dispersion = 0;
+//      max_profit_cluster->cluster_center = point;
+//      clusters.push_back(max_profit_cluster);
+//    }
+//    if(++point_ind % 1000 == 0)
+//    {
+//      LOG_TRACE("Added to " << max_profit_cluster->GetClusterName()
+//                << " disp : " << max_profit_cluster->dispersion
+//                << " point " << point.ToString()
+//                << " ind : " << point_ind);
+//    }
+//    calculateProfitWithPoint(*max_profit_cluster.get(), point, true);
+//    max_profit_cluster->AddPoint(point);
   }
   return clusters;
 }

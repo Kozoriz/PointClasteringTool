@@ -23,7 +23,7 @@ public:
   const PointClouds& GetPointClouds() const;
   const Clusters& GetClusters() const;
 
-  const utils::structures::Matrix3& GetMatrix(utils::String& filename) const;
+  const PointCloud &GetMatrix(utils::String& filename) const;
   const utils::Vector<utils::String> GetCloudNames() const;
 
 private:

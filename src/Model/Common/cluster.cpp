@@ -4,18 +4,26 @@
 #include "utils/file_system.h"
 #include "utils/containers/converters.h"
 
+#include <float.h>
+
 CREATE_LOGGER("Cluster");
 
 Cluster::Cluster(const utils::String &cluster_name, const utils::String &pc_name, const utils::String &datetime_clustered)
   : m_cluster_name(cluster_name)
   , m_pc_name(pc_name)
-  , m_datetime_clustered(datetime_clustered){}
+  , m_datetime_clustered(datetime_clustered)
+{
+  cluster_maxs.x = FLT_MIN; cluster_maxs.y = FLT_MIN; cluster_maxs.z = FLT_MIN;
+  cluster_mins.x = FLT_MAX; cluster_mins.y = FLT_MAX; cluster_mins.z = FLT_MAX;
+}
 
 Cluster::Cluster(const utils::String &path)
   : m_cluster_name("")
   , m_pc_name("")
   , m_datetime_clustered("")
 {
+  cluster_maxs.x = FLT_MIN; cluster_maxs.y = FLT_MIN; cluster_maxs.z = FLT_MIN;
+  cluster_mins.x = FLT_MAX; cluster_mins.y = FLT_MAX; cluster_mins.z = FLT_MAX;
   LoadFrom(path);
 }
 
@@ -50,10 +58,10 @@ void Cluster::SaveTo(const utils::String &path) const
   file.Open(File::OpenMode::Write);
   if(file.IsOpened())
   {
-    for(auto point : *this)
-    {
-      file.WriteLine(point.ToString());
-    }
+//    for(auto point : *this)
+//    {
+//      file.WriteLine(point.ToString());
+//    }
     file.Close();
   }
 }
@@ -86,12 +94,22 @@ void Cluster::LoadFrom(utils::file_system::File& file)
   m_pc_name = directory.substr(directory.find_last_of('/') + 1);
 
   utils::String line;
-  do
-  {
-    line = file.ReadLine();
-    AddPoint(utils::convertTo<utils::positions::Location3>(line));
-  } while(!line.empty());
+//  do
+//  {
+//    line = file.ReadLine();
+//    AddPoint(utils::convertTo<utils::positions::Location3>(line));
+//  } while(!line.empty());
 
-  file.Close();
-  LOG_DEBUG("Loaded " << size() << " points from " << file.GetFullPath());
+//  file.Close();
+  //  LOG_DEBUG("Loaded " << size() << " points from " << file.GetFullPath());
+}
+
+void Cluster::OnPointAppended(PointCloud::PointType &p)
+{
+  if(p.x > cluster_maxs.x) cluster_maxs.x = p.x;
+  if(p.y > cluster_maxs.y) cluster_maxs.y = p.y;
+  if(p.z > cluster_maxs.z) cluster_maxs.z = p.z;
+  if(p.x < cluster_mins.x) cluster_mins.x = p.x;
+  if(p.y < cluster_mins.y) cluster_mins.y = p.y;
+  if(p.z < cluster_mins.z) cluster_mins.z = p.z;
 }

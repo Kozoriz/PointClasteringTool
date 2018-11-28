@@ -21,7 +21,7 @@ CPUMonitor::~CPUMonitor() {}
 
 void CPUMonitor::Run()
 {
-  LOG_AUTO_TRACE();
+  LOG_TRACE(__FUNCTION__);
   clock_t lastCPU, lastSysCPU, lastUserCPU;
   int numProcessors;
 

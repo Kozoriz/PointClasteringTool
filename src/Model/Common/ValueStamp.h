@@ -17,11 +17,11 @@ public:
   };
 
 public:
-  utils::String ToString() const { return utils::date_time::GetDateTimeString("%F_%T") + " " + utils::ConvertToString(m_value); }
+  utils::String ToString() const { return utils::date_time::GetDateTimeString("%F_%T", m_time) + " " + utils::ConvertToString(m_value); }
 
 public:
   double m_value;
-  UInt32 m_time;
+  std::chrono::system_clock::time_point m_time;
 };
 
 #endif // __VALUESTAMP__

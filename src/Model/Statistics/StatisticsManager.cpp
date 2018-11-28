@@ -18,7 +18,6 @@ StatisticsManager::StatisticsManager(ApplicationSettings& settings)
   m_measurement_tools.push_back(utils::make_unique<RAMMonitor>(m_tools_stop_barrier, settings));
   m_measurement_tools.push_back(utils::make_unique<CPUMonitor>(m_tools_stop_barrier, settings));
 //  m_measurement_tools.push_back(utils::make_unique<IOMonitor>());
-  m_tools_stop_barrier.set_count(m_measurement_tools.size() + 1);
 
   for(auto& tool : m_measurement_tools)
   {
@@ -43,6 +42,7 @@ void StatisticsManager::StartMeasurement()
 void StatisticsManager::StopMeasurement()
 {
   LOG_AUTO_TRACE();
+  m_tools_stop_barrier.set_count(m_measurement_tools.size() + 1);
   for(auto& tool : m_measurement_tools)
   {
     tool->Join();

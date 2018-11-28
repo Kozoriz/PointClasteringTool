@@ -2,9 +2,9 @@
 
 #include "utils/logger.h"
 #include "utils/file_system.h"
-#include "utils/containers/converters.h"
 
 #include <pcl/point_types.h>
+#include "utils/containers/converters.h"
 
 CREATE_LOGGER("PointCloud")
 
@@ -39,10 +39,31 @@ void PointCloud::SaveTo(const utils::String &path) const
   {
     for(auto point : *this)
     {
-      file.WriteLine(utils::ConvertToString(point));
+      file.WriteLine(utils::ConvertToString<PointCloud::PointType&>(point));
     }
     file.Close();
   }
+}
+
+void PointCloud::ShiftTo(int x, int y, int z)
+{
+  int min_x = INT_MAX;
+  int min_y = INT_MAX;
+  int min_z = INT_MAX;
+  for(auto point : *this)
+  {
+    if(min_x > point.x) min_x = point.x;
+    if(min_y > point.y) min_y = point.y;
+    if(min_z > point.z) min_z = point.z;
+  }
+  for(auto point : *this)
+  {
+    point.x = point.x - min_x + x;
+    point.y = point.y - min_y + y;
+    point.z = point.z - min_z + z;
+  }
+
+  LOG_TRACE("Shifted : " << min_x << " " << min_y << " " << min_z);
 }
 
 void PointCloud::LoadFrom(const utils::String &path)
@@ -73,7 +94,10 @@ void PointCloud::LoadFrom(utils::file_system::File &file)
     line = file.ReadLine();
 //    LOG_TRACE(line);
     if(line.empty()) continue;
-    this->push_back(convertTo<pcl::PointXYZRGB>(line));
+    PointCloud::PointType point = convertTo<PointCloud::PointType>(line);
+//    printf("%.6f %.6f %.6f ", point.x, point.y, point.z);
+//    LOG_TRACE(point);
+    this->push_back(point);
   }
 
   file.Close();

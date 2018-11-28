@@ -24,15 +24,15 @@ void Controller::newFileOpened(utils::String &filename)
 {
   LOG_TRACE("File choosen " << filename);
 
-  const PointCloud& pc = m_pc_manager.LoadNewCloud(filename);
-  m_qml_wrapper->addCloudToList(pc.GetPCName());
+  SharedPtr<PointCloud> pc = m_pc_manager.LoadNewCloud(filename);
+  m_qml_wrapper->addCloudToList(pc->GetPCName());
   m_pc_manager.RunClasteringProcess(pc);
 }
 
 void Controller::cloudChoosen(utils::String &filename)
 {
   LOG_AUTO_TRACE();
-  const utils::structures::Matrix3& cloud = m_pc_manager.GetMatrix(filename);
+  const PointCloud& cloud = m_pc_manager.GetMatrix(filename);
   for(auto& point : cloud)
   {
     m_qml_wrapper->addPoint(point);

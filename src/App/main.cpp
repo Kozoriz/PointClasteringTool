@@ -5,6 +5,8 @@
 
 #include "LifeCycle.hpp"
 
+#include <clocale>
+
 int
 main( int argc, char* argv[] )
 {

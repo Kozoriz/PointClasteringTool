@@ -64,10 +64,10 @@ void RenderImpl::cloudChoosen(utils::String cloudpath)
   m_controller->cloudChoosen(cloudpath);
 }
 
-void RenderImpl::addPoint(const utils::positions::Location3 &point)
+void RenderImpl::addPoint(const PointCloud::PointType& point)
 {
-  LOG_TRACE(point.ToString());
-  QVector3D qpoint(point.x_, point.y_, point.z_);
+//  LOG_TRACE(point);
+  QVector3D qpoint(point.x, point.y, point.z);
   m_ui_wrapper.addNewPoint(qpoint);
 }
 

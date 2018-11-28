@@ -4,7 +4,7 @@ project (DIPLOM_v2.1)
 set (PROJECT DIPLOM_v2.1)
 
 ### FLAGS/PACKAGES
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread -w")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread -O0")
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_BINARY_DIR       ${CMAKE_SOURCE_DIR}/build)

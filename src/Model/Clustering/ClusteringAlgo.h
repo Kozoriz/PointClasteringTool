@@ -9,6 +9,6 @@
 class ClusteringAlgo
 {
 public:
-  virtual utils::Vector<utils::SharedPtr<Cluster> > RunTask(const PointCloud& pc) = 0;
+  virtual utils::Vector<Cluster> RunTask(PointCloud::Ptr pc) = 0;
   virtual utils::String GetName() const = 0;
 };

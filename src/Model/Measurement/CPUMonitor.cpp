@@ -21,7 +21,7 @@ CPUMonitor::~CPUMonitor() {}
 
 void CPUMonitor::Run()
 {
-  LOG_AUTO_TRACE();
+  LOG_TRACE(__FUNCTION__);
   clock_t lastCPU, lastSysCPU, lastUserCPU;
   int numProcessors;
 
@@ -68,7 +68,7 @@ void CPUMonitor::Run()
     lastSysCPU = timeSample.tms_stime;
     lastUserCPU = timeSample.tms_utime;
 
-    LOG_TRACE("Loop " << percent);
+//    LOG_TRACE("Loop " << percent);
     cv.WaitFor(l, m_settings.get_measurement_delay());
   }
   m_stop_barrier.Wait();

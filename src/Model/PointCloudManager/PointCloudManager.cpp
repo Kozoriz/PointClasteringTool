@@ -20,50 +20,53 @@ PointCloudManager::PointCloudManager(ApplicationSettings& settings, StatisticsMa
   {
     if("pointcloud" == file->GetExt())
     {
-      utils::SharedPtr<PointCloud> pc = utils::make_shared<PointCloud>("");
+      SharedPtr<PointCloud> pc(new PointCloud(""));
       m_point_clouds.push_back(pc);
 
       pc->LoadFrom(*file);
     }
     else if("cluster" == file->GetExt())
     {
-      utils::SharedPtr<Cluster> cluster = utils::make_shared<Cluster>("");
-      m_clusters.push_back(cluster);
+//      SharedPtr<Cluster> cluster = utils::make_shared<Cluster>("");
+//      m_clusters.push_back(cluster);
 
-      cluster->LoadFrom(*file);
+//      cluster->LoadFrom(*file);
     }
   }
 
-  m_clustering_algos.push_back(utils::make_shared<AlgorithmCLOPE>());
-  m_clustering_algos.push_back(utils::make_shared<AlgorithmMST>());
+  m_clustering_algos.push_back(SharedPtr<ClusteringAlgo>(new AlgorithmCLOPE(m_settings)));
+  m_clustering_algos.push_back(SharedPtr<ClusteringAlgo>(new AlgorithmMST(m_settings)));
 }
 
-const PointCloud& PointCloudManager::LoadNewCloud(utils::String &sPath)
+SharedPtr<PointCloud> PointCloudManager::LoadNewCloud(utils::String &sPath)
 {
   LOG_AUTO_TRACE();
 
   const utils::String sFileName = utils::file_system::File::GetFileName(sPath);
   utils::file_system::Directory::RecursiveCreate(utils::file_system::ExtendPath(m_settings.get_working_dir(), sFileName));
-  utils::file_system::File::Copy(sPath, utils::file_system::ExtendPath(m_settings.get_working_dir(), sFileName, sFileName) + ".pointcloud");
+//  utils::file_system::File::Copy(sPath, utils::file_system::ExtendPath(m_settings.get_working_dir(), sFileName, sFileName) + ".pointcloud");
 
-  utils::SharedPtr<PointCloud> pc = utils::make_shared<PointCloud>("");
+  SharedPtr<PointCloud> pc(new PointCloud(""));
   m_point_clouds.push_back(pc);
 
   pc->LoadFrom(sPath);
-
-  return *pc;
+//  pc->ShiftTo(0,0,0);
+  return pc;
 }
 
-void PointCloudManager::RunClasteringProcess(const PointCloud &cloud)
+void PointCloudManager::RunClasteringProcess(PointCloud::Ptr cloud)
 {
   LOG_AUTO_TRACE()
   for(auto clustering_algo : m_clustering_algos)
   {
     m_stats_manager.StartMeasurement();
+    // just for all measurement set to 0 values in stats on start
+    sleep(2);
     m_clusters = clustering_algo->RunTask(cloud);
+    sleep(2);
     m_stats_manager.StopMeasurement();
-    m_stats_manager.SaveMeasurementData(utils::file_system::ExtendPath(m_settings.get_working_dir(), cloud.GetPCName(), clustering_algo->GetName()));
-    SaveClusters();
+    m_stats_manager.SaveMeasurementData(utils::file_system::ExtendPath(m_settings.get_working_dir(), cloud->GetPCName(), clustering_algo->GetName()));
+//    SaveClusters();
   }
 }
 
@@ -72,7 +75,7 @@ void PointCloudManager::SaveClusters()
   LOG_AUTO_TRACE()
   for(auto cluster : m_clusters)
   {
-      cluster->SaveTo(m_settings.get_working_dir());
+      cluster.SaveTo(m_settings.get_working_dir());
   }
 }
 
@@ -86,12 +89,12 @@ const PointCloudManager::Clusters &PointCloudManager::GetClusters() const
   return m_clusters;
 }
 
-const utils::structures::Matrix3 &PointCloudManager::GetMatrix(utils::String &filename) const
+const PointCloud & PointCloudManager::GetMatrix(utils::String &filename) const
 {
   LOG_AUTO_TRACE();
 
   auto it_pc = std::find_if(m_point_clouds.begin(), m_point_clouds.end(),
-               [&filename](utils::SharedPtr<PointCloud> p)
+               [&filename](SharedPtr<PointCloud> p)
   {
     return filename == p->GetPCName();
   });
@@ -100,16 +103,16 @@ const utils::structures::Matrix3 &PointCloudManager::GetMatrix(utils::String &fi
     return **it_pc;
   }
 
-  auto it_cl = std::find_if(m_clusters.begin(), m_clusters.end(),
-               [&filename](utils::SharedPtr<Cluster> p)
-  {
-    return filename == p->GetPCName();
-  });
-  if(m_clusters.end() != it_cl)
-  {
-    return **it_cl;
-  }
-  return utils::structures::Matrix3();
+//  auto it_cl = std::find_if(m_clusters.begin(), m_clusters.end(),
+//               [&filename](SharedPtr<Cluster> p)
+//  {
+//    return filename == p->GetPCName();
+//  });
+//  if(m_clusters.end() != it_cl)
+//  {
+//    return **it_cl;
+//  }
+//  return PointCloud();
 }
 
 const utils::Vector<utils::String> PointCloudManager::GetCloudNames() const
@@ -119,9 +122,9 @@ const utils::Vector<utils::String> PointCloudManager::GetCloudNames() const
   {
     v.push_back(cloud->GetPCName());
   }
-  for(auto& cloud : m_clusters)
-  {
-    v.push_back(cloud->GetClusterName());
-  }
+//  for(auto& cloud : m_clusters)
+//  {
+//    v.push_back(cloud.GetClusterName());
+//  }
   return v;
 }

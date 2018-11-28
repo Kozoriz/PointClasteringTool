@@ -2,105 +2,76 @@
 #include "utils/logger.h"
 #include "utils/date_time.h"
 
+#include <iomanip>
+#include <climits>
+#include <float.h>
 
 CREATE_LOGGER("Clustering")
 
+#include <math.h>
+
+Double getPercentageInRange(Double value, Double min, Double max)
+{
+  Double result = (value - min) / (max - min);
+  return std::isnan(result) ? 0.0 : result * 100.0;
+}
+
+AlgorithmCLOPE::AlgorithmCLOPE(const ApplicationSettings &settings)
+  : m_settings(settings)
+{
+}
+
 AlgorithmCLOPE::~AlgorithmCLOPE() {}
 
-// calculates how far all points located from center of cluster (average) concentration(profit) = 1/this_value
-Double AlgorithmCLOPE::calculateProfitWithPoint(const Cluster& cluster, const Cluster::ContainerType::key_type& new_point)
+float  calculateSlopeChange(PointCloud::Ptr pc, Cluster& cluster, PointCloud::PointType& point)
 {
-  Int64 x_sum = 0;
-  Int64 y_sum = 0;
-  Int64 z_sum = 0;
+  PointCloud::PointType& max = cluster.cluster_maxs;
+  PointCloud::PointType& min = cluster.cluster_mins;
 
-  for(auto& c_point : cluster)
-  {
-    x_sum += c_point.x_;
-    y_sum += c_point.y_;
-    z_sum += c_point.z_;
-  }
-  LOG_TRACE(std::to_string(x_sum) << " " << std::to_string(y_sum) << " "<< std::to_string(z_sum) );
-  x_sum += new_point.x_;
-  y_sum += new_point.y_;
-  z_sum += new_point.z_;
+  float x_diff = std::max(std::max(point.x-max.x, min.x-point.x), 0.f);
+  float y_diff = std::max(std::max(point.y-max.y, min.y-point.y), 0.f);
+  float z_diff = std::max(std::max(point.z-max.z, min.z-point.z), 0.f);
 
-  x_sum /= cluster.Size() + 1;
-  y_sum /= cluster.Size() + 1;
-  z_sum /= cluster.Size() + 1;
+//  printf("%.6f %.6f %.6f %.6f\n", point.x, max.x, min.x, x_diff + y_diff + z_diff);
 
-  LOG_TRACE(std::to_string(x_sum) << " " << std::to_string(y_sum) << " "<< std::to_string(z_sum) );
-  Int64 d_sum = 0;
-  for(auto& c_point : cluster)
-  {
-    d_sum += (std::pow(x_sum-c_point.x_,2) + std::pow(y_sum-c_point.y_,2) + std::pow(z_sum-c_point.z_,2));
-  }
-  LOG_TRACE(std::to_string(d_sum));
-  d_sum /= cluster.Size() + 1;
-  LOG_TRACE(std::to_string(d_sum));
-
-  return sqrt(d_sum);
+  return x_diff + y_diff + z_diff;
 }
 
-void RecalculateConcentration(utils::SharedPtr<Cluster> cluster)
-{
-  Int64 x_sum = 0;
-  Int64 y_sum = 0;
-  Int64 z_sum = 0;
-
-  for(auto& c_point : *cluster)
-  {
-    x_sum += c_point.x_;
-    y_sum += c_point.y_;
-    z_sum += c_point.z_;
-  }
-
-  x_sum /= cluster->Size();
-  y_sum /= cluster->Size();
-  z_sum /= cluster->Size();
-
-  Int64 d_sum = 0;
-  for(auto& c_point : *cluster)
-  {
-    d_sum += (std::pow(x_sum-c_point.x_,2) + std::pow(y_sum-c_point.y_,2) + std::pow(z_sum-c_point.z_,2));
-  }
-  d_sum /= cluster->Size();
-
-  cluster->profit = sqrt(d_sum);
-}
-
-utils::Vector<utils::SharedPtr<Cluster> > AlgorithmCLOPE::RunTask(const PointCloud &pc)
+utils::Vector<Cluster> AlgorithmCLOPE::RunTask(PointCloud::Ptr pc)
 {
   LOG_AUTO_TRACE();
 
   utils::String date_clustered = utils::date_time::GetDateTimeString("%F_%T");
-  utils::Vector<utils::SharedPtr<Cluster> > clusters;
-  for(auto& point : pc)
+  utils::Vector<Cluster> clusters;
+  int point_ind = 0;
+  for(auto& point : *pc)
   {
-    utils::SharedPtr<Cluster> max_profit_cluster;
-    Double max_profit_deviation = INT_MAX;
-    for(auto& cluster_sptr :clusters)
+    Cluster* p_best_profit_cluster = nullptr;
+    float min_cluster_change = FLT_MAX;
+    for(auto&  cluster : clusters)
     {
-      Double new_profit = calculateProfitWithPoint(*(cluster_sptr.get()), point);
-      Double profit_dev = new_profit - cluster_sptr->profit;
-      LOG_TRACE("profit dev " << cluster_sptr->GetClusterName() << " = " << std::to_string(profit_dev) );
-      if(profit_dev < max_profit_deviation)
+      float slope_change = calculateSlopeChange(pc, cluster, point);
+      if(min_cluster_change > slope_change)
       {
-        max_profit_deviation = profit_dev;
-        max_profit_cluster = cluster_sptr;
+        min_cluster_change = slope_change;
+        p_best_profit_cluster = &cluster;
       }
     }
-    if(!max_profit_cluster || max_profit_deviation > 10) // TODO use app_settings <max_cluster radius>
+
+    if(!p_best_profit_cluster || min_cluster_change > m_settings.get_clope_sensivity())
     {
-      max_profit_cluster = utils::make_shared<Cluster>("cluster_" + std::to_string(clusters.size()), pc.GetPCName(), date_clustered);
-      max_profit_cluster->profit = 0;
-      clusters.push_back(max_profit_cluster);
-      LOG_DEBUG("Created new cluster " << max_profit_cluster->GetPCName() << " -> " << max_profit_cluster->GetClusterName());
+//      LOG_TRACE("Created : " << std::setprecision(10) <<  min_cluster_change << " > " <<  m_settings.get_clope_sensivity());
+      clusters.push_back(Cluster("cluster", pc->GetPCName(),date_clustered));
+      p_best_profit_cluster = &clusters[clusters.size()-1];
     }
-    LOG_TRACE("Added to " << max_profit_cluster->GetClusterName() << " dev : " << std::to_string(max_profit_deviation) << " point " << point.ToString());
-    max_profit_cluster->AddPoint(point);
-    RecalculateConcentration(max_profit_cluster);
+
+    // cluster saves only indexes of points inside cloud
+    p_best_profit_cluster->indices.push_back(point_ind++);
+    p_best_profit_cluster->OnPointAppended(point);
+    if(point_ind % 100000 == 0) LOG_TRACE("Processed : " << point_ind << " clusters : " << clusters.size() );
   }
+  LOG_TRACE("Found clusters " << clusters.size());
+  // need to paint @pc according to clustered indices
   return clusters;
 }
 

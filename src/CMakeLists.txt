@@ -4,7 +4,7 @@ project (DIPLOM_v2.1)
 set (PROJECT DIPLOM_v2.1)
 
 ### FLAGS/PACKAGES
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread -w")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread -O0")
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_BINARY_DIR       ${CMAKE_SOURCE_DIR}/build)
@@ -31,7 +31,14 @@ endif(ENABLE_LOG)
 
 
 ### qt
-find_package(Qt5 COMPONENTS Core Gui Qml Quick REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui Qml Quick Widgets REQUIRED)
+
+### pcl
+find_package(PCL 1.2 REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_INCLUDE_DIRS})
+add_definitions(${PCL_DEFINITIONS})
+add_definitions(-DPCL_INCLUDED=1)
 
 ### boost
 set(Boost_USE_STATIC_LIBS ON) # only find static libs

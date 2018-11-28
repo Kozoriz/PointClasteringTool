@@ -3,13 +3,16 @@
 
 #include "utils/structures/matrix3.h"
 
+#include <pcl/PointIndices.h>
+#include "Model/Common/pointcloud.h"
+
 namespace utils {
 namespace file_system {
 class File;
 } // namespace file_system
 } // namespace utils
 
-class Cluster : public utils::structures::Matrix3
+class Cluster : public pcl::PointIndices
 {
 public:
   Cluster(const utils::String& cluster_name, const utils::String& pc_name, const utils::String& datetime_clustered);
@@ -25,7 +28,10 @@ public:
   void LoadFrom(utils::file_system::File& file);
 
 public:
-  Double profit = 0.0;
+  PointCloud::PointType cluster_maxs;
+  PointCloud::PointType cluster_mins;
+  void OnPointAppended(PointCloud::PointType& p);
+
 
 private:
   utils::String m_cluster_name;

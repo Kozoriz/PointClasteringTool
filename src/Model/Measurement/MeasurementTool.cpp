@@ -20,6 +20,7 @@ const utils::Vector<ValueStamp> &MeasurementTool::GetValues() const
 void MeasurementTool::Clear()
 {
   LOG_AUTO_TRACE();
+  is_joined = false;
   m_values.clear();
 }
 

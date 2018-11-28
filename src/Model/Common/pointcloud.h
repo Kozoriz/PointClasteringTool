@@ -3,6 +3,9 @@
 
 #include "utils/structures/matrix3.h"
 
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+
 
 namespace utils{
 namespace file_system{
@@ -10,9 +13,13 @@ class File;
 } // namespace file_system
 } // namespace utils
 
-class PointCloud : public utils::structures::Matrix3
+template<class T>
+using SharedPtr = boost::shared_ptr<T>;
+
+class PointCloud : public pcl::PointCloud<pcl::PointXYZRGBL>
 {
 public:
+  typedef SharedPtr<PointCloud> Ptr;
   PointCloud(const utils::String& pc_name);
 
   const utils::String& GetPCName() const;
@@ -22,6 +29,8 @@ public:
   void LoadFrom(const utils::String &path);
   void LoadFrom(utils::file_system::File& file);
   void SaveTo(const utils::String &path) const;
+
+  void ShiftTo(int x, int y, int z);
 
 private:
   utils::String m_cloud_name;

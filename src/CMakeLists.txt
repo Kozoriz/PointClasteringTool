@@ -4,8 +4,8 @@ project (DIPLOM_v2.1)
 set (PROJECT DIPLOM_v2.1)
 
 ### FLAGS/PACKAGES
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread -O0")
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpthread -w -O0")
+set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_BINARY_DIR       ${CMAKE_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
@@ -68,10 +68,7 @@ install(FILES ${INSTAL_FILES} DESTINATION ${INSTALL_DIR})
 ### sub dirs
 add_subdirectory(3rd-party)
 add_subdirectory(App)
-add_subdirectory(CloudController)
-add_subdirectory(DataManager)
 add_subdirectory(UI)
-add_subdirectory(Common)
 add_subdirectory(Model)
 add_subdirectory(Controller)
 

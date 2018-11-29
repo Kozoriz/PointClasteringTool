@@ -5,6 +5,8 @@
 
 // Qt
 #include <QMainWindow>
+#include <QString>
+#include <QListWidget>
 
 // Point Cloud Library
 #include <pcl/point_cloud.h>
@@ -13,6 +15,9 @@
 
 // Visualization Toolkit (VTK)
 #include <vtkRenderWindow.h>
+
+// Project
+#include "Controller/controller.h"
 
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
@@ -25,15 +30,17 @@ class UIWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit UIWindow(QWidget *parent = nullptr);
+    explicit UIWindow(Controller&, QWidget *parent = nullptr);
     ~UIWindow();
+
+    void addCloudToList(const utils::String& name);
+
+private slots:
+    void openFileDialog();
+    void cloudChoosen( QListWidgetItem* );
 
 private:
     Ui::UIWindow *ui;
-
-    std::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
-
-    unsigned int red;
-    unsigned int green;
-    unsigned int blue;
+    std::unique_ptr<pcl::visualization::PCLVisualizer> viewer;
+    Controller& m_controller;
 };

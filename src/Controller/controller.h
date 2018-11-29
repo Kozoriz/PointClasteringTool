@@ -2,23 +2,22 @@
 #define CONTROLLER_H
 
 #include "Model/PointCloudManager/PointCloudManager.h"
-#include "UI/Render.hpp"
+#include "UI/IRender.hpp"
 
 class Controller
 {
 public:
-  Controller(PointCloudManager& pc_manager, std::shared_ptr<Render>& qml_wrapper);
+  Controller(PointCloudManager& pc_manager, std::shared_ptr<IRender>&);
 
   void fillCloudList() const;
 
-  // ui signals
   void newFileOpened(utils::String& filename);
   void cloudChoosen(utils::String& filename);
 
 
 private:
   PointCloudManager& m_pc_manager;
-  std::shared_ptr<Render> m_qml_wrapper;
+  std::shared_ptr<IRender>& m_render;
 };
 
 #endif // CONTROLLER_H

@@ -3,9 +3,9 @@
 
 CREATE_LOGGER("Controller")
 
-Controller::Controller(PointCloudManager& pc_manager, std::shared_ptr<Render>& qml_wrapper)
+Controller::Controller(PointCloudManager& pc_manager, std::shared_ptr<IRender>& render)
   : m_pc_manager(pc_manager)
-  , m_qml_wrapper(qml_wrapper)
+  , m_render(render)
 {
   LOG_AUTO_TRACE();
 }
@@ -16,7 +16,7 @@ void Controller::fillCloudList() const
   utils::Vector<utils::String> names = m_pc_manager.GetCloudNames();
   for(auto name : names)
   {
-    m_qml_wrapper->addCloudToList(name);
+    m_render->addCloudToList(name);
   }
 }
 
@@ -25,22 +25,11 @@ void Controller::newFileOpened(utils::String &filename)
   LOG_TRACE("File choosen " << filename);
 
   const PointCloud& pc = m_pc_manager.LoadNewCloud(filename);
-  m_qml_wrapper->addCloudToList(pc.GetPCName());
+  m_render->addCloudToList(pc.GetPCName());
   m_pc_manager.RunClasteringProcess(pc);
 }
 
-void Controller::cloudChoosen(utils::String &filename)
+void Controller::cloudChoosen(utils::String &)
 {
   LOG_AUTO_TRACE();
-  const utils::structures::Matrix3& cloud = m_pc_manager.GetMatrix(filename);
-  for(auto& point : cloud)
-  {
-    m_qml_wrapper->addPoint(point);
-  }
-
-//  test for performance of renderer
-//  for(int i = 0; i < 1000000; ++i)
-//  {
-//    m_qml_wrapper->addPoint({rand(), rand(), rand()});
-//  }
 }

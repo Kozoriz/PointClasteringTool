@@ -1,20 +1,18 @@
 #pragma once
 
-#include "UI/Render.hpp"
+#include <memory>
+
+#include "UI/IRender.hpp"
 #include "UI/impl/UIWindow.hpp"
 
-class RenderImpl : public Render
+class RenderImpl : public IRender
 {
 public:
-    RenderImpl();
+    RenderImpl(Controller&);
+
     void start_app( ) override;
-    void setController(Controller* controller) override;
-    void newFileOpened(utils::String filename) override;
-    void cloudChoosen(utils::String cloudpath) override;
-    void addPoint(const utils::positions::Location3& point) override;
     void addCloudToList(const utils::String& name) override;
 
 private:
     UIWindow m_ui;
-    Controller* m_controller;
 };

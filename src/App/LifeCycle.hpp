@@ -7,7 +7,7 @@
 #include "Model/Statistics/StatisticsManager.h"
 #include "Model/Settings/applicationsettings.h"
 #include "Controller/controller.h"
-#include "UI/Render.hpp"
+#include "UI/IRender.hpp"
 
 class LifeCycle
 {
@@ -24,7 +24,7 @@ private:
     ApplicationSettings m_settings;
     StatisticsManager m_stat_manager;
     PointCloudManager m_pc_manager;
-    std::shared_ptr<Render> m_qml_wrapper;
+    std::shared_ptr<IRender> m_render;
     Controller m_controller;
 };
 

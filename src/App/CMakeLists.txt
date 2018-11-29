@@ -17,8 +17,6 @@ target_link_libraries(${PROJECT_NAME}
     ${PCL_LIBRARIES}
     ${Boost_LIBRARIES}
     UI
-    DataManager
-    CommonLib
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets

@@ -4,21 +4,21 @@
 
 package "Model" {
 	interface ClusteringAlgo {
-	  +{abstract} utils::Vector<Cluster> RunTask(PointCloud::Ptr pc) = 0;
+	  +{abstract} utils::Vector<Cluster> RunTask(...) = 0;
 	  +{abstract} utils::String GetName() const = 0;
 	}
 
 	class AlgorithmMST {
-	  +AlgorithmMST(const ApplicationSettings& settings);
-	  +utils::Vector<Cluster> RunTask(PointCloud::Ptr pc) override;
+	  +AlgorithmMST(...);
+	  +utils::Vector<Cluster> RunTask(...) override;
 	  +utils::String GetName() const override;
 
 	  -const ApplicationSettings& m_settings;
 	}
 
 	class AlgorithmCLOPE {
-	   +AlgorithmCLOPE(const ApplicationSettings& settings);
-	   +utils::Vector<Cluster> RunTask(PointCloud::Ptr pc) override;
+	   +AlgorithmCLOPE(...);
+	   +utils::Vector<Cluster> RunTask(...) override;
 	   +utils::String GetName() const override;
 
 	   -const ApplicationSettings& m_settings;
@@ -28,15 +28,15 @@ package "Model" {
 	  +typedef utils::Vector<SharedPtr<PointCloud> > PointClouds;
 	  +typedef utils::Vector<Cluster> Clusters;
 
-	  +PointCloudManager(ApplicationSettings& settings, StatisticsManager& stats_manager);
-	  +PointCloud::Ptr LoadNewCloud(utils::String& sPath);
-	  +void RunClasteringProcess(PointCloud::Ptr cloud);
+	  +PointCloudManager(...);
+	  +PointCloud::Ptr LoadNewCloud(...);
+	  +void RunClasteringProcess(...);
 	  +void SaveClusters();
 
 	  +const PointClouds& GetPointClouds() const;
 	  +const Clusters& GetClusters() const;
 
-	  +PointCloud::ConstPtr GetMatrix(utils::String& filename) const;
+	  +PointCloud::ConstPtr GetMatrix(...) const;
 	  +const utils::Vector<utils::String> GetCloudNames() const;
 
 	  -const ApplicationSettings& m_settings;
@@ -50,27 +50,27 @@ package "Model" {
 	  +typedef SharedPtr<PointCloud> Ptr;
 	  +typedef SharedPtr<const PointCloud> ConstPtr;
 
-	  +PointCloud(const utils::String& pc_name);
+	  +PointCloud(...);
 
 	  +const utils::String& GetPCName() const;
 	  +bool IsClustered() const;
-	  +void SetClustered(bool is_clustered = true);
+	  +void SetClustered(...);
 
-	  +void LoadFrom(const utils::String &path);
-	  +void LoadFrom(utils::file_system::File& file);
-	  +void SaveTo(const utils::String &path) const;
+	  +void LoadFrom(...);
+	  +void LoadFrom(...);
+	  +void SaveTo(...) const;
 
-	  +void ShiftTo(int x, int y, int z);
+	  +void ShiftTo(...);
 
 	  -utils::String m_cloud_name;
 	  -bool m_is_clustered;
 	}
 
 	class StatisticsManager	{
-	  +StatisticsManager(ApplicationSettings& settings);
+	  +StatisticsManager(...);
 	  +void StartMeasurement();
 	  +void StopMeasurement();
-	  +void SaveMeasurementData(const utils::String& path);
+	  +void SaveMeasurementData(...);
 
 	  -utils::Vector<utils::UniquePtr<MeasurementTool> > m_measurement_tools;
 	  -utils::Vector<utils::threads::Thread> m_measurement_threads;
@@ -88,7 +88,7 @@ package "Model" {
 	}
 
 	abstract class MeasurementTool {
-	  +MeasurementTool(utils::synchronization::Barrier& stop_barrier, ApplicationSettings& settings);
+	  +MeasurementTool(...);
 	  +{abstract}  inline utils::String GetName() const = 0;
 	  +const utils::Vector<ValueStamp> &GetValues() const;
 	  +void Clear();
@@ -102,20 +102,20 @@ package "Model" {
 	}
 
 	class CPUMonitor {
-	  +CPUMonitor(utils::synchronization::Barrier& stop_barrier, ApplicationSettings &settings);
+	  +CPUMonitor(...);
 	  +void Run() override;
 	  +inline utils::String GetName() const override;
 	}
 
 	class RAMMonitor {
-	  +RAMMonitor(utils::synchronization::Barrier &stop_barrier, ApplicationSettings& settings);
+	  +RAMMonitor(...);
 	  +void Run() override;
 	  +inline utils::String GetName() const override;
 	}
 
 
 	class ApplicationSettings {
-	  +ApplicationSettings(const utils::String& ini_path);
+	  +ApplicationSettings(...);
 	  +const utils::String &get_working_dir() const;
 	  +UInt get_measurement_delay() const;
 	  +float get_clope_sensivity() const;
@@ -132,10 +132,10 @@ package "Model" {
 
 package "Controller" {
 	class Controller {
-	  +Controller(PointCloudManager& pc_manager, std::shared_ptr<IRender>&);
+	  +Controller(...);
 	  +void fillCloudList() const;
-	  +void newFileOpened(utils::String& filename);
-	  +void cloudChoosen(utils::String& filename);
+	  +void newFileOpened(...);
+	  +void cloudChoosen(...);
 
 	  -PointCloudManager& m_pc_manager;
 	  -std::shared_ptr<IRender>& m_render;
@@ -144,19 +144,19 @@ package "Controller" {
 
 package "UI" {
 	interface IRender {
-	  +{abstract} void start_app( ) = 0;
-	  +{abstract} void addCloudToList(const utils::String& name) = 0;
-	  +{abstract} void ShowCloud(PointCloud::ConstPtr cloud) = 0;
+	  +{abstract} void start_app(...) = 0;
+	  +{abstract} void addCloudToList(...) = 0;
+	  +{abstract} void ShowCloud(...) = 0;
 	}
 
 	class UIWindow {
-	    +explicit UIWindow(Controller&, QWidget *parent = nullptr);
+	    +explicit UIWindow(...);
 	    
-	    +void addCloudToList(const utils::String& name);
-	    +void showCloud(PointCloud::ConstPtr pc);
+	    +void addCloudToList(...);
+	    +void showCloud(...);
 
 	    -void openFileDialog();
-	    -void cloudChoosen( QListWidgetItem* );
+	    -void cloudChoosen(...);
 
 	    -Ui::UIWindow *ui;
 	    -std::unique_ptr<pcl::visualization::PCLVisualizer> viewer;
@@ -164,11 +164,11 @@ package "UI" {
 	}
 
 	class RenderImpl {
-	    +RenderImpl(Controller&);
+	    +RenderImpl(...);
 
-	    +void start_app( ) override;
-	    +void addCloudToList(const utils::String& name) override;
-	    +void ShowCloud(PointCloud::ConstPtr cloud) override;
+	    +void start_app(...) override;
+	    +void addCloudToList(...) override;
+	    +void ShowCloud(...) override;
 
 	    -UIWindow m_ui;
 	}
@@ -189,31 +189,31 @@ package "pcl" {
 }
 
 ' relations
-ClusteringAlgo <|-u- AlgorithmMST
-ClusteringAlgo <|-u- AlgorithmCLOPE
+ClusteringAlgo <|-- AlgorithmMST
+ClusteringAlgo <|-- AlgorithmCLOPE
 
-PointCloudManager .d.> ClusteringAlgo : <using>
-PointCloudManager .r.> StatisticsManager : <using>
-StatisticsManager .d.> MeasurementTool : <using>
+PointCloudManager ..> ClusteringAlgo
+PointCloudManager ..> StatisticsManager
+StatisticsManager ..> MeasurementTool 
 
-MeasurementTool <|-d- CPUMonitor
-MeasurementTool <|-d- RAMMonitor
-MeasurementTool .d.> ValueStamp : <using>
+MeasurementTool <|-- CPUMonitor
+MeasurementTool <|-- RAMMonitor
+MeasurementTool ..> ValueStamp
 
-PointCloudManager <.. Controller
-IRender <.. Controller
+PointCloudManager <.d. Controller
+IRender <.u. Controller
 
-ApplicationSettings <.. MeasurementTool
-ApplicationSettings <.. StatisticsManager
-ApplicationSettings <.. PointCloudManager
-ApplicationSettings <.. AlgorithmCLOPE
-ApplicationSettings <.. AlgorithmMST
+'ApplicationSettings <.. MeasurementTool
+'ApplicationSettings <.. StatisticsManager
+'ApplicationSettings <.. PointCloudManager
+'ApplicationSettings <.. AlgorithmCLOPE
+'ApplicationSettings <.. AlgorithmMST
 
-QMainWindow <|-r- UIWindow
-IRender <|-u- RenderImpl
+QMainWindow <|-- UIWindow
+IRender <|-- RenderImpl
 
 RenderImpl ..> UIWindow
-UIWindow .l.> PCLVisualizer
+UIWindow ..> PCLVisualizer
 
 PointCloudManager ..> PointCloud
 

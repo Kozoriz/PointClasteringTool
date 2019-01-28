@@ -1,0 +1,38 @@
+@startuml
+
+
+package "Model" {	
+
+	interface ClusteringAlgo {
+	  +{abstract} utils::Vector<Cluster> RunTask(...) = 0;
+	  +{abstract} utils::String GetName() const = 0;
+	}
+
+	class AlgorithmMST {
+	  +AlgorithmMST(...);
+	  +utils::Vector<Cluster> RunTask(...) override;
+	  +utils::String GetName() const override;
+
+	  -const ApplicationSettings& m_settings;
+	}
+
+	class AlgorithmCLOPE {
+	   +AlgorithmCLOPE(...);
+	   +utils::Vector<Cluster> RunTask(...) override;
+	   +utils::String GetName() const override;
+
+	   -const ApplicationSettings& m_settings;
+	}
+
+	interface PointCloudManager {
+	}
+}
+
+
+ClusteringAlgo <|-- AlgorithmMST
+ClusteringAlgo <|-- AlgorithmCLOPE
+
+PointCloudManager ..> ClusteringAlgo
+
+
+@enduml

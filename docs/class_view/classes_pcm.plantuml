@@ -1,0 +1,69 @@
+@startuml
+
+
+package "Controller" {
+	interface Controller {
+	}
+}
+
+package "Model" {
+	interface ClusteringAlgo {
+	}
+
+	class PointCloudManager {
+	  +typedef utils::Vector<SharedPtr<PointCloud> > PointClouds;
+	  +typedef utils::Vector<Cluster> Clusters;
+
+	  +PointCloudManager(...);
+	  +PointCloud::Ptr LoadNewCloud(...);
+	  +void RunClasteringProcess(...);
+	  +void SaveClusters();
+
+	  +const PointClouds& GetPointClouds() const;
+	  +const Clusters& GetClusters() const;
+
+	  +PointCloud::ConstPtr GetMatrix(...) const;
+	  +const utils::Vector<utils::String> GetCloudNames() const;
+
+	  -const ApplicationSettings& m_settings;
+	  -StatisticsManager& m_stats_manager;
+	  -utils::Vector<SharedPtr<ClusteringAlgo> > m_clustering_algos;
+	  -PointClouds m_point_clouds;
+	  -Clusters m_clusters;
+	}
+
+	class PointCloud {
+	  +typedef SharedPtr<PointCloud> Ptr;
+	  +typedef SharedPtr<const PointCloud> ConstPtr;
+
+	  +PointCloud(...);
+
+	  +const utils::String& GetPCName() const;
+	  +bool IsClustered() const;
+	  +void SetClustered(...);
+
+	  +void LoadFrom(...);
+	  +void LoadFrom(...);
+	  +void SaveTo(...) const;
+
+	  +void ShiftTo(...);
+
+	  -utils::String m_cloud_name;
+	  -bool m_is_clustered;
+	}
+
+	interface StatisticsManager	{
+	}
+}
+
+
+PointCloudManager <.d. Controller
+
+
+PointCloudManager ..> ClusteringAlgo
+PointCloudManager ..> StatisticsManager
+
+PointCloudManager ..> PointCloud
+
+
+@enduml

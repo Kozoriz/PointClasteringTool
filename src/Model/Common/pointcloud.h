@@ -13,6 +13,7 @@ class File;
 } // namespace file_system
 } // namespace utils
 
+
 template<class T>
 using SharedPtr = boost::shared_ptr<T>;
 
@@ -20,6 +21,8 @@ class PointCloud : public pcl::PointCloud<pcl::PointXYZRGBL>
 {
 public:
   typedef SharedPtr<PointCloud> Ptr;
+  typedef SharedPtr<const PointCloud> ConstPtr;
+
   PointCloud(const utils::String& pc_name);
 
   const utils::String& GetPCName() const;
@@ -36,5 +39,15 @@ private:
   utils::String m_cloud_name;
   bool m_is_clustered;
 };
+
+namespace{
+void uncolorAllPoints(PointCloud::Ptr pc)
+{
+  for(auto& point : *pc)
+  {
+    point.rgba = UINT32_MAX;
+  }
+}
+} // namespace
 
 #endif // POINTCLOUD_H

@@ -19,6 +19,8 @@ UIWindow::UIWindow(Controller &con, QWidget *parent):
     viewer.reset (new pcl::visualization::PCLVisualizer ("viewer", false));
     ui->qvtkWidget->SetRenderWindow (viewer->getRenderWindow ());
     viewer->setupInteractor (ui->qvtkWidget->GetInteractor (), ui->qvtkWidget->GetRenderWindow ());
+//    viewer->setBackgroundColor(10,10,10);
+    ui->qvtkWidget->update ();
 
     connect(ui->file, SIGNAL(triggered()), this, SLOT(openFileDialog()));
     connect(ui->listCloud, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(cloudChoosen(QListWidgetItem*)));
@@ -32,6 +34,18 @@ UIWindow::~UIWindow()
 void UIWindow::addCloudToList(const utils::String &name)
 {
     ui->listCloud->addItem(QString(name.c_str()));
+}
+
+
+void UIWindow::showCloud(PointCloud::ConstPtr pc)
+{
+//  viewer->removePointCloud();
+  if(!viewer->updatePointCloud<PointCloud::PointType>(pc))
+  {
+    viewer->addPointCloud<PointCloud::PointType>(pc);
+  }
+  viewer->resetCamera ();
+  ui->qvtkWidget->update ();
 }
 
 void UIWindow::openFileDialog( )

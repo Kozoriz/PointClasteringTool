@@ -16,14 +16,14 @@ public:
   typedef utils::Vector<Cluster> Clusters;
 public:
   PointCloudManager(ApplicationSettings& settings, StatisticsManager& stats_manager);
-  SharedPtr<PointCloud> LoadNewCloud(utils::String& sPath);
+  PointCloud::Ptr LoadNewCloud(utils::String& sPath);
   void RunClasteringProcess(PointCloud::Ptr cloud);
   void SaveClusters();
 
   const PointClouds& GetPointClouds() const;
   const Clusters& GetClusters() const;
 
-  const PointCloud &GetMatrix(utils::String& filename) const;
+  PointCloud::ConstPtr GetMatrix(utils::String& filename) const;
   const utils::Vector<utils::String> GetCloudNames() const;
 
 private:

@@ -34,6 +34,8 @@ public:
     ~UIWindow();
 
     void addCloudToList(const utils::String& name);
+    void showCloud(PointCloud::ConstPtr pc);
+
 
 private slots:
     void openFileDialog();

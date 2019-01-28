@@ -35,10 +35,10 @@ PointCloudManager::PointCloudManager(ApplicationSettings& settings, StatisticsMa
   }
 
   m_clustering_algos.push_back(SharedPtr<ClusteringAlgo>(new AlgorithmCLOPE(m_settings)));
-  m_clustering_algos.push_back(SharedPtr<ClusteringAlgo>(new AlgorithmMST(m_settings)));
+//  m_clustering_algos.push_back(SharedPtr<ClusteringAlgo>(new AlgorithmMST(m_settings)));
 }
 
-SharedPtr<PointCloud> PointCloudManager::LoadNewCloud(utils::String &sPath)
+PointCloud::Ptr PointCloudManager::LoadNewCloud(utils::String &sPath)
 {
   LOG_AUTO_TRACE();
 
@@ -50,7 +50,7 @@ SharedPtr<PointCloud> PointCloudManager::LoadNewCloud(utils::String &sPath)
   m_point_clouds.push_back(pc);
 
   pc->LoadFrom(sPath);
-//  pc->ShiftTo(0,0,0);
+  pc->ShiftTo(0,0,0);
   return pc;
 }
 
@@ -89,7 +89,7 @@ const PointCloudManager::Clusters &PointCloudManager::GetClusters() const
   return m_clusters;
 }
 
-const PointCloud & PointCloudManager::GetMatrix(utils::String &filename) const
+PointCloud::ConstPtr PointCloudManager::GetMatrix(utils::String &filename) const
 {
   LOG_AUTO_TRACE();
 
@@ -100,7 +100,7 @@ const PointCloud & PointCloudManager::GetMatrix(utils::String &filename) const
   });
   if(m_point_clouds.end() != it_pc)
   {
-    return **it_pc;
+    return *it_pc;
   }
 
 //  auto it_cl = std::find_if(m_clusters.begin(), m_clusters.end(),

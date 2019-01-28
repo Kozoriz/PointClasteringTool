@@ -77,7 +77,7 @@
      <x>0</x>
      <y>0</y>
      <width>1233</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -87,11 +87,29 @@
     <addaction name="separator"/>
     <addaction name="file"/>
    </widget>
+   <widget class="QMenu" name="menuClustering">
+    <property name="title">
+     <string>Clustering</string>
+    </property>
+    <addaction name="actionMST"/>
+    <addaction name="actionCLOPE"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuClustering"/>
   </widget>
   <action name="file">
    <property name="text">
-    <string>Open</string>
+    <string>Open new cloud</string>
+   </property>
+  </action>
+  <action name="actionMST">
+   <property name="text">
+    <string>MST</string>
+   </property>
+  </action>
+  <action name="actionCLOPE">
+   <property name="text">
+    <string>CLOPE</string>
    </property>
   </action>
  </widget>

@@ -41,13 +41,17 @@ utils::Vector<Cluster> AlgorithmCLOPE::RunTask(PointCloud::Ptr pc)
 {
   LOG_AUTO_TRACE();
 
+  uncolorAllPoints(pc);
+
   utils::String date_clustered = utils::date_time::GetDateTimeString("%F_%T");
   utils::Vector<Cluster> clusters;
   int point_ind = 0;
+  int best_cluster_ind = 0;
   for(auto& point : *pc)
   {
     Cluster* p_best_profit_cluster = nullptr;
     float min_cluster_change = FLT_MAX;
+    int clust_ind = 0;
     for(auto&  cluster : clusters)
     {
       float slope_change = calculateSlopeChange(pc, cluster, point);
@@ -55,7 +59,9 @@ utils::Vector<Cluster> AlgorithmCLOPE::RunTask(PointCloud::Ptr pc)
       {
         min_cluster_change = slope_change;
         p_best_profit_cluster = &cluster;
+        best_cluster_ind = clust_ind;
       }
+      ++clust_ind;
     }
 
     if(!p_best_profit_cluster || min_cluster_change > m_settings.get_clope_sensivity())
@@ -63,15 +69,39 @@ utils::Vector<Cluster> AlgorithmCLOPE::RunTask(PointCloud::Ptr pc)
 //      LOG_TRACE("Created : " << std::setprecision(10) <<  min_cluster_change << " > " <<  m_settings.get_clope_sensivity());
       clusters.push_back(Cluster("cluster", pc->GetPCName(),date_clustered));
       p_best_profit_cluster = &clusters[clusters.size()-1];
+      best_cluster_ind = clusters.size()-1;
     }
 
     // cluster saves only indexes of points inside cloud
     p_best_profit_cluster->indices.push_back(point_ind++);
     p_best_profit_cluster->OnPointAppended(point);
-    if(point_ind % 100000 == 0) LOG_TRACE("Processed : " << point_ind << " clusters : " << clusters.size() );
+
+    point.label = best_cluster_ind;
+
+    /*if(point_ind % 100000 == 0)*/ LOG_TRACE("Processed : " << point_ind << " clusters : " << clusters.size() );
   }
   LOG_TRACE("Found clusters " << clusters.size());
   // need to paint @pc according to clustered indices
+  std::vector<uint32_t> colors;
+  colors.resize((float)clusters.size()*1.2, 0);
+
+  srand(rand());
+  for(PointCloud::PointType& point : *pc)
+  {
+    uint32_t rgba = colors[point.label];
+    if(rgba == 0)
+    {
+      point.r = rand() % 255;
+      point.g = rand() % 255;
+      point.b = rand() % 255;
+      point.a = 255;
+      colors[point.label] = point.rgba;
+      LOG_DEBUG("New color : " << (int)point.r << " "<< (int)point.g << " "<< (int)point.b << " label " << point.label);
+    }
+    point.rgba = rgba;
+//    LOG_DEBUG("Point " << point << " label " << point.label);
+  }
+
   return clusters;
 }
 

@@ -34,3 +34,9 @@ void RenderImpl::addCloudToList(const utils::String &name)
   LOG_TRACE(name);
   m_ui.addCloudToList(name);
 }
+
+void RenderImpl::ShowCloud(PointCloud::ConstPtr cloud)
+{
+  LOG_TRACE(cloud->GetPCName());
+  m_ui.showCloud(cloud);
+}

@@ -29,7 +29,8 @@ void Controller::newFileOpened(utils::String &filename)
   m_pc_manager.RunClasteringProcess(pc);
 }
 
-void Controller::cloudChoosen(utils::String &)
+void Controller::cloudChoosen(utils::String & filename)
 {
   LOG_AUTO_TRACE();
+  m_render->ShowCloud(m_pc_manager.GetMatrix(filename));
 }

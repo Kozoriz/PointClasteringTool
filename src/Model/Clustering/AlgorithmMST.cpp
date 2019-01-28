@@ -196,14 +196,6 @@ void removeMaxEdge(EdgesType& edges)
   edges.erase(edges.begin());
 }
 
-void uncolorAllPoints(PointCloud::Ptr pc)
-{
-  for(auto& point : *pc)
-  {
-    point.rgba = UINT32_MAX;
-  }
-}
-
 utils::Vector<Cluster> AlgorithmMST::RunTask(PointCloud::Ptr pc)
 {
   LOG_AUTO_TRACE();
@@ -228,6 +220,27 @@ utils::Vector<Cluster> AlgorithmMST::RunTask(PointCloud::Ptr pc)
   }
 
   LOG_TRACE("Complete. Found : " << clusters_count << " clusters. Runned : " << runs_count << " times.");
+
+
+  std::vector<uint32_t> colors;
+  colors.resize(m_settings.get_mst_clusters_count()*2, 0);
+
+  srand(rand());
+  for(PointCloud::PointType& point : *pc)
+  {
+    uint32_t rgba = colors[point.label];
+    if(rgba == 0)
+    {
+      point.r = rand() % 255;
+      point.g = rand() % 255;
+      point.b = rand() % 255;
+      point.a = 255;
+      colors[point.label] = point.rgba;
+      LOG_DEBUG("New color : " << (int)point.r << " "<< (int)point.g << " "<< (int)point.b << " label " << point.label);
+    }
+    point.rgba = rgba;
+//    LOG_DEBUG("Point " << point << " label " << point.label);
+  }
 
   return utils::Vector<Cluster>();
 }

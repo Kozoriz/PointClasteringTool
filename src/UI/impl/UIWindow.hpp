@@ -18,6 +18,8 @@
 
 // Project
 #include "Controller/controller.h"
+#include "cloperunner.hpp"
+#include "mstrunner.hpp"
 
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
@@ -40,9 +42,14 @@ public:
 private slots:
     void openFileDialog();
     void cloudChoosen( QListWidgetItem* );
+    void openCLOPERunner();
+    void openMSTRunner();
 
 private:
     Ui::UIWindow *ui;
     std::unique_ptr<pcl::visualization::PCLVisualizer> viewer;
     Controller& m_controller;
+
+   ClopeRunner clope_w;
+    MSTRunner mst_w;
 };

@@ -103,6 +103,9 @@
    </property>
   </action>
   <action name="actionMST">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>MST</string>
    </property>

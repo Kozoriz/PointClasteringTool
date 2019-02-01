@@ -17,7 +17,7 @@ include_directories(
   ${UTILS_DIR})
 
 set(FORMS
-  impl/forms/vtkwindow.ui
+  impl/forms/*.ui
 )
 qt5_wrap_ui(FORM_H ${FORMS})
 

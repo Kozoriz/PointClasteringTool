@@ -11,7 +11,9 @@ CREATE_LOGGER("UI")
 UIWindow::UIWindow(Controller &con, QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::UIWindow),
-    m_controller(con)
+    m_controller(con),
+    clope_w(con, this),
+    mst_w(con, this)
 {
     ui->setupUi(this);
 
@@ -24,6 +26,8 @@ UIWindow::UIWindow(Controller &con, QWidget *parent):
 
     connect(ui->file, SIGNAL(triggered()), this, SLOT(openFileDialog()));
     connect(ui->listCloud, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(cloudChoosen(QListWidgetItem*)));
+    connect(ui->actionCLOPE, SIGNAL(triggered()), this, SLOT(openCLOPERunner()));
+    connect(ui->actionMST, SIGNAL(triggered()), this, SLOT(openMSTRunner()));
 }
 
 UIWindow::~UIWindow()
@@ -66,4 +70,15 @@ void UIWindow::cloudChoosen(QListWidgetItem* item)
 {
     utils::String str(item->text().toStdString());
     m_controller.cloudChoosen(str);
+}
+
+void UIWindow::openCLOPERunner()
+{
+  clope_w.show();
+}
+
+void UIWindow::openMSTRunner()
+{
+  mst_w.show();
+
 }

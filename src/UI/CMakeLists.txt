@@ -16,7 +16,7 @@ include_directories(
   ${COMPONENTS_DIR}/Common
   ${UTILS_DIR})
 
-set(FORMS
+file ( GLOB FORMS
   impl/forms/*.ui
 )
 qt5_wrap_ui(FORM_H ${FORMS})

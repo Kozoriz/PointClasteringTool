@@ -2,7 +2,7 @@
 #include "ui_cloperunner.h"
 
 ClopeRunner::ClopeRunner(Controller& controller, QWidget *parent) :
-  QWidget(parent),
+  QDialog(parent),
   ui(new Ui::ClopeRunner),
   m_controller(controller)
 {
@@ -16,5 +16,9 @@ ClopeRunner::~ClopeRunner()
 
 void ClopeRunner::on_pushButton_clicked()
 {
+  this->hide();
+}
 
+void ClopeRunner::on_ClopeRunner_destroyed()
+{
 }

@@ -1,8 +1,8 @@
 #include "mstrunner.hpp"
 #include "ui_mstrunner.h"
 
-MSTRunner::MSTRunner(Controller controller, QWidget *parent) :
-  QWidget(parent),
+MSTRunner::MSTRunner(Controller& controller, QWidget *parent) :
+  QDialog(parent),
   ui(new Ui::MSTRunner),
   m_controller(controller)
 {
@@ -15,3 +15,12 @@ MSTRunner::~MSTRunner()
 }
 
 
+
+void MSTRunner::on_MSTRunner_destroyed()
+{
+}
+
+void MSTRunner::on_pushButton_clicked()
+{
+    this->hide();
+}

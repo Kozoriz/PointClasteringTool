@@ -1,20 +1,25 @@
 #ifndef MSTRUNNER_H
 #define MSTRUNNER_H
 
-#include <QDockWidget>
+#include <QDialog>
 #include "Controller/controller.h"
 
 namespace Ui {
 class MSTRunner;
 }
 
-class MSTRunner : public QWidget
+class MSTRunner : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit MSTRunner(Controller& controller, QWidget *parent = nullptr);
+  MSTRunner(Controller& controller, QWidget *parent = nullptr);
   ~MSTRunner();
+
+private slots:
+  void on_MSTRunner_destroyed();
+
+  void on_pushButton_clicked();
 
 private:
   Ui::MSTRunner *ui;

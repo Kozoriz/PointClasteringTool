@@ -12,8 +12,8 @@ UIWindow::UIWindow(Controller &con, QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::UIWindow),
     m_controller(con),
-    clope_w(con, this),
-    mst_w(con, this)
+    clope_w(new ClopeRunner(con, this)),
+    mst_w(new MSTRunner(con, this))
 {
     ui->setupUi(this);
 
@@ -74,11 +74,15 @@ void UIWindow::cloudChoosen(QListWidgetItem* item)
 
 void UIWindow::openCLOPERunner()
 {
-  clope_w.show();
+//  clope_w->resize(100,100);
+  clope_w->show();
+//  this->hide();
 }
 
 void UIWindow::openMSTRunner()
 {
-  mst_w.show();
+//  mst_w->resize(100,100);
+  mst_w->show();
+//  this->hide();
 
 }

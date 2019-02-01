@@ -50,6 +50,6 @@ private:
     std::unique_ptr<pcl::visualization::PCLVisualizer> viewer;
     Controller& m_controller;
 
-   ClopeRunner clope_w;
-    MSTRunner mst_w;
+   ClopeRunner* clope_w;
+    MSTRunner* mst_w;
 };

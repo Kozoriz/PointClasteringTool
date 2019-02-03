@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QSpinBox" name="spinBox">
+  <widget class="QSpinBox" name="NspinBox">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -29,7 +29,7 @@
     <number>100</number>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox_2">
+  <widget class="QSpinBox" name="CspinBox">
    <property name="geometry">
     <rect>
      <x>10</x>

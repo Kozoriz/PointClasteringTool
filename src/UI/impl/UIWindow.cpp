@@ -25,7 +25,7 @@ UIWindow::UIWindow(Controller &con, QWidget *parent):
     ui->qvtkWidget->update ();
 
     connect(ui->file, SIGNAL(triggered()), this, SLOT(openFileDialog()));
-    connect(ui->listCloud, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(cloudChoosen(QListWidgetItem*)));
+//    connect(ui->listCloud, SIGNAL(itemClicked(QTreeWidgetItem*)), this, SLOT(cloudChoosen(QTreeWidgetItem*)));
     connect(ui->actionCLOPE, SIGNAL(triggered()), this, SLOT(openCLOPERunner()));
     connect(ui->actionMST, SIGNAL(triggered()), this, SLOT(openMSTRunner()));
 }
@@ -37,13 +37,15 @@ UIWindow::~UIWindow()
 
 void UIWindow::addCloudToList(const utils::String &name)
 {
-    ui->listCloud->addItem(QString(name.c_str()));
+  QTreeWidgetItem* item = new QTreeWidgetItem(ui->listCloud);
+  item->setText(0, name.c_str());
+  ui->listCloud->addTopLevelItem(item);
 }
 
 
 void UIWindow::showCloud(PointCloud::ConstPtr pc)
 {
-//  viewer->removePointCloud();
+  viewer->removePointCloud();
   if(!viewer->updatePointCloud<PointCloud::PointType>(pc))
   {
     viewer->addPointCloud<PointCloud::PointType>(pc);
@@ -52,9 +54,13 @@ void UIWindow::showCloud(PointCloud::ConstPtr pc)
   ui->qvtkWidget->update ();
 }
 
+void UIWindow::addClusterToCloud(const utils::String &pcname, const utils::String &clustername)
+{
+}
+
 void UIWindow::openFileDialog( )
 {
-    QString fileName = QFileDialog::getOpenFileName(this);
+    QString fileName = QFileDialog::getOpenFileName(this, "", "/home/andrii/workspace/point_clouds");
 
     if(fileName.isEmpty())
     {
@@ -66,23 +72,34 @@ void UIWindow::openFileDialog( )
     m_controller.newFileOpened(fileNameString);
 }
 
-void UIWindow::cloudChoosen(QListWidgetItem* item)
+void UIWindow::cloudChoosen(QTreeWidgetItem* item)
 {
-    utils::String str(item->text().toStdString());
+    utils::String str(item->text(0).toStdString());
+    m_last_choosen_cloud = item->text(0);
+
+    LOG_DEBUG("m_last_choosen_cloud = " << m_last_choosen_cloud.toStdString());
     m_controller.cloudChoosen(str);
+    ui->menuClustering->setEnabled(true);
 }
 
 void UIWindow::openCLOPERunner()
 {
 //  clope_w->resize(100,100);
+  clope_w->SetCloud(m_last_choosen_cloud);
   clope_w->show();
 //  this->hide();
 }
 
 void UIWindow::openMSTRunner()
 {
+  mst_w->SetCloud(m_last_choosen_cloud);
 //  mst_w->resize(100,100);
   mst_w->show();
 //  this->hide();
 
+}
+
+void UIWindow::on_listCloud_itemClicked(QTreeWidgetItem *item, int column)
+{
+  cloudChoosen(item);
 }

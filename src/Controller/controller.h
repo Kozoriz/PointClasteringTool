@@ -3,6 +3,9 @@
 
 #include "Model/PointCloudManager/PointCloudManager.h"
 #include "UI/IRender.hpp"
+#include <map>
+
+#include "Model/Settings/applicationsettings.h"
 
 class Controller
 {
@@ -14,6 +17,9 @@ public:
   void newFileOpened(utils::String& filename);
   void cloudChoosen(utils::String& filename);
 
+  void RunClistring(const utils::String &sPCName, const utils::String &sAlgo, std::map<utils::String, double> params);
+  void AddCloudToList(utils::String name);
+  void AddCluster(const utils::String& sPCname, const utils::String& clusterName);
 
 private:
   PointCloudManager& m_pc_manager;

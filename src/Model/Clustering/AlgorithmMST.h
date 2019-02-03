@@ -11,6 +11,12 @@ public:
   utils::Vector<Cluster> RunTask(PointCloud::Ptr pc) override;
   utils::String GetName() const override;
 
+  void SetParams(std::map<utils::String, double> params) override;
+
 private:
   const ApplicationSettings& m_settings;
+
+  int N_count = 2;
+  int C_count = 1;
+
 };

@@ -20,6 +20,7 @@ LifeCycle::init( )
 {
     LOG_INFO("Init project");
     m_render.reset( new RenderImpl(m_controller));
+    m_pc_manager.SetController(&m_controller);
 }
 
 void

@@ -17,6 +17,8 @@ public:
   void StartMeasurement();
   void StopMeasurement();
   void SaveMeasurementData(const utils::String& path);
+
+  utils::String GetLastStart() const {return m_last_start;}
 private:
   utils::Vector<utils::UniquePtr<MeasurementTool> > m_measurement_tools;
   utils::Vector<utils::threads::Thread> m_measurement_threads;

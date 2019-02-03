@@ -16,6 +16,8 @@ public:
   MSTRunner(Controller& controller, QWidget *parent = nullptr);
   ~MSTRunner();
 
+  inline void SetCloud(QString& cloud){m_cloud=cloud;}
+
 private slots:
   void on_MSTRunner_destroyed();
 
@@ -24,6 +26,7 @@ private slots:
 private:
   Ui::MSTRunner *ui;
   Controller& m_controller;
+  QString m_cloud = "";
 };
 
 #endif // MSTRUNNER_H

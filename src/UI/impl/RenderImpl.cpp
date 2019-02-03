@@ -1,8 +1,5 @@
 #include "RenderImpl.hpp"
 
-#include <QQmlContext>
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
 
 #include <iostream>
 #include <vector>
@@ -39,4 +36,11 @@ void RenderImpl::ShowCloud(PointCloud::ConstPtr cloud)
 {
   LOG_TRACE(cloud->GetPCName());
   m_ui.showCloud(cloud);
+}
+
+void RenderImpl::addClusterToCloud(const utils::String &pcname, const utils::String &clustername)
+{
+  LOG_TRACE(pcname << " : " << clustername);
+  m_ui.addClusterToCloud(pcname, clustername);
+
 }

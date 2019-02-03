@@ -7,6 +7,8 @@
 #include "Model/Clustering/AlgorithmMST.h"
 #include "Model/Clustering/AlgorithmCLOPE.h"
 
+#include "Controller/controller.h"
+
 CREATE_LOGGER("PointCloudManager")
 
 PointCloudManager::PointCloudManager(ApplicationSettings& settings, StatisticsManager& stats_manager)
@@ -35,7 +37,7 @@ PointCloudManager::PointCloudManager(ApplicationSettings& settings, StatisticsMa
   }
 
   m_clustering_algos.push_back(SharedPtr<ClusteringAlgo>(new AlgorithmCLOPE(m_settings)));
-//  m_clustering_algos.push_back(SharedPtr<ClusteringAlgo>(new AlgorithmMST(m_settings)));
+  m_clustering_algos.push_back(SharedPtr<ClusteringAlgo>(new AlgorithmMST(m_settings)));
 }
 
 PointCloud::Ptr PointCloudManager::LoadNewCloud(utils::String &sPath)
@@ -54,19 +56,63 @@ PointCloud::Ptr PointCloudManager::LoadNewCloud(utils::String &sPath)
   return pc;
 }
 
-void PointCloudManager::RunClasteringProcess(PointCloud::Ptr cloud)
+void PointCloudManager::RunClasteringProcess(PointCloud::Ptr cloud, const utils::String& sAlgo, std::map<utils::String, double> params)
 {
   LOG_AUTO_TRACE()
   for(auto clustering_algo : m_clustering_algos)
   {
+    if(clustering_algo->GetName() != sAlgo) {LOG_DEBUG(clustering_algo->GetName() + " skipped"); continue;}
+
+    if(!cloud.get())
+    {
+      LOG_ERROR("cloud empty");
+      return;
+    }
+
+    if(cloud->IsClustered())
+    {
+      LOG_ERROR("Cloud " << cloud->GetPCName() << " already clustered.");
+      return;
+    }
+
     m_stats_manager.StartMeasurement();
     // just for all measurement set to 0 values in stats on start
     sleep(2);
+    clustering_algo->SetParams(params);
     m_clusters = clustering_algo->RunTask(cloud);
     sleep(2);
     m_stats_manager.StopMeasurement();
     m_stats_manager.SaveMeasurementData(utils::file_system::ExtendPath(m_settings.get_working_dir(), cloud->GetPCName(), clustering_algo->GetName()));
 //    SaveClusters();
+
+    // already clustered map
+    SharedPtr<PointCloud> pc(new PointCloud(cloud->GetPCName() + "_" + clustering_algo->GetName() + "_" + m_stats_manager.GetLastStart()));
+    *pc.get() += *cloud.get();
+    pc->SetClustered(true);
+    m_point_clouds.push_back(pc);
+    m_controller->AddCloudToList(pc->GetPCName());
+
+    const utils::String& sPcName = pc->GetPCName();
+    std::map<utils::String, PointCloud::Ptr> clusters;
+    for(auto point : *pc)
+    {
+      utils::String sCurrentClusterName = sPcName + "_cluster_" + std::to_string(point.label);
+      auto cluster_it = clusters.find(sCurrentClusterName);
+      if(clusters.end()==cluster_it)
+      {
+        clusters[sCurrentClusterName] = SharedPtr<PointCloud>(new PointCloud(sCurrentClusterName));
+      }
+      cluster_it = clusters.find(sCurrentClusterName);
+      cluster_it->second->push_back(point);
+    }
+
+    for(auto cluster : clusters)
+    {
+      m_point_clouds.push_back(cluster.second);
+      m_controller->AddCluster(sPcName, cluster.second->GetPCName());
+    }
+
+    uncolorAllPoints(cloud);
   }
 }
 
@@ -89,7 +135,7 @@ const PointCloudManager::Clusters &PointCloudManager::GetClusters() const
   return m_clusters;
 }
 
-PointCloud::ConstPtr PointCloudManager::GetMatrix(utils::String &filename) const
+PointCloud::Ptr PointCloudManager::GetMatrix(const utils::String &filename) const
 {
   LOG_AUTO_TRACE();
 
@@ -102,6 +148,10 @@ PointCloud::ConstPtr PointCloudManager::GetMatrix(utils::String &filename) const
   {
     return *it_pc;
   }
+
+  if(filename.empty()) LOG_ERROR("cloud name empty");
+
+  return PointCloud::Ptr();
 
 //  auto it_cl = std::find_if(m_clusters.begin(), m_clusters.end(),
 //               [&filename](SharedPtr<Cluster> p)

@@ -64,7 +64,7 @@ utils::Vector<Cluster> AlgorithmCLOPE::RunTask(PointCloud::Ptr pc)
       ++clust_ind;
     }
 
-    if(!p_best_profit_cluster || min_cluster_change > m_settings.get_clope_sensivity())
+    if(!p_best_profit_cluster || min_cluster_change > sensivity)
     {
 //      LOG_TRACE("Created : " << std::setprecision(10) <<  min_cluster_change << " > " <<  m_settings.get_clope_sensivity());
       clusters.push_back(Cluster("cluster", pc->GetPCName(),date_clustered));
@@ -108,4 +108,12 @@ utils::Vector<Cluster> AlgorithmCLOPE::RunTask(PointCloud::Ptr pc)
 utils::String AlgorithmCLOPE::GetName() const
 {
   return "CLOPE";
+}
+
+void AlgorithmCLOPE::SetParams(std::map<utils::String, double> params)
+{
+  sensivity = params["sensitivity"];
+
+  LOG_DEBUG("sensivity : " << sensivity);
+
 }

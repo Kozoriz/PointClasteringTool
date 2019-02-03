@@ -42,33 +42,26 @@
      </rect>
     </property>
    </widget>
-   <widget class="QListWidget" name="listCloud">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
+   <widget class="QTreeWidget" name="listCloud">
     <property name="geometry">
      <rect>
-      <x>920</x>
+      <x>970</x>
       <y>10</y>
-      <width>301</width>
+      <width>256</width>
       <height>711</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
+    <property name="columnCount">
+     <number>1</number>
     </property>
-    <property name="editTriggers">
-     <set>QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
-    </property>
-    <property name="selectionMode">
-     <enum>QAbstractItemView::MultiSelection</enum>
-    </property>
-    <property name="selectionBehavior">
-     <enum>QAbstractItemView::SelectItems</enum>
-    </property>
+    <attribute name="headerVisible">
+     <bool>false</bool>
+    </attribute>
+    <column>
+     <property name="text">
+      <string notr="true">1</string>
+     </property>
+    </column>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -88,6 +81,9 @@
     <addaction name="file"/>
    </widget>
    <widget class="QMenu" name="menuClustering">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>Clustering</string>
     </property>
@@ -105,6 +101,9 @@
   <action name="actionMST">
    <property name="checkable">
     <bool>false</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>MST</string>

@@ -29,12 +29,6 @@ target_link_libraries(${LIB_NAME}
     PUBLIC
     ${PCL_LIBRARIES}
     ${Boost_LIBRARIES}
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::Widgets
-    Qt5::Network
     -pthread )
 
 qt5_use_modules(${LIB_NAME} Core Gui Widgets)

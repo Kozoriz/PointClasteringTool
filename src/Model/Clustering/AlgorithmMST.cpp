@@ -203,13 +203,13 @@ utils::Vector<Cluster> AlgorithmMST::RunTask(PointCloud::Ptr pc)
 
   EdgesType edges;// from ind to {ind, dist}
 
-  generateBones(pc, edges, m_settings.get_mst_neighbors(), m_settings.get_mst_clusters_count());
+  generateBones(pc, edges, N_count, C_count);
 
   uncolorAllPoints(pc);
 
   uint32_t runs_count = 0;
   uint32_t clusters_count = markClusters(pc, edges, runs_count);
-  while(clusters_count < m_settings.get_mst_clusters_count())
+  while(clusters_count < C_count)
   {
     removeMaxEdge(edges);
 
@@ -223,7 +223,7 @@ utils::Vector<Cluster> AlgorithmMST::RunTask(PointCloud::Ptr pc)
 
 
   std::vector<uint32_t> colors;
-  colors.resize(m_settings.get_mst_clusters_count()*2, 0);
+  colors.resize(C_count*2, 0);
 
   srand(rand());
   for(PointCloud::PointType& point : *pc)
@@ -248,4 +248,14 @@ utils::Vector<Cluster> AlgorithmMST::RunTask(PointCloud::Ptr pc)
 utils::String AlgorithmMST::GetName() const
 {
   return "MST";
+}
+
+void AlgorithmMST::SetParams(std::map<utils::String, double> params)
+{
+  N_count = static_cast<int>(params["neighbors_count"]);
+  C_count = static_cast<int>(params["clusters_count"]);
+
+
+  LOG_DEBUG("N_count : " << N_count);
+  LOG_DEBUG("C_count : " << C_count);
 }

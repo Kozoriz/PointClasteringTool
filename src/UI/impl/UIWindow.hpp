@@ -6,7 +6,7 @@
 // Qt
 #include <QMainWindow>
 #include <QString>
-#include <QListWidget>
+#include <QTreeWidget>
 
 // Point Cloud Library
 #include <pcl/point_cloud.h>
@@ -37,13 +37,16 @@ public:
 
     void addCloudToList(const utils::String& name);
     void showCloud(PointCloud::ConstPtr pc);
+    void addClusterToCloud(const utils::String& pcname, const utils::String& clustername);
 
 
 private slots:
     void openFileDialog();
-    void cloudChoosen( QListWidgetItem* );
+    void cloudChoosen( QTreeWidgetItem* );
     void openCLOPERunner();
     void openMSTRunner();
+
+    void on_listCloud_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::UIWindow *ui;
@@ -52,4 +55,6 @@ private:
 
    ClopeRunner* clope_w;
     MSTRunner* mst_w;
+
+    QString m_last_choosen_cloud = "";
 };

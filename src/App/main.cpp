@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <QQmlApplicationEngine>
 
 #include "utils/logger.h"
 

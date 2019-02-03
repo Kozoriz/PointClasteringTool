@@ -17,6 +17,8 @@ public:
   ClopeRunner(Controller& controller, QWidget *parent = nullptr);
   ~ClopeRunner();
 
+  inline void SetCloud(QString& cloud){m_cloud=cloud;}
+
 private slots:
   void on_pushButton_clicked();
 
@@ -25,6 +27,7 @@ private slots:
 private:
   Ui::ClopeRunner *ui;
   Controller& m_controller;
+  QString m_cloud = "";
 };
 
 #endif // CLOPERUNNER_H

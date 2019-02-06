@@ -20,6 +20,7 @@
 #include "Controller/controller.h"
 #include "cloperunner.hpp"
 #include "mstrunner.hpp"
+#include "diagram.h"
 
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
@@ -37,9 +38,12 @@ public:
 
     void addCloudToList(const utils::String& name);
     void showCloud(PointCloud::ConstPtr pc);
-    void addClusterToCloud(const utils::String& pcname, const utils::String& clustername);
+
+    QTreeWidgetItem* addSubItem(const utils::String& top, const utils::String& child);
+    QTreeWidgetItem* addSubItem(const utils::String& top, const utils::String& child, const utils::String& childchild);
 
 
+    void openStatFileWindow(QString filepath);
 private slots:
     void openFileDialog();
     void cloudChoosen( QTreeWidgetItem* );
@@ -53,8 +57,9 @@ private:
     std::unique_ptr<pcl::visualization::PCLVisualizer> viewer;
     Controller& m_controller;
 
-   ClopeRunner* clope_w;
+    ClopeRunner* clope_w;
     MSTRunner* mst_w;
+    std::vector<SharedPtr<Diagram> > diagram_w;
 
     QString m_last_choosen_cloud = "";
 };

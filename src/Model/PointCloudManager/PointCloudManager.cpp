@@ -82,8 +82,7 @@ void PointCloudManager::RunClasteringProcess(PointCloud::Ptr cloud, const utils:
     m_clusters = clustering_algo->RunTask(cloud);
     sleep(2);
     m_stats_manager.StopMeasurement();
-    m_stats_manager.SaveMeasurementData(utils::file_system::ExtendPath(m_settings.get_working_dir(), cloud->GetPCName(), clustering_algo->GetName()));
-//    SaveClusters();
+    std::map<utils::String, utils::String> statistics = m_stats_manager.SaveMeasurementData(utils::file_system::ExtendPath(m_settings.get_working_dir(), cloud->GetPCName(), clustering_algo->GetName()));
 
     // already clustered map
     SharedPtr<PointCloud> pc(new PointCloud(cloud->GetPCName() + "_" + clustering_algo->GetName() + "_" + m_stats_manager.GetLastStart()));
@@ -110,6 +109,11 @@ void PointCloudManager::RunClasteringProcess(PointCloud::Ptr cloud, const utils:
     {
       m_point_clouds.push_back(cluster.second);
       m_controller->AddCluster(sPcName, cluster.second->GetPCName());
+    }
+
+    for(auto stat : statistics)
+    {
+      m_controller->AddStatToClustered(sPcName, stat.first, stat.second);
     }
 
     uncolorAllPoints(cloud);
@@ -151,6 +155,7 @@ PointCloud::Ptr PointCloudManager::GetMatrix(const utils::String &filename) cons
 
   if(filename.empty()) LOG_ERROR("cloud name empty");
 
+  LOG_ERROR("cloud with name " << filename << " not found.");
   return PointCloud::Ptr();
 
 //  auto it_cl = std::find_if(m_clusters.begin(), m_clusters.end(),

@@ -31,6 +31,5 @@ target_link_libraries(${LIB_NAME}
     ${Boost_LIBRARIES}
     -pthread )
 
-qt5_use_modules(${LIB_NAME} Core Gui Widgets)
-
+qt5_use_modules(${LIB_NAME} Core Gui Widgets Charts)
 

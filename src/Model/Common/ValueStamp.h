@@ -17,7 +17,7 @@ public:
   };
 
 public:
-  utils::String ToString() const { return utils::date_time::GetDateTimeString("%F_%T", m_time) + " " + utils::ConvertToString(m_value); }
+  utils::String ToString() const { return utils::ConvertToString((uint64_t)m_time.time_since_epoch().count()) + " " + utils::ConvertToString(m_value); }
 
 public:
   double m_value;

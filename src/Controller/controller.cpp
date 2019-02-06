@@ -39,6 +39,11 @@ void Controller::AddCluster(const utils::String &sPCname, const utils::String &c
   m_render->addClusterToCloud(sPCname, clusterName);
 }
 
+void Controller::AddStatToClustered(const utils::String &sPcName, const utils::String &measurer_type, const utils::String &stat_filepath)
+{
+  m_render->addSubItem(sPcName, measurer_type, stat_filepath);
+}
+
 void Controller::cloudChoosen(utils::String & filename)
 {
   LOG_AUTO_TRACE();

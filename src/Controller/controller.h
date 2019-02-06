@@ -21,6 +21,9 @@ public:
   void AddCloudToList(utils::String name);
   void AddCluster(const utils::String& sPCname, const utils::String& clusterName);
 
+
+  void AddStatToClustered(const utils::String& sPcName, const utils::String& measurer_type, const utils::String& stat_filepath);
+
 private:
   PointCloudManager& m_pc_manager;
   std::shared_ptr<IRender>& m_render;

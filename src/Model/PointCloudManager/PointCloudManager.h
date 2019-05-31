@@ -9,6 +9,8 @@
 #include "Model/Common/pointcloud.h"
 #include "Model/Settings/applicationsettings.h"
 
+class Controller;
+
 class PointCloudManager
 {
 public:
@@ -16,15 +18,18 @@ public:
   typedef utils::Vector<Cluster> Clusters;
 public:
   PointCloudManager(ApplicationSettings& settings, StatisticsManager& stats_manager);
-  SharedPtr<PointCloud> LoadNewCloud(utils::String& sPath);
-  void RunClasteringProcess(PointCloud::Ptr cloud);
+  PointCloud::Ptr LoadNewCloud(utils::String& sPath);
+  void RunClasteringProcess(PointCloud::Ptr cloud, const utils::String &sAlgo, std::map<utils::String, double> params);
   void SaveClusters();
 
   const PointClouds& GetPointClouds() const;
   const Clusters& GetClusters() const;
 
-  const PointCloud &GetMatrix(utils::String& filename) const;
+  PointCloud::Ptr GetMatrix(const utils::String& filename) const;
   const utils::Vector<utils::String> GetCloudNames() const;
+
+
+  void SetController(Controller* p_controller) {m_controller = p_controller;}
 
 private:
   const ApplicationSettings& m_settings;
@@ -32,4 +37,6 @@ private:
   utils::Vector<SharedPtr<ClusteringAlgo> > m_clustering_algos;
   PointClouds m_point_clouds;
   Clusters m_clusters;
+
+  Controller* m_controller = nullptr;
 };

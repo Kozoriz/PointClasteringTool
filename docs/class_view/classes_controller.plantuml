@@ -1,0 +1,31 @@
+@startuml
+
+package "Model" {
+	interface PointCloudManager {
+
+	}
+}
+
+package "Controller" {
+	class Controller {
+	  +Controller(...);
+	  +void fillCloudList() const;
+	  +void newFileOpened(...);
+	  +void cloudChoosen(...);
+
+	  -PointCloudManager& m_pc_manager;
+	  -std::shared_ptr<IRender>& m_render;
+	}
+}
+
+package "UI" {
+	interface IRender {
+	}
+}
+
+
+
+PointCloudManager <.d. Controller
+IRender <.u. Controller
+
+@enduml

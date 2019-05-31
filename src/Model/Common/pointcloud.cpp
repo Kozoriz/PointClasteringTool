@@ -86,7 +86,7 @@ void PointCloud::LoadFrom(utils::file_system::File &file)
   }
 
   m_cloud_name = file_system::File::GetFileName(file.GetFullPath());
-  m_is_clustered = true; // if saved in app working dir then already saved
+//  m_is_clustered = true; // if saved in app working dir then already saved
 
   utils::String line;
   while(!file.IsEof())

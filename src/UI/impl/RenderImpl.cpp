@@ -1,6 +1,5 @@
 #include "RenderImpl.hpp"
 
-#include <QQmlContext>
 
 #include <iostream>
 #include <vector>
@@ -13,66 +12,46 @@
 
 CREATE_LOGGER("UI")
 
-RenderImpl::RenderImpl()
-  : engine()
-  , m_ui_wrapper()
+RenderImpl::RenderImpl(Controller &controller)
+    : m_ui(controller)
 {
-  LOG_AUTO_TRACE();
-  m_ui_wrapper.setRenderer(this);
+    LOG_AUTO_TRACE();
 }
 
 void
 RenderImpl::start_app( )
 {
   LOG_AUTO_TRACE();
-//  cm_with_dm.create_cloude_signal.talk();
+  m_ui.show();
 
-//  const PointCloud* test_cn = nullptr;
-////  cm_with_dm.get_cloude_signal.talk(&test_cn);
-
-//  QVariantList list;
-//  const utils::structures::Matrix3* p_test_cn = test_cn;
-//  for(const auto& item : *p_test_cn )
-//  {
-//      QVector3D temp;
-//      temp.setX(item.x_);
-//      temp.setY(item.y_);
-//      temp.setZ(item.z_);
-//      list << temp;
-//  }
-
-  engine.rootContext()->setContextProperty("Wrapper", &m_ui_wrapper);
-
-  engine.load( QUrl( QStringLiteral( "../../UI/impl/Resources/main.qml" ) ) );
-}
-
-void RenderImpl::setController(Controller* controller)
-{
-  LOG_AUTO_TRACE();
-  m_controller = controller;
-}
-
-void RenderImpl::newFileOpened(utils::String filename)
-{
-  LOG_TRACE(filename);
-  m_controller->newFileOpened(filename);
-}
-
-void RenderImpl::cloudChoosen(utils::String cloudpath)
-{
-  LOG_TRACE(cloudpath);
-  m_controller->cloudChoosen(cloudpath);
-}
-
-void RenderImpl::addPoint(const PointCloud::PointType& point)
-{
-//  LOG_TRACE(point);
-  QVector3D qpoint(point.x, point.y, point.z);
-  m_ui_wrapper.addNewPoint(qpoint);
 }
 
 void RenderImpl::addCloudToList(const utils::String &name)
 {
   LOG_TRACE(name);
-  m_ui_wrapper.addCloudToList(name.c_str());
+  m_ui.addCloudToList(name);
+}
+
+void RenderImpl::ShowCloud(PointCloud::ConstPtr cloud)
+{
+  if(!cloud.get())
+  {
+    LOG_ERROR("Invalid cloud");
+    return;
+  }
+  LOG_TRACE(cloud->GetPCName());
+  m_ui.showCloud(cloud);
+}
+
+void RenderImpl::addClusterToCloud(const utils::String &pcname, const utils::String &clustername)
+{
+  LOG_TRACE(pcname << " : " << clustername);
+  m_ui.addSubItem(pcname, clustername);
+
+}
+
+void RenderImpl::addSubItem(const utils::String &sPCname, const utils::String &measurer_type, const utils::String &stat_filepath)
+{
+  LOG_TRACE(sPCname << " : " << measurer_type << " : " << stat_filepath);
+   m_ui.addSubItem(sPCname, measurer_type, stat_filepath);
 }

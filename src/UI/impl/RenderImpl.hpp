@@ -1,24 +1,21 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#pragma once
 
 #include <memory>
 
-#include "QtRenderObject.hpp"
-#include "../Render.hpp"
+#include "UI/IRender.hpp"
+#include "UI/impl/UIWindow.hpp"
 
-class RenderImpl : public Render
+class RenderImpl : public IRender
 {
 public:
-    RenderImpl();
+    RenderImpl(Controller&);
+
     void start_app( ) override;
-    void setController(Controller* controller) override;
-    void newFileOpened(utils::String filename) override;
-    void cloudChoosen(utils::String cloudpath) override;
-    void addPoint(const PointCloud::PointType& point) override;
     void addCloudToList(const utils::String& name) override;
+    void ShowCloud(PointCloud::ConstPtr cloud) override;
+    void addClusterToCloud(const utils::String& pcname, const utils::String& clustername) override;
+    void addSubItem(const utils::String& sPCname, const utils::String& measurer_type, const utils::String& stat_filepath) override;
 
 private:
-    QQmlApplicationEngine engine;
-    QtRedebleOject m_ui_wrapper;
-    Controller* m_controller;
+    UIWindow m_ui;
 };

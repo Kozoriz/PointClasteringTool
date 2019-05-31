@@ -14,14 +14,13 @@ add_executable( ${PROJECT_NAME} main.cpp ${HEADERS} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
+    ${PCL_LIBRARIES}
     ${Boost_LIBRARIES}
     UI
-    DataManager
-    CommonLib
     Qt5::Core
     Qt5::Gui
-    Qt5::Qml
-    Qt5::Quick
+    Qt5::Widgets
+    Qt5::Network
     -pthread
     Utils
     Model

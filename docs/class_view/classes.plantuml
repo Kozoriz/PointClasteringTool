@@ -1,80 +1,220 @@
 @startuml
 
-scale 1.5
-
 ' classes description
 
 package "Model" {
-	class ClasteringAlgo {
-		+{abstract} std::vector<std::shared_ptr<Cloud> > ProcessCloud(Cloud& cloud) const = 0; 
+	interface ClusteringAlgo {
+	  +{abstract} utils::Vector<Cluster> RunTask(...) = 0;
+	  +{abstract} utils::String GetName() const = 0;
 	}
 
 	class AlgorithmMST {
-		+std::vector<std::shared_ptr<Cloud> > ProcessCloud(Cloud& cloud) const; 
+	  +AlgorithmMST(...);
+	  +utils::Vector<Cluster> RunTask(...) override;
+	  +utils::String GetName() const override;
+
+	  -const ApplicationSettings& m_settings;
 	}
+
 	class AlgorithmCLOPE {
-		+std::vector<std::shared_ptr<Cloud> > ProcessCloud(Cloud& cloud) const; 
+	   +AlgorithmCLOPE(...);
+	   +utils::Vector<Cluster> RunTask(...) override;
+	   +utils::String GetName() const override;
+
+	   -const ApplicationSettings& m_settings;
 	}
 
 	class PointCloudManager {
-		+void LoadCloud(std::string& path);
-		+void ProcessByAllAlgorithms() const;
-		+void SaveClasteringResults(std::string& folder) const;
+	  +typedef utils::Vector<SharedPtr<PointCloud> > PointClouds;
+	  +typedef utils::Vector<Cluster> Clusters;
 
+	  +PointCloudManager(...);
+	  +PointCloud::Ptr LoadNewCloud(...);
+	  +void RunClasteringProcess(...);
+	  +void SaveClusters();
 
-		-StatisticsManager m_statistics;
+	  +const PointClouds& GetPointClouds() const;
+	  +const Clusters& GetClusters() const;
+
+	  +PointCloud::ConstPtr GetMatrix(...) const;
+	  +const utils::Vector<utils::String> GetCloudNames() const;
+
+	  -const ApplicationSettings& m_settings;
+	  -StatisticsManager& m_stats_manager;
+	  -utils::Vector<SharedPtr<ClusteringAlgo> > m_clustering_algos;
+	  -PointClouds m_point_clouds;
+	  -Clusters m_clusters;
 	}
 
-	class StatisticsManager {
-		+void StartMeasurement();
-		+void StopMeasurement();
-		+void Saveresults(std::string& path, std::string& file_prefix)
+	class PointCloud {
+	  +typedef SharedPtr<PointCloud> Ptr;
+	  +typedef SharedPtr<const PointCloud> ConstPtr;
 
-		-std::vector<MeasurementTool*> m_measurement_tools;
+	  +PointCloud(...);
+
+	  +const utils::String& GetPCName() const;
+	  +bool IsClustered() const;
+	  +void SetClustered(...);
+
+	  +void LoadFrom(...);
+	  +void LoadFrom(...);
+	  +void SaveTo(...) const;
+
+	  +void ShiftTo(...);
+
+	  -utils::String m_cloud_name;
+	  -bool m_is_clustered;
 	}
+
+	class StatisticsManager	{
+	  +StatisticsManager(...);
+	  +void StartMeasurement();
+	  +void StopMeasurement();
+	  +void SaveMeasurementData(...);
+
+	  -utils::Vector<utils::UniquePtr<MeasurementTool> > m_measurement_tools;
+	  -utils::Vector<utils::threads::Thread> m_measurement_threads;
+	  -utils::String m_last_start;
+	  -utils::synchronization::Barrier m_tools_stop_barrier;
+
+	  -ApplicationSettings& m_settings;
+	}
+
 
 	class ValueStamp {
-		+time_t m_time;
-		+double m_value;
-	}
-	class MeasurementTool {
-		+{abstract} void Start() = 0;
-		+{abstract} void Stop() = 0;
-		+{abstract} std::vector<ValueStamp>& GetResults() = 0;
+	  +utils::String ToString() const;
+	  +double m_value;
+	  +std::chrono::system_clock::time_point m_time;
 	}
 
-	class CPUMonitor{
+	abstract class MeasurementTool {
+	  +MeasurementTool(...);
+	  +{abstract}  inline utils::String GetName() const = 0;
+	  +const utils::Vector<ValueStamp> &GetValues() const;
+	  +void Clear();
+	  +void Join() override;
+	
+	  #utils::synchronization::AtomicBool is_joined;
+	  #utils::Vector<ValueStamp> m_values;
+	  #utils::synchronization::Barrier& m_stop_barrier;
 
+	  #ApplicationSettings& m_settings;
 	}
-	class RAMMonitor{
 
+	class CPUMonitor {
+	  +CPUMonitor(...);
+	  +void Run() override;
+	  +inline utils::String GetName() const override;
 	}
-	class IOMonitor{
 
+	class RAMMonitor {
+	  +RAMMonitor(...);
+	  +void Run() override;
+	  +inline utils::String GetName() const override;
+	}
+
+
+	class ApplicationSettings {
+	  +ApplicationSettings(...);
+	  +const utils::String &get_working_dir() const;
+	  +UInt get_measurement_delay() const;
+	  +float get_clope_sensivity() const;
+	  +int get_mst_neighbors() const;
+	  +int get_mst_clusters_count() const;
+
+	  -utils::String m_working_dir;
+	  -UInt m_measurement_delay;
+	  -float m_clope_sensivity;
+	  -int m_mst_neighbors;
+	  -int m_mst_clusters_count;
 	}
 }
 
 package "Controller" {
-	
+	class Controller {
+	  +Controller(...);
+	  +void fillCloudList() const;
+	  +void newFileOpened(...);
+	  +void cloudChoosen(...);
+
+	  -PointCloudManager& m_pc_manager;
+	  -std::shared_ptr<IRender>& m_render;
+	}
 }
 
 package "UI" {
-	
+	interface IRender {
+	  +{abstract} void start_app(...) = 0;
+	  +{abstract} void addCloudToList(...) = 0;
+	  +{abstract} void ShowCloud(...) = 0;
+	}
+
+	class UIWindow {
+	    +explicit UIWindow(...);
+	    
+	    +void addCloudToList(...);
+	    +void showCloud(...);
+
+	    -void openFileDialog();
+	    -void cloudChoosen(...);
+
+	    -Ui::UIWindow *ui;
+	    -std::unique_ptr<pcl::visualization::PCLVisualizer> viewer;
+	    -Controller& m_controller;
+	}
+
+	class RenderImpl {
+	    +RenderImpl(...);
+
+	    +void start_app(...) override;
+	    +void addCloudToList(...) override;
+	    +void ShowCloud(...) override;
+
+	    -UIWindow m_ui;
+	}
+
+}
+
+package "Qt" {
+	class QMainWindow{
+	}
+}
+
+package "pcl" {
+	package "visualization" {
+		class PCLVisualizer {
+
+		}
+	}
 }
 
 ' relations
-ClasteringAlgo <|-- AlgorithmMST
-ClasteringAlgo <|-- AlgorithmCLOPE
+ClusteringAlgo <|-- AlgorithmMST
+ClusteringAlgo <|-- AlgorithmCLOPE
 
-PointCloudManager .down. ClasteringAlgo : <using>
-PointCloudManager .right. StatisticsManager : <using>
-StatisticsManager .down. MeasurementTool : <using>
+PointCloudManager ..> ClusteringAlgo
+PointCloudManager ..> StatisticsManager
+StatisticsManager ..> MeasurementTool 
 
 MeasurementTool <|-- CPUMonitor
 MeasurementTool <|-- RAMMonitor
-MeasurementTool <|-- IOMonitor
+MeasurementTool ..> ValueStamp
 
-MeasurementTool .. ValueStamp : <using>
+PointCloudManager <.d. Controller
+IRender <.u. Controller
 
+'ApplicationSettings <.. MeasurementTool
+'ApplicationSettings <.. StatisticsManager
+'ApplicationSettings <.. PointCloudManager
+'ApplicationSettings <.. AlgorithmCLOPE
+'ApplicationSettings <.. AlgorithmMST
+
+QMainWindow <|-- UIWindow
+IRender <|-- RenderImpl
+
+RenderImpl ..> UIWindow
+UIWindow ..> PCLVisualizer
+
+PointCloudManager ..> PointCloud
 
 @enduml

@@ -1,0 +1,66 @@
+@startuml
+
+
+package "Controller" {
+	interface Controller {
+	}
+}
+
+package "UI" {
+	interface IRender {
+	  +{abstract} void start_app(...) = 0;
+	  +{abstract} void addCloudToList(...) = 0;
+	  +{abstract} void ShowCloud(...) = 0;
+	}
+
+	class UIWindow {
+	    +explicit UIWindow(...);
+	    
+	    +void addCloudToList(...);
+	    +void showCloud(...);
+
+	    -void openFileDialog();
+	    -void cloudChoosen(...);
+
+	    -Ui::UIWindow *ui;
+	    -std::unique_ptr<pcl::visualization::PCLVisualizer> viewer;
+	    -Controller& m_controller;
+	}
+
+	class RenderImpl {
+	    +RenderImpl(...);
+
+	    +void start_app(...) override;
+	    +void addCloudToList(...) override;
+	    +void ShowCloud(...) override;
+
+	    -UIWindow m_ui;
+	}
+
+}
+
+package "Qt" {
+	class QMainWindow{
+	}
+}
+
+package "pcl" {
+	package "visualization" {
+		class PCLVisualizer {
+
+		}
+	}
+}
+
+
+QMainWindow <|-u- UIWindow
+IRender <|-- RenderImpl
+
+RenderImpl ..> UIWindow
+UIWindow .d.> PCLVisualizer
+
+
+IRender <.d. Controller
+
+
+@enduml

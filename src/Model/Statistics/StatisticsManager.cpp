@@ -55,9 +55,10 @@ void StatisticsManager::StopMeasurement()
   }
 }
 
-void StatisticsManager::SaveMeasurementData(const utils::String &path)
+std::map<utils::String, utils::String> StatisticsManager::SaveMeasurementData(const utils::String &path)
 {
   LOG_AUTO_TRACE();
+  std::map<utils::String, utils::String> res_mapping;
   for(auto& tool : m_measurement_tools)
   {
     utils::String filepath = utils::file_system::ExtendPath(path, m_last_start + "_" + tool->GetName());
@@ -74,5 +75,7 @@ void StatisticsManager::SaveMeasurementData(const utils::String &path)
       }
       file.Close();
     }
+    res_mapping[tool->GetName()] = filepath;
   }
+  return res_mapping;
 }
